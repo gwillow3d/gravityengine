@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://hfopoq78x6v6" path="res://camera/camera_controller.gd" id="1_getpj"]
 [ext_resource type="Texture2D" uid="uid://n1bib1lh8qwu" path="res://ui/sprites/pixel.png" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://c4yulqtaeg71d" path="res://simulation/simulation.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://c2l4ttnyw6l5j" path="res://scene_manager.gd" id="2_ryguw"]
 [ext_resource type="FontFile" uid="uid://b57matqt7m0fh" path="res://fonts/bricolage_grotesque.ttf" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://dafw1uv26b0j4" path="res://util/screenshot_manager.gd" id="3_getpj"]
 [ext_resource type="Script" uid="uid://besj10rx7fok" path="res://simulation/simulation_manager.gd" id="5_272bh"]
@@ -83,6 +84,11 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Control" type="Node2D" unique_id=425540829]
 
+[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "color_manager")]
+script = ExtResource("2_ryguw")
+simulation = NodePath("../Simulation")
+color_manager = NodePath("../SimulationColorManager")
+
 [node name="CameraController" type="Node2D" parent="." unique_id=2076364281 node_paths=PackedStringArray("simulation")]
 script = ExtResource("1_getpj")
 simulation = NodePath("../Simulation")
@@ -104,9 +110,8 @@ timestep = 0.001
 gravity = 50.0
 binding_strength = 0.0
 
-[node name="SimulationColorManager" type="Node" parent="." unique_id=1287690408 node_paths=PackedStringArray("simulation")]
+[node name="SimulationColorManager" type="Node" parent="." unique_id=1287690408]
 script = ExtResource("7_ryguw")
-simulation = NodePath("../Simulation")
 
 [node name="WorldLayer" type="CanvasLayer" parent="." unique_id=1843700673]
 

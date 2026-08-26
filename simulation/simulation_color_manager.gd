@@ -3,17 +3,13 @@ extends Node
 
 signal color_changed(color: Color)
 
-@export var simulation: Simulation
+@export var _simulation: Simulation
 @export var hue_shift_speed: float = 4.0
 
 var _new_color: Color = Color.BLACK
 var _current_color: Color
 
 func _ready() -> void:
-	if !simulation:
-		print("[Color Manager] No simulation provided! Color will not be updated on simulation reset.")
-	else:
-		simulation.simulation_reset.connect(_on_simulation_reset)
 	_randomize_simulation_color()
 
 func _process(delta: float) -> void:
