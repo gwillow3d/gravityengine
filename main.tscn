@@ -218,25 +218,8 @@ theme = SubResource("Theme_cegan")
 item_count = 1
 item_0/id = 0
 
-[node name="Project" type="PopupMenu" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=1868129818]
-oversampling_override = 1.0
-theme = SubResource("Theme_cegan")
-
-[node name="Edit" type="PopupMenu" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=373301048]
-oversampling_override = 1.0
-theme = SubResource("Theme_cegan")
-
-[node name="View" type="PopupMenu" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=175693924]
-oversampling_override = 1.0
-size = Vector2i(175, 100)
-theme = SubResource("Theme_cegan")
-system_menu_id = 2
-item_count = 1
-item_0/text = "Energy Tracker"
-item_0/checkable = 1
-item_0/id = 0
-
 [node name="WorldInfoContainer" type="VBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1287292474]
+visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -278,6 +261,7 @@ text = "Reset"
 icon = ExtResource("6_kek77")
 
 [node name="EnergyLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
+visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -320,6 +304,7 @@ max_value = 20.0
 value = 4.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=748978879]
+visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0

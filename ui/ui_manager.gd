@@ -79,7 +79,7 @@ func _on_simulation_reset() -> void:
 
 func _on_energy_updated(kinetic: float, potential: float, linear_momentum: Vector2, angular_momentum: float) -> void:
 	var total = kinetic + potential
-	energy_label.text = "Total: %.0f J\nKinetic: %.0f J\nPotential: %.0f J\nLinear M: %.2v Ns\nAngular M: %.2f kJs" % [total, kinetic, potential, linear_momentum, angular_momentum / 1000]
+	energy_label.text = "~ Energy ~\nTotal: %.0f J\nKinetic: %.0f J\nPotential: %.0f J\nLinear M: %.2v Ns\nAngular M: %.2f kJs" % [total, kinetic, potential, linear_momentum, angular_momentum / 1000]
 
 func _average_time_updated(average_time: float) -> void:
 	render_time_label.text = "Render Time: %.1f" % [average_time * 1000]
