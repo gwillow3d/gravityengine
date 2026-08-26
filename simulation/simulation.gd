@@ -3,6 +3,8 @@ extends Node
 
 # Signals #
 signal simulation_ready
+signal world_size_changed(world_size: Vector2i)
+signal border_type_changed(border_type: BorderType)
 signal gravity_changed(strength: float)
 signal population_changed(population: int)
 signal energy_updated(kinetic: float, potential: float, linear_momentum: Vector2, angular_momentum: float)
@@ -22,8 +24,7 @@ signal simulation_reset
 @export_range(0.0, 1.0, 0.0001) var binding_strength: float = 0.01
 
 # Private fields #
-# don't make larger than 1,024! (vfx shaders will crash the OS)
-const MAX_PARTICLES = 4096 * 2
+const MAX_PARTICLES = 8192
 const WORKGROUP_SIZE = 256
 const POSITION_BYTE_OFFSET = 0
 const PARTICLE_SIZE_BYTES = 32
@@ -76,10 +77,14 @@ enum BorderType {
 	Wraparound
 }
 
-func _ready() -> void:
+func setup() -> void:
 	_setup_shaders()
 	_is_ready = true
 	simulation_ready.emit()
+	
+	world_size_changed.emit(world_size)
+	border_type_changed.emit(border_type)
+	gravity_changed.emit(gravity)
 
 func _setup_shaders() -> void:
 	_rd = RenderingServer.create_local_rendering_device()

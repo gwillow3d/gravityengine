@@ -4,18 +4,19 @@ extends Node2D
 signal camera_zoomed(new_zoom: Vector2)
 signal camera_moved(new_position: Vector2)
 
-@export var simulation: Simulation
 @export var min_zoom: float = 0.01
 @export var max_zoom: float = 25.0
 
 var _position: Vector2
 var _zoom: float = 1.0
 
+var _border_type: Simulation.BorderType
+var _world_size: Vector2i
+
 func _ready() -> void:
 	await get_tree().process_frame
-	if simulation:
-		_position = simulation.world_size / 2.0
-		camera_moved.emit(_position)
+	_position = _world_size / 2.0
+	camera_moved.emit(_position)
 
 func _process(delta: float) -> void:
 	var vector = Input.get_vector("camera_move_left", "camera_move_right", "camera_move_up", "camera_move_down")
@@ -25,13 +26,13 @@ func _process(delta: float) -> void:
 	
 	var camera_bounds = Vector2.ZERO
 	
-	match simulation.border_type:
+	match _border_type:
 		Simulation.BorderType.Wraparound:
-			camera_bounds = simulation.world_size
+			camera_bounds = _world_size
 		Simulation.BorderType.Bounce, Simulation.BorderType.Stop:
-			camera_bounds = simulation.world_size * 2
+			camera_bounds = _world_size * 2
 	
-	if simulation.border_type != Simulation.BorderType.None:
+	if _border_type != Simulation.BorderType.None:
 		_position.x = fposmod(_position.x, camera_bounds.x)
 		_position.y = fposmod(_position.y, camera_bounds.y)
 	camera_moved.emit(_position)
@@ -47,5 +48,11 @@ func _input(event: InputEvent) -> void:
 			camera_zoomed.emit(Vector2(_zoom, _zoom))
 	if event is InputEventKey:
 		if event.is_action("camera_return_home"):
-			_position = simulation.world_size / 2.0
+			_position = _world_size / 2.0
 			camera_moved.emit(_position)
+
+func _on_world_size_changed(world_size: Vector2i) -> void:
+	_world_size = world_size
+
+func _on_border_type_changed(border_type: Simulation.BorderType) -> void:
+	_border_type = border_type
