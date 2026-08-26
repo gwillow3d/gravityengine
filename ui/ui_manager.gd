@@ -12,6 +12,7 @@ extends Node
 @export var render_time_label: Label
 @export var population_label: Label
 @export var heavy_load_warning: Label
+@export var ui_parent: Control
 
 func _ready() -> void:
 	manager.simulation.simulation_reset.connect(_on_simulation_reset)
@@ -25,10 +26,15 @@ func _ready() -> void:
 	
 	update_speed_label(speed_slider.value)
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.is_action_pressed("toggle_ui") and ui_parent:
+			ui_parent.visible = !ui_parent.visible
+
 func _process(delta: float) -> void:
 	var fps = Performance.get_monitor(Performance.TIME_FPS)
 	fps_label.text = "FPS: %s" % fps
-
+	
 func _on_reset_pressed() -> void:
 	manager.simulation.reset()
 

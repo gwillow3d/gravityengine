@@ -120,7 +120,7 @@ simulation = NodePath("../Simulation")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1843700673]
 
-[node name="UIManager" type="Node" parent="CanvasLayer" unique_id=1001283596 node_paths=PackedStringArray("manager", "reset_button", "speed_slider", "speed_amount", "border_type", "generation_type", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning")]
+[node name="UIManager" type="Node" parent="CanvasLayer" unique_id=1001283596 node_paths=PackedStringArray("manager", "reset_button", "speed_slider", "speed_amount", "border_type", "generation_type", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent")]
 script = ExtResource("1_7mycd")
 manager = NodePath("../../SimulationManager")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
@@ -133,6 +133,7 @@ fps_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/FP
 render_time_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/RenderTimeLabel")
 population_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PopulationLabel")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
+ui_parent = NodePath("../UIRoot/UIMarginContainer")
 
 [node name="UIRoot" type="Control" parent="CanvasLayer" unique_id=2098282740]
 layout_mode = 3
