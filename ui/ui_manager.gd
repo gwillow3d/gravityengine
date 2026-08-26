@@ -15,13 +15,13 @@ extends Node
 @export var ui_parent: Control
 
 func _ready() -> void:
-	manager.simulation.simulation_reset.connect(_on_simulation_reset)
+	#manager.simulation.simulation_reset.connect(_on_simulation_reset)
 	manager.step_rate_updated.connect(_on_simulation_rate_updated)
 	
 	reset_button.pressed.connect(_on_reset_pressed)
 	speed_slider.value_changed.connect(_on_slider_changed)
-	manager.simulation.energy_updated.connect(_on_energy_updated)
-	manager.simulation.population_changed.connect(_on_population_changed)
+	#manager.simulation.energy_updated.connect(_on_energy_updated)
+	#manager.simulation.population_changed.connect(_on_population_changed)
 	manager.average_time_updated.connect(_average_time_updated)
 	
 	update_speed_label(speed_slider.value)

@@ -4,7 +4,7 @@ extends Node
 signal average_time_updated(time: float)
 signal step_rate_updated(steps: int)
 
-@export var simulation: Simulation
+var _simulation: Simulation
 
 var _paused: bool = false
 # The step rate prior to the simulation pausing
@@ -18,9 +18,12 @@ var steps_per_frame: int = 4
 
 @export var particle_container: TextureRect
 
+func setup(simulation: Simulation) -> void:
+	_simulation = simulation
+
 func _ready() -> void:
 	await get_tree().process_frame
-	simulation.reset()
+	_simulation.reset()
 	step_rate_updated.emit(steps_per_frame)
 
 func _input(event: InputEvent) -> void:
@@ -31,7 +34,7 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if !_paused:
 		var start_time = Time.get_unix_time_from_system()
-		simulation.step(steps_per_frame)
+		_simulation.step(steps_per_frame)
 		var end_time = Time.get_unix_time_from_system()
 		
 		_frame_time_accumulator += end_time - start_time

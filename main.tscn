@@ -84,10 +84,11 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Control" type="Node2D" unique_id=425540829]
 
-[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("camera_controller", "simulation", "color_manager")]
+[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager")]
 script = ExtResource("2_ryguw")
-camera_controller = NodePath("../CameraController")
 simulation = NodePath("../Simulation")
+simulation_manager = NodePath("../SimulationManager")
+camera_controller = NodePath("../CameraController")
 color_manager = NodePath("../SimulationColorManager")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=2076364281]
@@ -96,9 +97,8 @@ script = ExtResource("1_getpj")
 [node name="ScreenshotManager" type="Node" parent="." unique_id=1721210722]
 script = ExtResource("3_getpj")
 
-[node name="SimulationManager" type="Node" parent="." unique_id=1084845769 node_paths=PackedStringArray("simulation", "particle_container")]
+[node name="SimulationManager" type="Node" parent="." unique_id=1084845769 node_paths=PackedStringArray("particle_container")]
 script = ExtResource("5_272bh")
-simulation = NodePath("../Simulation")
 particle_container = NodePath("../WorldLayer/WorldContainer/ParticleContainer")
 
 [node name="Simulation" type="Node" parent="." unique_id=2008383607]
