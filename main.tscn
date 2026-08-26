@@ -84,12 +84,13 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Control" type="Node2D" unique_id=425540829]
 
-[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager")]
+[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager")]
 script = ExtResource("2_ryguw")
 simulation = NodePath("../Simulation")
 simulation_manager = NodePath("../SimulationManager")
 camera_controller = NodePath("../CameraController")
 color_manager = NodePath("../SimulationColorManager")
+ui_manager = NodePath("../UILayer/UIManager")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=2076364281]
 script = ExtResource("1_getpj")
@@ -164,14 +165,11 @@ texture = ExtResource("1_h2yge")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
 
-[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("manager", "reset_button", "speed_slider", "speed_amount", "border_type", "generation_type", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent")]
+[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("reset_button", "speed_slider", "speed_amount", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent")]
 script = ExtResource("1_7mycd")
-manager = NodePath("../../SimulationManager")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
 speed_slider = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSlider")
 speed_amount = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSliderLabel")
-border_type = NodePath("../UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer/BorderTypeLabel")
-generation_type = NodePath("../UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer/GenerationTypeLabel")
 energy_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyLabel")
 fps_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/FPSLabel")
 render_time_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/RenderTimeLabel")
@@ -216,34 +214,6 @@ oversampling_override = 1.0
 theme = SubResource("Theme_cegan")
 item_count = 1
 item_0/id = 0
-
-[node name="WorldInfoContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1287292474]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -1888.0
-offset_bottom = 1048.0
-grow_horizontal = 0
-
-[node name="Label" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=204607704]
-layout_mode = 2
-size_flags_horizontal = 8
-text = "World Settings"
-horizontal_alignment = 2
-
-[node name="BorderTypeLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=1724088973]
-layout_mode = 2
-size_flags_horizontal = 8
-text = "Border: Wrap Around"
-horizontal_alignment = 2
-
-[node name="GenerationTypeLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=850766150]
-layout_mode = 2
-size_flags_horizontal = 8
-text = "Generation: Solar System"
-horizontal_alignment = 2
 
 [node name="ResetButton" type="Button" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1442580474]
 layout_mode = 1

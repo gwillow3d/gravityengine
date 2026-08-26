@@ -1,12 +1,9 @@
+class_name UIManager
 extends Node
-
-@export var manager: SimulationManager
 
 @export var reset_button: Button
 @export var speed_slider: HSlider
 @export var speed_amount: Label
-@export var border_type: Label
-@export var generation_type: Label
 @export var energy_label: Label
 @export var fps_label: Label
 @export var render_time_label: Label
@@ -14,15 +11,21 @@ extends Node
 @export var heavy_load_warning: Label
 @export var ui_parent: Control
 
+var _simulation: Simulation
+var _manager: SimulationManager
+
+func setup(simulation: Simulation, manager: SimulationManager) -> void:
+	_simulation = simulation
+	_manager = manager
+
 func _ready() -> void:
-	#manager.simulation.simulation_reset.connect(_on_simulation_reset)
-	manager.step_rate_updated.connect(_on_simulation_rate_updated)
+	_manager.step_rate_updated.connect(_on_simulation_rate_updated)
 	
 	reset_button.pressed.connect(_on_reset_pressed)
 	speed_slider.value_changed.connect(_on_slider_changed)
 	#manager.simulation.energy_updated.connect(_on_energy_updated)
 	#manager.simulation.population_changed.connect(_on_population_changed)
-	manager.average_time_updated.connect(_average_time_updated)
+	_manager.average_time_updated.connect(_average_time_updated)
 	
 	update_speed_label(speed_slider.value)
 
@@ -36,10 +39,10 @@ func _process(delta: float) -> void:
 	fps_label.text = "FPS: %s" % fps
 	
 func _on_reset_pressed() -> void:
-	manager.simulation.reset()
+	_manager.simulation.reset()
 
 func _on_slider_changed(value: float) -> void:
-	manager.steps_per_frame = int(value)
+	_manager.steps_per_frame = int(value)
 	if speed_amount:
 		update_speed_label(value)
 
@@ -61,22 +64,6 @@ func get_speed_rating(speed: float) -> String:
 	else:
 		return "Max"
 
-func _on_simulation_reset() -> void:
-	if border_type:
-		var type = ""
-		match manager.simulation.border_type:
-			Simulation.BorderType.None:
-				type = "none"
-			Simulation.BorderType.Stop:
-				type = "stop"
-			Simulation.BorderType.Bounce:
-				type = "bounce"
-			Simulation.BorderType.Wraparound:
-				type = "toroidal"
-		border_type.text = "Border: %s" % type
-	if generation_type:
-		generation_type.text = "Generation: %s" % manager.simulation.generator.get_id()
-
 func _on_energy_updated(kinetic: float, potential: float, linear_momentum: Vector2, angular_momentum: float) -> void:
 	var total = kinetic + potential
 	energy_label.text = "~ Energy ~\nTotal: %.0f J\nKinetic: %.0f J\nPotential: %.0f J\nLinear M: %.2v Ns\nAngular M: %.2f kJs" % [total, kinetic, potential, linear_momentum, angular_momentum / 1000]
@@ -84,7 +71,7 @@ func _on_energy_updated(kinetic: float, potential: float, linear_momentum: Vecto
 func _average_time_updated(average_time: float) -> void:
 	render_time_label.text = "Render Time: %.1f" % [average_time * 1000]
 
-	if average_time * 1000 > 10 and manager.steps_per_frame > 0:
+	if average_time * 1000 > 10 and _manager.steps_per_frame > 0:
 		heavy_load_warning.visible = true
 	else:
 		heavy_load_warning.visible = false

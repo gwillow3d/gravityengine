@@ -5,6 +5,7 @@ extends Node
 @export var simulation_manager: SimulationManager
 @export var camera_controller: CameraController
 @export var color_manager: SimulationColorManager
+@export var ui_manager: UIManager
 
 func _ready() -> void:
 	# Wire signals #
@@ -18,3 +19,4 @@ func _ready() -> void:
 	
 	simulation.setup()
 	simulation_manager.setup(simulation)
+	ui_manager.setup(simulation, simulation_manager)
