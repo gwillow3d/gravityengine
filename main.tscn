@@ -55,10 +55,7 @@ default_font_size = 20
 [sub_resource type="Theme" id="Theme_cegan"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
-font_size = 20
-font_color = Color(1, 0.75, 0.75, 1)
-outline_size = 6
-outline_color = Color(0, 0, 0, 1)
+font_color = Color(0.8218375, 0.21961322, 0.3878216, 1)
 
 [sub_resource type="Gradient" id="Gradient_getpj"]
 interpolation_mode = 2
@@ -307,21 +304,14 @@ text = "Particles: ..."
 [node name="HeavyLoadLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1374327310]
 visible = false
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -164.0
-offset_top = -156.0
-offset_right = 164.0
-offset_bottom = -103.0
-grow_horizontal = 2
+offset_top = -20.0
+offset_right = 827.0
 grow_vertical = 0
-text = "Simulation is under heavy load!
-Try decreasing the simulation speed."
+text = "Simulation is under heavy load! Try decreasing the simulation speed."
 label_settings = SubResource("LabelSettings_82xsv")
-horizontal_alignment = 1
 
 [node name="ParticlesViewport" type="SubViewport" parent="." unique_id=1988896197]
 transparent_bg = true
