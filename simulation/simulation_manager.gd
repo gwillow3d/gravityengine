@@ -16,7 +16,7 @@ var _average_progress: float
 
 var steps_per_frame: int = 4
 
-@onready var particle_container: TextureRect = $"../CanvasLayer/UIRoot/WorldContainer/ParticleContainer"
+@export var particle_container: TextureRect
 
 func _ready() -> void:
 	await get_tree().process_frame

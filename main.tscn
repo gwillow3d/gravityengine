@@ -28,10 +28,6 @@ population = 3000
 max_initial_mass = 75.0
 metadata/_custom_type_script = "uid://ydsbc0nrhicu"
 
-[sub_resource type="Theme" id="Theme_w48qg"]
-default_font = ExtResource("2_ycdy4")
-default_font_size = 20
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
 shader = ExtResource("9_82xsv")
 shader_parameter/color_map = ExtResource("11_getpj")
@@ -50,6 +46,10 @@ shader = ExtResource("13_cegan")
 shader_parameter/vignette_intensity = 0.4
 shader_parameter/vignette_opacity = 0.5
 shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_w48qg"]
+default_font = ExtResource("2_ycdy4")
+default_font_size = 20
 
 [sub_resource type="Theme" id="Theme_cegan"]
 
@@ -99,9 +99,10 @@ NodePath("../DebugViewport"): 1.0
 [node name="ScreenshotManager" type="Node" parent="." unique_id=1721210722]
 script = ExtResource("3_getpj")
 
-[node name="SimulationManager" type="Node" parent="." unique_id=1084845769 node_paths=PackedStringArray("simulation")]
+[node name="SimulationManager" type="Node" parent="." unique_id=1084845769 node_paths=PackedStringArray("simulation", "particle_container")]
 script = ExtResource("5_272bh")
 simulation = NodePath("../Simulation")
+particle_container = NodePath("../WorldLayer/WorldContainer/ParticleContainer")
 
 [node name="Simulation" type="Node" parent="." unique_id=2008383607]
 script = ExtResource("1_ig7tw")
@@ -116,9 +117,58 @@ binding_strength = 0.0
 script = ExtResource("7_ryguw")
 simulation = NodePath("../Simulation")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1843700673]
+[node name="WorldLayer" type="CanvasLayer" parent="." unique_id=1843700673]
 
-[node name="UIManager" type="Node" parent="CanvasLayer" unique_id=1001283596 node_paths=PackedStringArray("manager", "reset_button", "speed_slider", "speed_amount", "border_type", "generation_type", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent")]
+[node name="WorldContainer" type="Control" parent="WorldLayer" unique_id=1992323057]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundContainer" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1734181783]
+material = SubResource("ShaderMaterial_d13ii")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_0xm2m")
+
+[node name="ParticleContainer" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1006373811]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_cegan")
+
+[node name="DebugContainer" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1203977162]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_82xsv")
+
+[node name="VFXVignette" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1008822151]
+material = SubResource("ShaderMaterial_82xsv")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_h2yge")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
+
+[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("manager", "reset_button", "speed_slider", "speed_amount", "border_type", "generation_type", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent")]
 script = ExtResource("1_7mycd")
 manager = NodePath("../../SimulationManager")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
@@ -133,7 +183,7 @@ population_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxConta
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 ui_parent = NodePath("../UIRoot/UIMarginContainer")
 
-[node name="UIRoot" type="Control" parent="CanvasLayer" unique_id=2098282740]
+[node name="UIRoot" type="Control" parent="UILayer" unique_id=2098282740]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -142,54 +192,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_w48qg")
 
-[node name="WorldContainer" type="Control" parent="CanvasLayer/UIRoot" unique_id=1992323057]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BackgroundContainer" type="TextureRect" parent="CanvasLayer/UIRoot/WorldContainer" unique_id=1734181783]
-material = SubResource("ShaderMaterial_d13ii")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("ViewportTexture_0xm2m")
-
-[node name="ParticleContainer" type="TextureRect" parent="CanvasLayer/UIRoot/WorldContainer" unique_id=1006373811]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("ViewportTexture_cegan")
-
-[node name="DebugContainer" type="TextureRect" parent="CanvasLayer/UIRoot/WorldContainer" unique_id=1203977162]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("ViewportTexture_82xsv")
-
-[node name="VFXVignette" type="TextureRect" parent="CanvasLayer/UIRoot" unique_id=1008822151]
-material = SubResource("ShaderMaterial_82xsv")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_h2yge")
-
-[node name="UIMarginContainer" type="MarginContainer" parent="CanvasLayer/UIRoot" unique_id=1694310165]
+[node name="UIMarginContainer" type="MarginContainer" parent="UILayer/UIRoot" unique_id=1694310165]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -201,24 +204,24 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="MainContainer" type="Control" parent="CanvasLayer/UIRoot/UIMarginContainer" unique_id=380448043]
+[node name="MainContainer" type="Control" parent="UILayer/UIRoot/UIMarginContainer" unique_id=380448043]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1705931504]
+[node name="HBoxContainer" type="HBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1705931504]
 layout_mode = 0
 offset_right = 140.0
 offset_bottom = 25.0
 
-[node name="MenuBar" type="MenuBar" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer" unique_id=1229227145]
+[node name="MenuBar" type="MenuBar" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer" unique_id=1229227145]
 layout_mode = 2
 
-[node name="Gravity Engine" type="PopupMenu" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=51029604]
+[node name="Gravity Engine" type="PopupMenu" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=51029604]
 oversampling_override = 1.0
 theme = SubResource("Theme_cegan")
 item_count = 1
 item_0/id = 0
 
-[node name="WorldInfoContainer" type="VBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1287292474]
+[node name="WorldInfoContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1287292474]
 visible = false
 layout_mode = 1
 anchors_preset = 1
@@ -228,25 +231,25 @@ offset_left = -1888.0
 offset_bottom = 1048.0
 grow_horizontal = 0
 
-[node name="Label" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=204607704]
+[node name="Label" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=204607704]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "World Settings"
 horizontal_alignment = 2
 
-[node name="BorderTypeLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=1724088973]
+[node name="BorderTypeLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=1724088973]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Border: Wrap Around"
 horizontal_alignment = 2
 
-[node name="GenerationTypeLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=850766150]
+[node name="GenerationTypeLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=850766150]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Generation: Solar System"
 horizontal_alignment = 2
 
-[node name="ResetButton" type="Button" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1442580474]
+[node name="ResetButton" type="Button" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1442580474]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -260,7 +263,7 @@ grow_vertical = 0
 text = "Reset"
 icon = ExtResource("6_kek77")
 
-[node name="EnergyLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
+[node name="EnergyLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
 visible = false
 layout_mode = 1
 anchors_preset = 4
@@ -278,7 +281,7 @@ KE:
 GPE:
 LM:"
 
-[node name="SpeedSliderContainer" type="VBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=390316876]
+[node name="SpeedSliderContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=390316876]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -291,19 +294,19 @@ offset_right = 75.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="SpeedSliderLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer" unique_id=1493288200]
+[node name="SpeedSliderLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer" unique_id=1493288200]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Normal (1.0x)"
 horizontal_alignment = 1
 
-[node name="SpeedSlider" type="HSlider" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer" unique_id=393079889]
+[node name="SpeedSlider" type="HSlider" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer" unique_id=393079889]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 max_value = 20.0
 value = 4.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=748978879]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=748978879]
 visible = false
 layout_mode = 1
 anchors_preset = 2
@@ -314,25 +317,25 @@ offset_right = 103.0
 grow_vertical = 0
 alignment = 2
 
-[node name="FPSLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1152752724]
+[node name="FPSLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1152752724]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "FPS: ..."
 
-[node name="RenderTimeLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1026097213]
+[node name="RenderTimeLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1026097213]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "RT: 0ms"
 
-[node name="PopulationLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1130729556]
+[node name="PopulationLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1130729556]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 text = "Particles: ..."
 
-[node name="HeavyLoadLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1374327310]
+[node name="HeavyLoadLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1374327310]
 visible = false
 layout_mode = 1
 anchors_preset = 7
