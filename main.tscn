@@ -18,7 +18,6 @@
 [ext_resource type="Shader" uid="uid://b5pig4dbrj1qt" path="res://shader/render/particle.gdshader" id="16_getpj"]
 [ext_resource type="Script" uid="uid://bp0q6lwr0448w" path="res://debug/solar_system_debug_renderer.gd" id="17_074og"]
 [ext_resource type="Script" uid="uid://b3g6bp4caki6w" path="res://rendering/density_renderer.gd" id="17_cegan"]
-[ext_resource type="Script" uid="uid://d11kfd5jdolpf" path="res://rendering/viewport_manager.gd" id="19_cegan"]
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
 
@@ -87,14 +86,6 @@ mesh = SubResource("QuadMesh_82xsv")
 [node name="CameraController" type="Node2D" parent="." unique_id=2076364281 node_paths=PackedStringArray("simulation")]
 script = ExtResource("1_getpj")
 simulation = NodePath("../Simulation")
-
-[node name="ViewportManager" type="Node2D" parent="." unique_id=240289438 node_paths=PackedStringArray("viewports")]
-script = ExtResource("19_cegan")
-viewports = {
-NodePath("../MassDensityViewport"): 1.0,
-NodePath("../ParticlesViewport"): 1.0,
-NodePath("../DebugViewport"): 1.0
-}
 
 [node name="ScreenshotManager" type="Node" parent="." unique_id=1721210722]
 script = ExtResource("3_getpj")
