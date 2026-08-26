@@ -1,0 +1,408 @@
+[gd_scene format=3 uid="uid://ca7h7lxghmqf6"]
+
+[ext_resource type="Script" uid="uid://cwm7dkw1dfpxl" path="res://ui/ui_manager.gd" id="1_7mycd"]
+[ext_resource type="Script" uid="uid://hfopoq78x6v6" path="res://camera/camera_controller.gd" id="1_getpj"]
+[ext_resource type="Texture2D" uid="uid://n1bib1lh8qwu" path="res://ui/sprites/pixel.png" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://c4yulqtaeg71d" path="res://simulation/simulation.gd" id="1_ig7tw"]
+[ext_resource type="FontFile" uid="uid://b57matqt7m0fh" path="res://fonts/bricolage_grotesque.ttf" id="2_ycdy4"]
+[ext_resource type="Script" uid="uid://bi6ljd47f24lk" path="res://generation/generator/protoplanetary_disk_generator.gd" id="5_82xsv"]
+[ext_resource type="Script" uid="uid://besj10rx7fok" path="res://simulation/simulation_manager.gd" id="5_272bh"]
+[ext_resource type="Texture2D" uid="uid://dg57pir0me7j1" path="res://ui/sprites/reset.png" id="6_kek77"]
+[ext_resource type="Script" uid="uid://d0atuigrnfn6b" path="res://simulation/simulation_color_manager.gd" id="7_ryguw"]
+[ext_resource type="Shader" uid="uid://c8o5f03h51snc" path="res://shader/render/mass_density.gdshader" id="9_82xsv"]
+[ext_resource type="Texture2D" uid="uid://5r2u5ui7axt" path="res://gradient_blackbody.tres" id="10_82xsv"]
+[ext_resource type="Shader" uid="uid://dk54um3syjkqh" path="res://shader/render/vignette.gdshader" id="13_cegan"]
+[ext_resource type="Shader" uid="uid://bpje1u1c136g1" path="res://shader/render/glow.gdshader" id="14_074og"]
+[ext_resource type="Script" uid="uid://do5a0cm8yk5nb" path="res://rendering/particle_renderer.gd" id="16_82xsv"]
+[ext_resource type="Shader" uid="uid://b5pig4dbrj1qt" path="res://shader/render/particle.gdshader" id="16_getpj"]
+[ext_resource type="Script" uid="uid://bp0q6lwr0448w" path="res://debug/solar_system_debug_renderer.gd" id="17_074og"]
+[ext_resource type="Script" uid="uid://b3g6bp4caki6w" path="res://rendering/density_renderer.gd" id="17_cegan"]
+[ext_resource type="Script" uid="uid://d11kfd5jdolpf" path="res://rendering/viewport_manager.gd" id="19_cegan"]
+[ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
+[ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
+
+[sub_resource type="Resource" id="Resource_getpj"]
+script = ExtResource("5_82xsv")
+star_mass = 1000000.0
+min_orbit_distance = 150.0
+max_orbit_distance = 200.0
+population = 1000
+metadata/_custom_type_script = "uid://bi6ljd47f24lk"
+
+[sub_resource type="Theme" id="Theme_w48qg"]
+default_font = ExtResource("2_ycdy4")
+default_font_size = 20
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
+shader = ExtResource("9_82xsv")
+shader_parameter/color_map = ExtResource("10_82xsv")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0xm2m"]
+viewport_path = NodePath("MassDensityViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_cegan"]
+viewport_path = NodePath("ParticlesViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_82xsv"]
+viewport_path = NodePath("DebugViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_82xsv"]
+shader = ExtResource("13_cegan")
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_cegan"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
+font_size = 20
+font_color = Color(1, 0.75, 0.75, 1)
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_getpj"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.6953125, 0.83735794, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 0.4666667, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ryguw"]
+gradient = SubResource("Gradient_getpj")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_074og"]
+shader = ExtResource("16_getpj")
+shader_parameter/black_hole_gradient = SubResource("GradientTexture1D_ryguw")
+
+[sub_resource type="QuadMesh" id="QuadMesh_82xsv"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_cegan"]
+mesh = SubResource("QuadMesh_82xsv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ryguw"]
+shader = ExtResource("14_074og")
+
+[sub_resource type="MultiMesh" id="MultiMesh_074og"]
+mesh = SubResource("QuadMesh_82xsv")
+
+[node name="Control" type="Node2D" unique_id=425540829]
+
+[node name="CameraController" type="Node2D" parent="." unique_id=2076364281 node_paths=PackedStringArray("simulation")]
+script = ExtResource("1_getpj")
+simulation = NodePath("../Simulation")
+
+[node name="ViewportManager" type="Node2D" parent="." unique_id=240289438 node_paths=PackedStringArray("viewports")]
+script = ExtResource("19_cegan")
+viewports = {
+NodePath("../MassDensityViewport"): 1.0,
+NodePath("../ParticlesViewport"): 1.0,
+NodePath("../DebugViewport"): 1.0
+}
+
+[node name="SimulationManager" type="Node" parent="." unique_id=1084845769 node_paths=PackedStringArray("simulation")]
+script = ExtResource("5_272bh")
+simulation = NodePath("../Simulation")
+
+[node name="Simulation" type="Node" parent="." unique_id=2008383607]
+script = ExtResource("1_ig7tw")
+world_size = Vector2i(7500, 7500)
+generator = SubResource("Resource_getpj")
+border_type = 3
+timestep = 0.001
+gravity = 50.0
+binding_strength = 0.0
+
+[node name="SimulationColorManager" type="Node" parent="." unique_id=1287690408 node_paths=PackedStringArray("simulation")]
+script = ExtResource("7_ryguw")
+simulation = NodePath("../Simulation")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1843700673]
+
+[node name="UIManager" type="Node" parent="CanvasLayer" unique_id=1001283596 node_paths=PackedStringArray("manager", "reset_button", "speed_slider", "speed_amount", "border_type", "generation_type", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning")]
+script = ExtResource("1_7mycd")
+manager = NodePath("../../SimulationManager")
+reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
+speed_slider = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSlider")
+speed_amount = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSliderLabel")
+border_type = NodePath("../UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer/BorderTypeLabel")
+generation_type = NodePath("../UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer/GenerationTypeLabel")
+energy_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyLabel")
+fps_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/FPSLabel")
+render_time_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/RenderTimeLabel")
+population_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PopulationLabel")
+heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
+
+[node name="UIRoot" type="Control" parent="CanvasLayer" unique_id=2098282740]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_w48qg")
+
+[node name="WorldContainer" type="Control" parent="CanvasLayer/UIRoot" unique_id=1992323057]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundContainer" type="TextureRect" parent="CanvasLayer/UIRoot/WorldContainer" unique_id=1734181783]
+material = SubResource("ShaderMaterial_d13ii")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_0xm2m")
+
+[node name="ParticleContainer" type="TextureRect" parent="CanvasLayer/UIRoot/WorldContainer" unique_id=1006373811]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_cegan")
+
+[node name="DebugContainer" type="TextureRect" parent="CanvasLayer/UIRoot/WorldContainer" unique_id=1203977162]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_82xsv")
+
+[node name="VFXVignette" type="TextureRect" parent="CanvasLayer/UIRoot" unique_id=1008822151]
+material = SubResource("ShaderMaterial_82xsv")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_h2yge")
+
+[node name="UIMarginContainer" type="MarginContainer" parent="CanvasLayer/UIRoot" unique_id=1694310165]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="MainContainer" type="Control" parent="CanvasLayer/UIRoot/UIMarginContainer" unique_id=380448043]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1705931504]
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 25.0
+
+[node name="MenuBar" type="MenuBar" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer" unique_id=1229227145]
+layout_mode = 2
+
+[node name="Gravity Engine" type="PopupMenu" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=51029604]
+oversampling_override = 1.0
+theme = SubResource("Theme_cegan")
+item_count = 1
+item_0/id = 0
+
+[node name="Project" type="PopupMenu" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=1868129818]
+oversampling_override = 1.0
+theme = SubResource("Theme_cegan")
+
+[node name="Edit" type="PopupMenu" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=373301048]
+oversampling_override = 1.0
+theme = SubResource("Theme_cegan")
+
+[node name="View" type="PopupMenu" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=175693924]
+oversampling_override = 1.0
+size = Vector2i(175, 100)
+theme = SubResource("Theme_cegan")
+system_menu_id = 2
+item_count = 1
+item_0/text = "Energy Tracker"
+item_0/checkable = 1
+item_0/id = 0
+
+[node name="WorldInfoContainer" type="VBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1287292474]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1888.0
+offset_bottom = 1048.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=204607704]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "World Settings"
+horizontal_alignment = 2
+
+[node name="BorderTypeLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=1724088973]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Border: Wrap Around"
+horizontal_alignment = 2
+
+[node name="GenerationTypeLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/WorldInfoContainer" unique_id=850766150]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Generation: Solar System"
+horizontal_alignment = 2
+
+[node name="ResetButton" type="Button" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1442580474]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -33.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Reset"
+icon = ExtResource("6_kek77")
+
+[node name="EnergyLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -54.5
+offset_right = 41.0
+offset_bottom = 54.5
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "Energy
+TE:
+KE:
+GPE:
+LM:"
+
+[node name="SpeedSliderContainer" type="VBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=390316876]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -45.0
+offset_right = 75.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="SpeedSliderLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer" unique_id=1493288200]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Normal (1.0x)"
+horizontal_alignment = 1
+
+[node name="SpeedSlider" type="HSlider" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer" unique_id=393079889]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+max_value = 20.0
+value = 4.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=748978879]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -54.0
+offset_right = 103.0
+grow_vertical = 0
+alignment = 2
+
+[node name="FPSLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1152752724]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "FPS: ..."
+
+[node name="RenderTimeLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1026097213]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "RT: 0ms"
+
+[node name="PopulationLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1130729556]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Particles: ..."
+
+[node name="HeavyLoadLabel" type="Label" parent="CanvasLayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1374327310]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -164.0
+offset_top = -156.0
+offset_right = 164.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Simulation is under heavy load!
+Try decreasing the simulation speed."
+label_settings = SubResource("LabelSettings_82xsv")
+horizontal_alignment = 1
+
+[node name="ParticlesViewport" type="SubViewport" parent="." unique_id=1988896197]
+transparent_bg = true
+size = Vector2i(1920, 1080)
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="ParticlesViewport" unique_id=178065441 node_paths=PackedStringArray("simulation")]
+material = SubResource("ShaderMaterial_074og")
+multimesh = SubResource("MultiMesh_cegan")
+texture = ExtResource("1_h2yge")
+script = ExtResource("16_82xsv")
+simulation = NodePath("../../Simulation")
+
+[node name="Camera2D" type="Camera2D" parent="ParticlesViewport" unique_id=1471169874 node_paths=PackedStringArray("controller")]
+script = ExtResource("21_ryguw")
+controller = NodePath("../../CameraController")
+
+[node name="MassDensityViewport" type="SubViewport" parent="." unique_id=1806105318]
+size = Vector2i(1920, 1080)
+
+[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="MassDensityViewport" unique_id=1695531475 node_paths=PackedStringArray("simulation")]
+material = SubResource("ShaderMaterial_ryguw")
+multimesh = SubResource("MultiMesh_074og")
+texture = ExtResource("1_h2yge")
+script = ExtResource("17_cegan")
+size_multiplier = 50.0
+simulation = NodePath("../../Simulation")
+
+[node name="Camera2D" type="Camera2D" parent="MassDensityViewport" unique_id=606442101 node_paths=PackedStringArray("controller")]
+script = ExtResource("21_ryguw")
+controller = NodePath("../../CameraController")
+
+[node name="DebugViewport" type="SubViewport" parent="." unique_id=958050321]
+transparent_bg = true
+
+[node name="SolarSystemDebugRenderer" type="Node2D" parent="DebugViewport" unique_id=99286968 node_paths=PackedStringArray("simulation")]
+script = ExtResource("17_074og")
+simulation = NodePath("../../Simulation")
+
+[node name="Camera2D" type="Camera2D" parent="DebugViewport" unique_id=1748536474 node_paths=PackedStringArray("controller")]
+script = ExtResource("21_ryguw")
+controller = NodePath("../../CameraController")
+
+[node name="Node2D" type="Node2D" parent="DebugViewport" unique_id=613321849]
+script = ExtResource("21_getpj")

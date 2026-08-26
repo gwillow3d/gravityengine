@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://e6kdduu7ssva"
+path="res://.godot/imported/drift.glsl-a468ecdb110072e5e1bcdc645ff8ca19.res"
+
+[deps]
+
+source_file="res://shader/compute/drift.glsl"
+dest_files=["res://.godot/imported/drift.glsl-a468ecdb110072e5e1bcdc645ff8ca19.res"]
+
+[params]
+

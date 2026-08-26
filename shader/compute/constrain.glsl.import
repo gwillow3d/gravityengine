@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://cupaaxb77v6l5"
+path="res://.godot/imported/constrain.glsl-c9e6c1e3755d92dbd012a8f6cdc773a7.res"
+
+[deps]
+
+source_file="res://shader/compute/constrain.glsl"
+dest_files=["res://.godot/imported/constrain.glsl-c9e6c1e3755d92dbd012a8f6cdc773a7.res"]
+
+[params]
+

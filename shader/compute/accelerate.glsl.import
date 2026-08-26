@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://ds20kl2810cp7"
+path="res://.godot/imported/accelerate.glsl-61d966f103814ed63209e9f0ddcccb64.res"
+
+[deps]
+
+source_file="res://shader/compute/accelerate.glsl"
+dest_files=["res://.godot/imported/accelerate.glsl-61d966f103814ed63209e9f0ddcccb64.res"]
+
+[params]
+

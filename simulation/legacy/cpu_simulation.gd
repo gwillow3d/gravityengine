@@ -1,0 +1,216 @@
+class_name CPUSimulation
+extends Node
+
+# Signals #
+signal gravity_changed(strength: float)
+signal population_changed(population: int)
+signal energy_updated(kinetic: float, potential: float, linear_momentum: Vector2)
+signal simulation_reset
+
+# Exports #
+@export_category("Simulation")
+@export var world_size: Vector2i = Vector2i(500, 500)
+@export var generator: Generator = null
+@export var border_type: BorderType = BorderType.Wraparound
+
+@export_category("Forces")
+@export var gravity_strength: float = 5.0 
+@export var softening: float = 5
+@export_range(0.0, 100.0, 1.0) var binding_radius: float = 0.0
+@export_range(0.0, 1.0, 0.0001) var binding_strength: float = 0.01
+
+# Private fields #
+const MAX_PARTICLES = 128
+
+var _gravity: float
+
+var _p_positions: PackedVector2Array
+var _p_velocities: PackedVector2Array
+var _p_accelerations: PackedVector2Array
+var _p_masses: PackedFloat32Array
+
+var _kinetic_energy: float
+var _potential_energy: float
+
+# Enums #
+enum BorderType {
+	## There is no border, particles can travel endlessly in any direction.
+	None,
+	## The border acts as a hard wall.
+	## Violates conservation of energy.
+	Stop,
+	## The border will reflect particles, inverting their momentum.
+	Bounce,
+	## Particles will pass through the border to the opposite side.
+	## Also allows gravity to wrap around.
+	Wraparound
+}
+
+# Public functions
+func step(delta: float) -> void:
+	_kinetic_energy = 0.0
+	_potential_energy = 0.0
+	
+	_half_kick(delta)
+	_drift(delta)
+	_accelerate()
+	_half_kick(delta)
+	_update_kinetic_energy()
+	
+	energy_updated.emit(_kinetic_energy, _potential_energy, get_total_linear_momentum())
+
+func reset() -> void:
+	_p_positions.clear()
+	_p_velocities.clear()
+	_p_accelerations.clear()
+	_p_masses.clear()
+	
+	set_gravity(gravity_strength)
+	if generator:
+		var state = generator.generate(_gravity, world_size)
+		
+		_apply_state(state)
+		_remove_drift()
+	
+	simulation_reset.emit()
+
+# Private functions #
+func _apply_state(state: SimulationState) -> void:
+	_p_positions = state.positions.duplicate()
+	_p_velocities = state.velocities.duplicate()
+	_p_accelerations = PackedVector2Array()
+	_p_accelerations.resize(_p_positions.size())
+	_p_masses = state.masses.duplicate()
+	population_changed.emit(get_particle_count())
+
+func _remove_drift() -> void:
+	var weighted_velocites: Vector2 = Vector2.ZERO
+	var total_mass: float = 0.0
+	var particle_count = get_particle_count()
+	for i in range(0, particle_count):
+		var m = abs(_p_masses[i])
+		weighted_velocites += _p_velocities[i] * m
+		total_mass += m
+	
+	var mean_drift = weighted_velocites / total_mass
+	
+	for i in range(0, particle_count):
+		_p_velocities[i] -= mean_drift
+
+func _half_kick(delta: float) -> void:
+	for i in range(0, get_particle_count()):
+		_p_velocities[i] += _p_accelerations[i] * (delta * 0.5)
+
+func _drift(delta: float) -> void:
+	for i in range(0, get_particle_count()):
+		_p_positions[i] += _p_velocities[i] * delta
+		_constrain(i)
+		_p_accelerations[i] = Vector2.ZERO
+
+func _constrain(i: int) -> void:
+	var w: float = world_size.x
+	var h: float = world_size.y
+	var x = _p_positions[i].x
+	var y = _p_positions[i].y
+		
+	match border_type:
+			BorderType.Wraparound:
+				_p_positions[i].x = fmod(fmod(x, w) + w, w)
+				_p_positions[i].y = fmod(fmod(y, h) + h, h)
+			BorderType.Stop:
+				var old_x = x
+				var old_y = y
+				_p_positions[i].x = clampf(x, 0, world_size.x)
+				_p_positions[i].y = clampf(y, 0, world_size.y)
+				if _p_positions[i].x != old_x:
+					_p_velocities[i].x = 0.0
+				if _p_positions[i].y != old_y:
+					_p_velocities[i].y = 0.0
+			BorderType.Bounce:
+				if x < 0 or x > world_size.x:
+					var offset = (-x if x < 0 else world_size.x - x) * 2
+					_p_positions[i].x += offset
+					_p_velocities[i].x *= -1
+				if y < 0 or y > world_size.y:
+					var offset = (-y if y < 0 else world_size.y - y) * 2
+					_p_positions[i].y += offset
+					_p_velocities[i].y *= -1
+
+func _accelerate() -> void:
+	var particle_count = get_particle_count()
+	var half_size = world_size / 2.0	
+	for i in range(0, particle_count):
+		var p1 = _p_positions[i]
+		var m1 = _p_masses[i]
+		for j in range(i + 1, particle_count):
+			var p2 = _p_positions[j]
+			var m2 = _p_masses[j]
+			var d = p2 - p1
+			if border_type == BorderType.Wraparound:
+				if d.x >  half_size.x: d.x -= world_size.x
+				if d.x < -half_size.x: d.x += world_size.x
+				if d.y >  half_size.y: d.y -= world_size.y
+				if d.y < -half_size.y: d.y += world_size.y
+			
+			var dist = d.length()
+			var r = max(dist, softening)
+			
+			var acc = _gravity / (r * r * r) * d
+			
+			if dist < binding_radius and sign(m1) == sign(m2):
+				var total_mass = m1 + m2
+				var i_dom = m1 / total_mass
+				var j_dom = m2 / total_mass
+				
+				var iv = _p_velocities[i]
+				var jv = _p_velocities[j]
+				var v_com = (iv * m1 + jv * m2) / total_mass
+				
+				var strength = binding_strength * (1 - dist / binding_radius)
+				
+				_p_velocities[i] = iv.lerp(v_com, strength * j_dom)
+				_p_velocities[j] = jv.lerp(v_com, strength * i_dom)
+			
+			_p_accelerations[i] += acc * m2
+			_p_accelerations[j] -= acc * m1
+			_potential_energy -= _gravity * m1 * m2 / r
+
+func _update_kinetic_energy() -> void:
+	for i in range(0, get_particle_count()):
+		var m1 = _p_masses[i]
+		var vel = _p_velocities[i].length()
+		_kinetic_energy += 0.5 * m1 * (vel*vel)
+
+func add_particle(position: Vector2, velocity: Vector2, mass: float) -> void:
+	_p_positions.append(position)
+	_p_velocities.append(velocity)
+	_p_accelerations.append(Vector2.ZERO)
+	_p_masses.append(mass)
+	population_changed.emit(_p_positions.size())
+
+# Getters and setters #
+func get_total_linear_momentum() -> Vector2:
+	var momentum = Vector2.ZERO
+	
+	for i in range(0, get_particle_count()):
+		var v = _p_velocities[i]
+		var m = _p_masses[i]
+		momentum += v * m
+	
+	return momentum
+
+func get_particle_count() -> int:
+	return _p_positions.size()
+
+func get_particle_position(index: int) -> Vector2:
+	return _p_positions[index]
+
+func get_particle_mass(index: int) -> float:
+	return _p_masses[index]
+
+func get_border_mode() -> BorderType:
+	return border_type
+
+func set_gravity(strength: float) -> void:
+	_gravity = strength
+	gravity_changed.emit(_gravity)
