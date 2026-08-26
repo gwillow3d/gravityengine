@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dg57pir0me7j1" path="res://ui/sprites/reset.png" id="6_kek77"]
 [ext_resource type="Script" uid="uid://d0atuigrnfn6b" path="res://simulation/simulation_color_manager.gd" id="7_ryguw"]
 [ext_resource type="Shader" uid="uid://c8o5f03h51snc" path="res://shader/render/mass_density.gdshader" id="9_82xsv"]
+[ext_resource type="Script" uid="uid://dqv7ofiir60wj" path="res://rendering/glow_renderer.gd" id="10_ryguw"]
 [ext_resource type="Texture2D" uid="uid://ioptcksipr35" path="res://gradient_purple.tres" id="11_getpj"]
 [ext_resource type="Shader" uid="uid://dk54um3syjkqh" path="res://shader/render/vignette.gdshader" id="13_cegan"]
 [ext_resource type="Shader" uid="uid://bpje1u1c136g1" path="res://shader/render/glow.gdshader" id="14_074og"]
@@ -84,13 +85,14 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Control" type="Node2D" unique_id=425540829]
 
-[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager")]
+[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer")]
 script = ExtResource("2_ryguw")
 simulation = NodePath("../Simulation")
 simulation_manager = NodePath("../SimulationManager")
 camera_controller = NodePath("../CameraController")
 color_manager = NodePath("../SimulationColorManager")
 ui_manager = NodePath("../UILayer/UIManager")
+glow_renderer = NodePath("../WorldLayer/WorldContainer/BackgroundContainer")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=2076364281]
 script = ExtResource("1_getpj")
@@ -133,6 +135,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_0xm2m")
+script = ExtResource("10_ryguw")
 
 [node name="ParticleContainer" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1006373811]
 layout_mode = 1

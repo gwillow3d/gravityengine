@@ -22,4 +22,3 @@ func _on_simulation_reset() -> void:
 
 func _randomize_simulation_color() -> void:
 	_current_color = Color.from_hsv(randf(), 1.0, 1.0)
-	_current_color = Color.WHITE

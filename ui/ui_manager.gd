@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 	fps_label.text = "FPS: %s" % fps
 	
 func _on_reset_pressed() -> void:
-	_manager.simulation.reset()
+	_simulation.reset()
 
 func _on_slider_changed(value: float) -> void:
 	_manager.steps_per_frame = int(value)
