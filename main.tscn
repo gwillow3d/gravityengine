@@ -6,12 +6,12 @@
 [ext_resource type="Script" uid="uid://c4yulqtaeg71d" path="res://simulation/simulation.gd" id="1_ig7tw"]
 [ext_resource type="FontFile" uid="uid://b57matqt7m0fh" path="res://fonts/bricolage_grotesque.ttf" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://dafw1uv26b0j4" path="res://util/screenshot_manager.gd" id="3_getpj"]
-[ext_resource type="Script" uid="uid://bi6ljd47f24lk" path="res://generation/generator/protoplanetary_disk_generator.gd" id="5_82xsv"]
 [ext_resource type="Script" uid="uid://besj10rx7fok" path="res://simulation/simulation_manager.gd" id="5_272bh"]
+[ext_resource type="Script" uid="uid://ydsbc0nrhicu" path="res://generation/generator/random_generator.gd" id="6_getpj"]
 [ext_resource type="Texture2D" uid="uid://dg57pir0me7j1" path="res://ui/sprites/reset.png" id="6_kek77"]
 [ext_resource type="Script" uid="uid://d0atuigrnfn6b" path="res://simulation/simulation_color_manager.gd" id="7_ryguw"]
 [ext_resource type="Shader" uid="uid://c8o5f03h51snc" path="res://shader/render/mass_density.gdshader" id="9_82xsv"]
-[ext_resource type="Texture2D" uid="uid://5r2u5ui7axt" path="res://gradient_blackbody.tres" id="10_82xsv"]
+[ext_resource type="Texture2D" uid="uid://ioptcksipr35" path="res://gradient_purple.tres" id="11_getpj"]
 [ext_resource type="Shader" uid="uid://dk54um3syjkqh" path="res://shader/render/vignette.gdshader" id="13_cegan"]
 [ext_resource type="Shader" uid="uid://bpje1u1c136g1" path="res://shader/render/glow.gdshader" id="14_074og"]
 [ext_resource type="Script" uid="uid://do5a0cm8yk5nb" path="res://rendering/particle_renderer.gd" id="16_82xsv"]
@@ -22,13 +22,11 @@
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
 
-[sub_resource type="Resource" id="Resource_getpj"]
-script = ExtResource("5_82xsv")
-star_mass = 1000000.0
-min_orbit_distance = 150.0
-max_orbit_distance = 200.0
-population = 1000
-metadata/_custom_type_script = "uid://bi6ljd47f24lk"
+[sub_resource type="Resource" id="Resource_d13ii"]
+script = ExtResource("6_getpj")
+population = 3000
+max_initial_mass = 75.0
+metadata/_custom_type_script = "uid://ydsbc0nrhicu"
 
 [sub_resource type="Theme" id="Theme_w48qg"]
 default_font = ExtResource("2_ycdy4")
@@ -36,7 +34,7 @@ default_font_size = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
 shader = ExtResource("9_82xsv")
-shader_parameter/color_map = ExtResource("10_82xsv")
+shader_parameter/color_map = ExtResource("11_getpj")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_0xm2m"]
 viewport_path = NodePath("MassDensityViewport")
@@ -107,8 +105,8 @@ simulation = NodePath("../Simulation")
 
 [node name="Simulation" type="Node" parent="." unique_id=2008383607]
 script = ExtResource("1_ig7tw")
-world_size = Vector2i(7500, 7500)
-generator = SubResource("Resource_getpj")
+world_size = Vector2i(5000, 5000)
+generator = SubResource("Resource_d13ii")
 border_type = 3
 timestep = 0.001
 gravity = 50.0
