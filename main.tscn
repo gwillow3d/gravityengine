@@ -131,6 +131,7 @@ grow_vertical = 2
 texture = SubResource("ViewportTexture_cegan")
 
 [node name="DebugContainer" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1203977162]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -217,6 +218,7 @@ text = "Reset"
 icon = ExtResource("6_kek77")
 
 [node name="EnergyLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
+visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5

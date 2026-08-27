@@ -75,7 +75,7 @@ func _on_energy_updated(kinetic: float, potential: float, linear_momentum: Vecto
 func _average_time_updated(average_time: float) -> void:
 	render_time_label.text = "Render Time: %.1f" % [average_time * 1000]
 
-	if average_time * 1000 > 10 and _manager.steps_per_frame > 0:
+	if average_time * 1000 > 22 and _manager.steps_per_frame > 0:
 		heavy_load_warning.visible = true
 	else:
 		heavy_load_warning.visible = false
