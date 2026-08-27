@@ -42,6 +42,9 @@ var _kinetic_energy: float
 var _potential_energy: float
 
 func setup() -> void:
+	if OS.get_name() == "Web":
+		printerr("Cannot run GPU simulation on WebGL!")
+		return
 	_setup_shaders()
 	_is_ready = true
 	simulation_ready.emit()

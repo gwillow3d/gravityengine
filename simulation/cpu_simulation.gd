@@ -13,17 +13,23 @@ var _kinetic_energy: float
 var _potential_energy: float
 
 func setup() -> void:
-	pass
+	simulation_ready.emit()
+	
+	world_size_changed.emit(config.world_size)
+	border_type_changed.emit(config.border_type)
+	gravity_changed.emit(config.gravity)
 
 # Public functions
 func step(steps: int) -> void:
 	_kinetic_energy = 0.0
 	_potential_energy = 0.0
 	
-	_half_kick()
-	_drift()
-	_accelerate()
-	_half_kick()
+	for step in steps:
+		_half_kick()
+		_drift()
+		_accelerate()
+		_half_kick()
+	
 	_update_kinetic_energy()
 	
 	energy_updated.emit(_kinetic_energy, _potential_energy, compute_total_linear_momentum(), compute_total_angular_momentum())
@@ -68,11 +74,11 @@ func _remove_drift() -> void:
 
 func _half_kick() -> void:
 	for i in range(0, get_particle_count()):
-		_p_velocities[i] += _p_accelerations[i]
+		_p_velocities[i] += _p_accelerations[i] * config.timestep * 0.5
 
 func _drift() -> void:
 	for i in range(0, get_particle_count()):
-		_p_positions[i] += _p_velocities[i]
+		_p_positions[i] += _p_velocities[i] * config.timestep
 		_constrain(i)
 		_p_accelerations[i] = Vector2.ZERO
 
@@ -122,7 +128,7 @@ func _accelerate() -> void:
 				if d.y < -half_size.y: d.y += config.world_size.y
 			
 			var dist = d.length()
-			var r = max(dist, config.softening)
+			var r = sqrt(dist * dist + config.softening * config.softening);
 			
 			var acc = config.gravity / (r * r * r) * d
 			

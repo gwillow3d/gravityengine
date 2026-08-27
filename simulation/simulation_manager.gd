@@ -3,7 +3,8 @@ extends Node
 
 var simulation: Simulation
 
-@export var config: SimulationConfig
+@export var default_cpu_config: SimulationConfig
+@export var default_gpu_config: SimulationConfig
 
 @export var simulation_manager: TimeManager
 @export var camera_controller: CameraController
@@ -18,8 +19,12 @@ var simulation: Simulation
 @export var debug_boundary_renderer: DebugBoundaryLayer
 
 func _ready() -> void:
-	simulation = CPUSimulation.new()
-	simulation.config = config
+	if OS.get_name() == "Web":
+		simulation = CPUSimulation.new()
+		simulation.config = default_cpu_config
+	else:
+		simulation = GPUSimulation.new()
+		simulation.config = default_gpu_config
 	
 	# Wire signals #
 	
