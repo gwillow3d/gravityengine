@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cwm7dkw1dfpxl" path="res://ui/ui_manager.gd" id="1_7mycd"]
 [ext_resource type="Script" uid="uid://hfopoq78x6v6" path="res://camera/camera_controller.gd" id="1_getpj"]
 [ext_resource type="Texture2D" uid="uid://n1bib1lh8qwu" path="res://ui/sprites/pixel.png" id="1_h2yge"]
-[ext_resource type="Script" uid="uid://c4yulqtaeg71d" path="res://simulation/simulation.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://c4yulqtaeg71d" path="res://simulation/gpu_simulation.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://c2l4ttnyw6l5j" path="res://scene_manager.gd" id="2_ryguw"]
 [ext_resource type="FontFile" uid="uid://b57matqt7m0fh" path="res://ui/fonts/bricolage_grotesque.ttf" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://dafw1uv26b0j4" path="res://util/screenshot_manager.gd" id="3_getpj"]
@@ -99,6 +99,17 @@ world_size = Vector2i(5000, 5000)
 generator = ExtResource("6_ryguw")
 border_type = 3
 timestep = 0.01
+gravity = null
+softening = null
+binding_radius = null
+binding_strength = 0.0
+world_size = Vector2i(5000, 5000)
+generator = ExtResource("6_ryguw")
+border_type = 3
+timestep = 0.01
+gravity = null
+softening = null
+binding_radius = null
 binding_strength = 0.0
 
 [node name="SimulationColorManager" type="Node" parent="." unique_id=1287690408]

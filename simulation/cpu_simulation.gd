@@ -1,5 +1,5 @@
 class_name CPUSimulation
-extends Node
+extends ISimulation
 
 # Signals #
 signal gravity_changed(strength: float)
