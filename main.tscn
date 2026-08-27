@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://d0atuigrnfn6b" path="res://rendering/hue_manager.gd" id="7_ryguw"]
 [ext_resource type="Shader" uid="uid://c8o5f03h51snc" path="res://shader/render/mass_density.gdshader" id="9_82xsv"]
 [ext_resource type="Script" uid="uid://dqv7ofiir60wj" path="res://rendering/glow_renderer.gd" id="10_ryguw"]
+[ext_resource type="Shader" uid="uid://dbooj67rox5yq" path="res://shader/render/premultiplied.gdshader" id="11_d13ii"]
 [ext_resource type="Texture2D" uid="uid://ioptcksipr35" path="res://rendering/gradient.tres" id="11_getpj"]
 [ext_resource type="Shader" uid="uid://dk54um3syjkqh" path="res://shader/render/vignette.gdshader" id="13_cegan"]
 [ext_resource type="Shader" uid="uid://bpje1u1c136g1" path="res://shader/render/glow.gdshader" id="14_074og"]
@@ -31,6 +32,7 @@ shader_parameter/color_map = ExtResource("11_getpj")
 viewport_path = NodePath("MassDensityViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1u8w0"]
+shader = ExtResource("11_d13ii")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_cegan"]
 viewport_path = NodePath("ParticlesViewport")
