@@ -56,17 +56,17 @@ func compute_total_angular_momentum() -> float:
 
 # Getters & Setters #
 
-@abstract
-func get_particle_count() -> int
+func get_particle_count() -> int:
+	return _p_positions.size()
 
-@abstract
-func get_particle_position(index: int) -> Vector2
+func get_particle_position(index: int) -> Vector2:
+	return _p_positions[index]
 
-@abstract
-func get_particle_mass(index: int) -> float
+func get_particle_mass(index: int) -> float:
+	return _p_masses[index]
 
-@abstract
-func get_border_mode() -> BorderType
+func get_border_mode() -> BorderType:
+	return config.border_type
 
 # Enums #
 enum BorderType {

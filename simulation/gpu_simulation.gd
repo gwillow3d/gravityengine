@@ -259,17 +259,3 @@ func _unpack_potential_energy(bytes: PackedByteArray) -> float:
 	for i in range(0, get_particle_count()):
 		total += bytes.decode_float(i * 4)
 	return total
-
-# Getters and setters #
-
-func get_particle_count() -> int:
-	return _p_positions.size()
-
-func get_particle_position(index: int) -> Vector2:
-	return _p_positions[index]
-
-func get_particle_mass(index: int) -> float:
-	return _p_masses[index]
-
-func get_border_mode() -> BorderType:
-	return config.border_type
