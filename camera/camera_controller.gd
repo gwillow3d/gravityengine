@@ -14,7 +14,7 @@ var _position: Vector2
 var _zoom: float = 1.0
 
 var _is_dragging := false
-var _drag_start_position: Vector2
+var _last_mouse_pos: Vector2
 
 func _ready() -> void:
 	await get_tree().process_frame
@@ -45,6 +45,7 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.is_pressed():
 				_is_dragging = true
+				_last_mouse_pos = get_global_mouse_position()
 			elif event.is_released():
 				_is_dragging = false
 		
@@ -58,6 +59,13 @@ func _input(event: InputEvent) -> void:
 		if event.is_action("camera_return_home"):
 			_position = _world_size / 2.0
 			camera_moved.emit(_position)
+	
+	if event is InputEventMouseMotion and _is_dragging:
+		var mouse_pos = get_global_mouse_position()
+		var motion = _last_mouse_pos - mouse_pos
+		_position += motion / _zoom
+		_last_mouse_pos = mouse_pos
+		camera_moved.emit(_position)
 
 func _zoom_toward(where: Vector2, factor: float) -> void:
 	_zoom *= factor
