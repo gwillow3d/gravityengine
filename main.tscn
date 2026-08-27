@@ -99,17 +99,6 @@ world_size = Vector2i(5000, 5000)
 generator = ExtResource("6_ryguw")
 border_type = 3
 timestep = 0.01
-gravity = null
-softening = null
-binding_radius = null
-binding_strength = 0.0
-world_size = Vector2i(5000, 5000)
-generator = ExtResource("6_ryguw")
-border_type = 3
-timestep = 0.01
-gravity = null
-softening = null
-binding_radius = null
 binding_strength = 0.0
 
 [node name="SimulationColorManager" type="Node" parent="." unique_id=1287690408]

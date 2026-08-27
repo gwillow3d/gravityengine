@@ -63,20 +63,6 @@ var _state_update_needed := false
 var _kinetic_energy: float
 var _potential_energy: float
 
-# Enums #
-enum BorderType {
-	## There is no border, particles can travel endlessly in any direction.
-	None,
-	## The border acts as a hard wall.
-	## Violates conservation of energy.
-	Stop,
-	## The border will reflect particles, inverting their momentum.
-	Bounce,
-	## Particles will pass through the border to the opposite side.
-	## Also allows gravity to wrap around.
-	Wraparound
-}
-
 func setup() -> void:
 	_setup_shaders()
 	_is_ready = true
