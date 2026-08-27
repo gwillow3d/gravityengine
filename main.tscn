@@ -73,7 +73,7 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Control" type="Node2D" unique_id=425540829]
 
-[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager")]
+[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
 simulation = NodePath("../GPUSimulation")
 simulation_manager = NodePath("../SimulationManager")
@@ -82,6 +82,7 @@ color_manager = NodePath("../SimulationColorManager")
 ui_manager = NodePath("../UILayer/UIManager")
 glow_renderer = NodePath("../WorldLayer/WorldContainer/BackgroundContainer")
 screenshot_manager = NodePath("../ScreenshotManager")
+debug_boundary_renderer = NodePath("../DebugViewport/DebugBoundaryRenderer")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=2076364281]
 script = ExtResource("1_getpj")
@@ -135,7 +136,6 @@ grow_vertical = 2
 texture = SubResource("ViewportTexture_cegan")
 
 [node name="DebugContainer" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1203977162]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -349,14 +349,15 @@ controller = NodePath("../../CameraController")
 
 [node name="DebugViewport" type="SubViewport" parent="." unique_id=958050321]
 transparent_bg = true
-
-[node name="SolarSystemDebugRenderer" type="Node2D" parent="DebugViewport" unique_id=99286968 node_paths=PackedStringArray("simulation")]
-script = ExtResource("17_074og")
-simulation = NodePath("../../GPUSimulation")
+size = Vector2i(1920, 1080)
 
 [node name="Camera2D" type="Camera2D" parent="DebugViewport" unique_id=1748536474 node_paths=PackedStringArray("controller")]
 script = ExtResource("21_ryguw")
 controller = NodePath("../../CameraController")
 
-[node name="Node2D" type="Node2D" parent="DebugViewport" unique_id=613321849]
+[node name="SolarSystemDebugRenderer" type="Node2D" parent="DebugViewport" unique_id=99286968 node_paths=PackedStringArray("simulation")]
+script = ExtResource("17_074og")
+simulation = NodePath("../../GPUSimulation")
+
+[node name="DebugBoundaryRenderer" type="Node2D" parent="DebugViewport" unique_id=613321849]
 script = ExtResource("21_getpj")

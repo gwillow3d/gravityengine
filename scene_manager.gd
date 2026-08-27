@@ -9,10 +9,14 @@ extends Node
 @export var glow_renderer: GlowRenderer
 @export var screenshot_manager: ScreenshotManager
 
+@export var debug_boundary_renderer: DebugBoundaryLayer
+
 func _ready() -> void:
 	# Wire signals #
 	
 	simulation.simulation_reset.connect(color_manager._on_simulation_reset)
+	simulation.world_size_changed.connect(debug_boundary_renderer._on_simulation_size_changed)
+	simulation.border_type_changed.connect(debug_boundary_renderer._on_simulation_border_type_changed)
 	simulation.border_type_changed.connect(camera_controller._on_border_type_changed)
 	simulation.world_size_changed.connect(camera_controller._on_world_size_changed)
 	
