@@ -73,7 +73,7 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Control" type="Node2D" unique_id=425540829]
 
-[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "background_renderer", "debug_boundary_renderer")]
+[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
 simulation = NodePath("../GPUSimulation")
 simulation_manager = NodePath("../SimulationManager")
@@ -82,6 +82,7 @@ color_manager = NodePath("../SimulationColorManager")
 ui_manager = NodePath("../UILayer/UIManager")
 glow_renderer = NodePath("../WorldLayer/WorldContainer/BackgroundContainer")
 screenshot_manager = NodePath("../ScreenshotManager")
+particle_renderer = NodePath("../ParticlesViewport/ParticleRenderer")
 background_renderer = NodePath("../MassDensityViewport/BackgroundRenderer")
 debug_boundary_renderer = NodePath("../DebugViewport/DebugBoundaryRenderer")
 
@@ -323,12 +324,11 @@ script = ExtResource("16_d13ii")
 transparent_bg = true
 size = Vector2i(1920, 1080)
 
-[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="ParticlesViewport" unique_id=178065441 node_paths=PackedStringArray("simulation")]
+[node name="ParticleRenderer" type="MultiMeshInstance2D" parent="ParticlesViewport" unique_id=178065441]
 material = SubResource("ShaderMaterial_074og")
 multimesh = SubResource("MultiMesh_cegan")
 texture = ExtResource("1_h2yge")
 script = ExtResource("16_82xsv")
-simulation = NodePath("../../GPUSimulation")
 
 [node name="Camera2D" type="Camera2D" parent="ParticlesViewport" unique_id=1471169874 node_paths=PackedStringArray("controller")]
 script = ExtResource("21_ryguw")
