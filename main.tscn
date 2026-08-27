@@ -115,6 +115,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="BackgroundContainer" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1734181783]
 material = SubResource("ShaderMaterial_d13ii")
@@ -124,6 +125,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("ViewportTexture_0xm2m")
 script = ExtResource("10_ryguw")
 
@@ -135,6 +137,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("ViewportTexture_cegan")
 
 [node name="DebugContainer" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1203977162]
@@ -145,6 +148,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("ViewportTexture_82xsv")
 
 [node name="VFXVignette" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1008822151]
@@ -155,6 +159,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("1_h2yge")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
@@ -179,6 +184,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = SubResource("Theme_w48qg")
 
 [node name="UIMarginContainer" type="MarginContainer" parent="UILayer/UIRoot" unique_id=1694310165]
@@ -195,6 +201,7 @@ theme_override_constants/margin_bottom = 16
 
 [node name="MainContainer" type="Control" parent="UILayer/UIRoot/UIMarginContainer" unique_id=380448043]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1705931504]
 layout_mode = 0
