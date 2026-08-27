@@ -14,7 +14,7 @@ var _simulation_speed: float = 1.0
 var _frame_time_accumulator: float
 var _average_progress: float
 
-var steps_per_frame: int = 4
+var steps_per_frame: int = 1
 
 @export var particle_container: TextureRect
 

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cwm7dkw1dfpxl" path="res://ui/ui_manager.gd" id="1_7mycd"]
 [ext_resource type="Script" uid="uid://hfopoq78x6v6" path="res://camera/camera_controller.gd" id="1_getpj"]
 [ext_resource type="Texture2D" uid="uid://n1bib1lh8qwu" path="res://ui/sprites/pixel.png" id="1_h2yge"]
-[ext_resource type="Resource" uid="uid://cgs5i6kv26jc3" path="res://presets/test_config.tres" id="2_d13ii"]
+[ext_resource type="Resource" uid="uid://deta4w04m3poj" path="res://presets/cpu_test_config.tres" id="2_getpj"]
 [ext_resource type="Script" uid="uid://c2l4ttnyw6l5j" path="res://simulation/simulation_manager.gd" id="2_ryguw"]
 [ext_resource type="FontFile" uid="uid://b57matqt7m0fh" path="res://ui/fonts/bricolage_grotesque.ttf" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://dafw1uv26b0j4" path="res://util/screenshot_manager.gd" id="3_getpj"]
@@ -73,7 +73,7 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="SimulationManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
-config = ExtResource("2_d13ii")
+config = ExtResource("2_getpj")
 simulation_manager = NodePath("../TimeManager")
 camera_controller = NodePath("../CameraController")
 color_manager = NodePath("../HueManager")
@@ -215,7 +215,6 @@ text = "Reset"
 icon = ExtResource("6_kek77")
 
 [node name="EnergyLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
-visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5

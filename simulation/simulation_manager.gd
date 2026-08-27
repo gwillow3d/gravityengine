@@ -18,7 +18,7 @@ var simulation: Simulation
 @export var debug_boundary_renderer: DebugBoundaryLayer
 
 func _ready() -> void:
-	simulation = GPUSimulation.new()
+	simulation = CPUSimulation.new()
 	simulation.config = config
 	
 	# Wire signals #

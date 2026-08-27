@@ -4,8 +4,6 @@ extends Simulation
 # Private fields #
 const MAX_PARTICLES = 128
 
-var _gravity: float
-
 var _p_positions: PackedVector2Array
 var _p_velocities: PackedVector2Array
 var _p_accelerations: PackedVector2Array
@@ -14,18 +12,21 @@ var _p_masses: PackedFloat32Array
 var _kinetic_energy: float
 var _potential_energy: float
 
+func setup() -> void:
+	pass
+
 # Public functions
-func step(delta: float) -> void:
+func step(steps: int) -> void:
 	_kinetic_energy = 0.0
 	_potential_energy = 0.0
 	
-	_half_kick(delta)
-	_drift(delta)
+	_half_kick()
+	_drift()
 	_accelerate()
-	_half_kick(delta)
+	_half_kick()
 	_update_kinetic_energy()
 	
-	energy_updated.emit(_kinetic_energy, _potential_energy, get_total_linear_momentum())
+	energy_updated.emit(_kinetic_energy, _potential_energy, compute_total_linear_momentum(), compute_total_angular_momentum())
 
 func reset() -> void:
 	_p_positions.clear()
@@ -33,9 +34,9 @@ func reset() -> void:
 	_p_accelerations.clear()
 	_p_masses.clear()
 	
-	set_gravity(gravity)
-	if generator:
-		var state = generator.generate(_gravity, world_size)
+	set_gravity(config.gravity)
+	if config.generator:
+		var state = config.generator.generate(config.gravity, config.world_size)
 		
 		_apply_state(state)
 		_remove_drift()
@@ -65,48 +66,48 @@ func _remove_drift() -> void:
 	for i in range(0, particle_count):
 		_p_velocities[i] -= mean_drift
 
-func _half_kick(delta: float) -> void:
+func _half_kick() -> void:
 	for i in range(0, get_particle_count()):
-		_p_velocities[i] += _p_accelerations[i] * (delta * 0.5)
+		_p_velocities[i] += _p_accelerations[i]
 
-func _drift(delta: float) -> void:
+func _drift() -> void:
 	for i in range(0, get_particle_count()):
-		_p_positions[i] += _p_velocities[i] * delta
+		_p_positions[i] += _p_velocities[i]
 		_constrain(i)
 		_p_accelerations[i] = Vector2.ZERO
 
 func _constrain(i: int) -> void:
-	var w: float = world_size.x
-	var h: float = world_size.y
+	var w: float = config.world_size.x
+	var h: float = config.world_size.y
 	var x = _p_positions[i].x
 	var y = _p_positions[i].y
 		
-	match border_type:
+	match config.border_type:
 			BorderType.Wraparound:
 				_p_positions[i].x = fmod(fmod(x, w) + w, w)
 				_p_positions[i].y = fmod(fmod(y, h) + h, h)
 			BorderType.Stop:
 				var old_x = x
 				var old_y = y
-				_p_positions[i].x = clampf(x, 0, world_size.x)
-				_p_positions[i].y = clampf(y, 0, world_size.y)
+				_p_positions[i].x = clampf(x, 0, config.world_size.x)
+				_p_positions[i].y = clampf(y, 0, config.world_size.y)
 				if _p_positions[i].x != old_x:
 					_p_velocities[i].x = 0.0
 				if _p_positions[i].y != old_y:
 					_p_velocities[i].y = 0.0
 			BorderType.Bounce:
-				if x < 0 or x > world_size.x:
-					var offset = (-x if x < 0 else world_size.x - x) * 2
+				if x < 0 or x > config.world_size.x:
+					var offset = (-x if x < 0 else config.world_size.x - x) * 2
 					_p_positions[i].x += offset
 					_p_velocities[i].x *= -1
-				if y < 0 or y > world_size.y:
-					var offset = (-y if y < 0 else world_size.y - y) * 2
+				if y < 0 or y > config.world_size.y:
+					var offset = (-y if y < 0 else config.world_size.y - y) * 2
 					_p_positions[i].y += offset
 					_p_velocities[i].y *= -1
 
 func _accelerate() -> void:
 	var particle_count = get_particle_count()
-	var half_size = world_size / 2.0	
+	var half_size = config.world_size / 2.0
 	for i in range(0, particle_count):
 		var p1 = _p_positions[i]
 		var m1 = _p_masses[i]
@@ -114,18 +115,18 @@ func _accelerate() -> void:
 			var p2 = _p_positions[j]
 			var m2 = _p_masses[j]
 			var d = p2 - p1
-			if border_type == BorderType.Wraparound:
-				if d.x >  half_size.x: d.x -= world_size.x
-				if d.x < -half_size.x: d.x += world_size.x
-				if d.y >  half_size.y: d.y -= world_size.y
-				if d.y < -half_size.y: d.y += world_size.y
+			if config.border_type == BorderType.Wraparound:
+				if d.x >  half_size.x: d.x -= config.world_size.x
+				if d.x < -half_size.x: d.x += config.world_size.x
+				if d.y >  half_size.y: d.y -= config.world_size.y
+				if d.y < -half_size.y: d.y += config.world_size.y
 			
 			var dist = d.length()
-			var r = max(dist, softening)
+			var r = max(dist, config.softening)
 			
-			var acc = _gravity / (r * r * r) * d
+			var acc = config.gravity / (r * r * r) * d
 			
-			if dist < binding_radius and sign(m1) == sign(m2):
+			if dist < config.binding_radius and sign(m1) == sign(m2) and false:
 				var total_mass = m1 + m2
 				var i_dom = m1 / total_mass
 				var j_dom = m2 / total_mass
@@ -134,14 +135,14 @@ func _accelerate() -> void:
 				var jv = _p_velocities[j]
 				var v_com = (iv * m1 + jv * m2) / total_mass
 				
-				var strength = binding_strength * (1 - dist / binding_radius)
+				var strength = config.binding_strength * (1 - dist / config.binding_radius)
 				
 				_p_velocities[i] = iv.lerp(v_com, strength * j_dom)
 				_p_velocities[j] = jv.lerp(v_com, strength * i_dom)
 			
 			_p_accelerations[i] += acc * m2
 			_p_accelerations[j] -= acc * m1
-			_potential_energy -= _gravity * m1 * m2 / r
+			_potential_energy -= config.gravity * m1 * m2 / r
 
 func _update_kinetic_energy() -> void:
 	for i in range(0, get_particle_count()):
@@ -157,7 +158,7 @@ func add_particle(position: Vector2, velocity: Vector2, mass: float) -> void:
 	population_changed.emit(_p_positions.size())
 
 # Getters and setters #
-func get_total_linear_momentum() -> Vector2:
+func compute_total_linear_momentum() -> Vector2:
 	var momentum = Vector2.ZERO
 	
 	for i in range(0, get_particle_count()):
@@ -165,6 +166,19 @@ func get_total_linear_momentum() -> Vector2:
 		var m = _p_masses[i]
 		momentum += v * m
 	
+	return momentum
+
+func compute_total_angular_momentum() -> float:
+	var momentum := 0.0
+	
+	for i in range(0, get_particle_count()):
+		var pos = _p_positions[i]
+		var vel = _p_velocities[i]
+		var mass = _p_masses[i]
+		var centre = config.world_size / 2.0
+		var r = pos - centre
+		
+		momentum += mass * (r.x * vel.y - r.y * vel.x)
 	return momentum
 
 func get_particle_count() -> int:
@@ -177,8 +191,8 @@ func get_particle_mass(index: int) -> float:
 	return _p_masses[index]
 
 func get_border_mode() -> BorderType:
-	return border_type
+	return config.border_type
 
 func set_gravity(strength: float) -> void:
-	_gravity = strength
-	gravity_changed.emit(_gravity)
+	config.gravity = strength
+	gravity_changed.emit(config.gravity)

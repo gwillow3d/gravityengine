@@ -26,7 +26,7 @@ func _ready() -> void:
 	
 	reset_button.pressed.connect(_on_reset_pressed)
 	speed_slider.value_changed.connect(_on_slider_changed)
-	#manager.simulation.energy_updated.connect(_on_energy_updated)
+	_simulation.energy_updated.connect(_on_energy_updated)
 	#manager.simulation.population_changed.connect(_on_population_changed)
 	_manager.average_time_updated.connect(_average_time_updated)
 	_screenshot.screenshot_taken.connect(screenshot_widget._on_screenshot_taken)
