@@ -323,7 +323,6 @@ material = SubResource("ShaderMaterial_ryguw")
 multimesh = SubResource("MultiMesh_074og")
 texture = ExtResource("1_h2yge")
 script = ExtResource("17_cegan")
-size_multiplier = 50.0
 simulation = NodePath("../../Simulation")
 
 [node name="Camera2D" type="Camera2D" parent="MassDensityViewport" unique_id=606442101 node_paths=PackedStringArray("controller")]

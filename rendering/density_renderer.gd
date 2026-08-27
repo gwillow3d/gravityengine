@@ -1,10 +1,10 @@
+class_name BackgroundRenderer
 extends MultiMeshInstance2D
 
 const BLACK_HOLE_THRESHOLD = 500000
 
 @onready var camera: Camera2D = $"../Camera2D"
 
-@export var size_multiplier: float = 1.0
 @export var simulation: Simulation
 @export var visualiser_type: VisualiserType = VisualiserType.MassDensity
 
@@ -27,7 +27,7 @@ func _process(_delta: float) -> void:
 		VisualiserType.MassDensity:
 			for i in range(simulation.get_particle_count()):
 				var m = simulation.get_particle_mass(i)
-				var r = sqrt(m) * 10 * 5
+				var r = sqrt(m) * 25
 				if m > 500000:
 					r *= 0.01
 				var t = Transform2D(0.0, Vector2(r, r), 0.0, simulation.get_particle_position(i))
@@ -41,7 +41,7 @@ func _process(_delta: float) -> void:
 				multimesh.set_instance_transform_2d(i, t)
 
 func _on_population_changed(population: int) -> void:
-	var min_mass = 10000000000000000
+	var min_mass = 10000000
 	var max_mass = 0
 	
 	multimesh.instance_count = population
@@ -61,6 +61,7 @@ func _on_population_changed(population: int) -> void:
 	# If there is no dominant mass, make every mass have a low significance
 	if mass_range < 1000:
 		mass_range = 1000
+	mass_range *= 2.5
 	
 	for i in range(simulation.get_particle_count()):
 		var m = simulation.get_particle_mass(i)
