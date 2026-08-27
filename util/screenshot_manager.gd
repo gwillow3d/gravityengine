@@ -1,6 +1,8 @@
 class_name ScreenshotManager
 extends Node
 
+signal screenshot_taken(location: String)
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.is_action_pressed("screenshot"):
@@ -11,3 +13,4 @@ func _input(event: InputEvent) -> void:
 			var path = dir + filename
 			get_viewport().get_texture().get_image().save_png(path)
 			print("Screenshot saved as \"%s\"" % path)
+			screenshot_taken.emit(path)

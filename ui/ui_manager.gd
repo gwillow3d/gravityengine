@@ -10,13 +10,16 @@ extends Node
 @export var population_label: Label
 @export var heavy_load_warning: Label
 @export var ui_parent: Control
+@export var screenshot_widget: ScreenshotNotifier
 
 var _simulation: Simulation
 var _manager: SimulationManager
+var _screenshot: ScreenshotManager
 
-func setup(simulation: Simulation, manager: SimulationManager) -> void:
+func setup(simulation: Simulation, manager: SimulationManager, screenshot: ScreenshotManager) -> void:
 	_simulation = simulation
 	_manager = manager
+	_screenshot = screenshot
 
 func _ready() -> void:
 	_manager.step_rate_updated.connect(_on_simulation_rate_updated)
@@ -26,6 +29,7 @@ func _ready() -> void:
 	#manager.simulation.energy_updated.connect(_on_energy_updated)
 	#manager.simulation.population_changed.connect(_on_population_changed)
 	_manager.average_time_updated.connect(_average_time_updated)
+	_screenshot.screenshot_taken.connect(screenshot_widget._on_screenshot_taken)
 	
 	update_speed_label(speed_slider.value)
 

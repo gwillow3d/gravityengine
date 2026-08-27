@@ -17,6 +17,7 @@
 [ext_resource type="Shader" uid="uid://dk54um3syjkqh" path="res://shader/render/vignette.gdshader" id="13_cegan"]
 [ext_resource type="Shader" uid="uid://bpje1u1c136g1" path="res://shader/render/glow.gdshader" id="14_074og"]
 [ext_resource type="Script" uid="uid://do5a0cm8yk5nb" path="res://rendering/particle_renderer.gd" id="16_82xsv"]
+[ext_resource type="Script" uid="uid://dqtpq7mn7qv8t" path="res://ui/components/screenshot_notifier.gd" id="16_d13ii"]
 [ext_resource type="Shader" uid="uid://b5pig4dbrj1qt" path="res://shader/render/particle.gdshader" id="16_getpj"]
 [ext_resource type="Script" uid="uid://bp0q6lwr0448w" path="res://debug/solar_system_debug_renderer.gd" id="17_074og"]
 [ext_resource type="Script" uid="uid://b3g6bp4caki6w" path="res://rendering/density_renderer.gd" id="17_cegan"]
@@ -53,6 +54,9 @@ default_font_size = 20
 [sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
 font_color = Color(0.8218375, 0.21961322, 0.3878216, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
+font_color = Color(0.641934, 0.641934, 0.641934, 0.45882353)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_074og"]
 shader = ExtResource("16_getpj")
 
@@ -69,7 +73,7 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Control" type="Node2D" unique_id=425540829]
 
-[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer")]
+[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager")]
 script = ExtResource("2_ryguw")
 simulation = NodePath("../Simulation")
 simulation_manager = NodePath("../SimulationManager")
@@ -77,6 +81,7 @@ camera_controller = NodePath("../CameraController")
 color_manager = NodePath("../SimulationColorManager")
 ui_manager = NodePath("../UILayer/UIManager")
 glow_renderer = NodePath("../WorldLayer/WorldContainer/BackgroundContainer")
+screenshot_manager = NodePath("../ScreenshotManager")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=2076364281]
 script = ExtResource("1_getpj")
@@ -152,7 +157,7 @@ texture = ExtResource("1_h2yge")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
 
-[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("reset_button", "speed_slider", "speed_amount", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent")]
+[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("reset_button", "speed_slider", "speed_amount", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent", "screenshot_widget")]
 script = ExtResource("1_7mycd")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
 speed_slider = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSlider")
@@ -163,6 +168,7 @@ render_time_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxCont
 population_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PopulationLabel")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 ui_parent = NodePath("../UIRoot/UIMarginContainer")
+screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
 
 [node name="UIRoot" type="Control" parent="UILayer" unique_id=2098282740]
 layout_mode = 3
@@ -299,6 +305,19 @@ offset_right = 827.0
 grow_vertical = 0
 text = "Simulation is under heavy load! Try decreasing the simulation speed."
 label_settings = SubResource("LabelSettings_82xsv")
+
+[node name="ScreenshotNotifier" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1344018861]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -20.0
+offset_right = 266.0
+grow_vertical = 0
+text = "Saved screenshot as file.png"
+label_settings = SubResource("LabelSettings_d13ii")
+vertical_alignment = 2
+script = ExtResource("16_d13ii")
 
 [node name="ParticlesViewport" type="SubViewport" parent="." unique_id=1988896197]
 transparent_bg = true

@@ -7,6 +7,7 @@ extends Node
 @export var color_manager: SimulationColorManager
 @export var ui_manager: UIManager
 @export var glow_renderer: GlowRenderer
+@export var screenshot_manager: ScreenshotManager
 
 func _ready() -> void:
 	# Wire signals #
@@ -21,4 +22,4 @@ func _ready() -> void:
 	
 	simulation.setup()
 	simulation_manager.setup(simulation)
-	ui_manager.setup(simulation, simulation_manager)
+	ui_manager.setup(simulation, simulation_manager, screenshot_manager)
