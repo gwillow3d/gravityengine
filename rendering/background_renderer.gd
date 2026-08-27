@@ -5,6 +5,8 @@ extends MultiMeshInstance2D
 
 @export var visualiser_type: VisualiserType = VisualiserType.MassDensity
 @export var black_hole_threshold: int = 500000
+@export var glow_size_multiplier: int = 50
+@export_range(0.0, 1.0) var minimum_significance: float = 0.09
 
 var _simulation: Simulation
 var _max_velocity: float = 0.0
@@ -16,14 +18,11 @@ func _ready() -> void:
 	multimesh.use_colors = true
 
 func _process(_delta: float) -> void:
-	var zoom = camera.zoom.x
-	var zoom_multiplier = lerp(5, 1, max(log(min(zoom, 1))+1, 0))
-	
 	match visualiser_type:
 		VisualiserType.MassDensity:
 			for i in range(_simulation.get_particle_count()):
 				var m = _simulation.get_particle_mass(i)
-				var r = sqrt(m) * 25
+				var r = sqrt(m) * glow_size_multiplier
 				if m > black_hole_threshold:
 					r *= 0.01
 				var t = Transform2D(0.0, Vector2(r, r), 0.0, _simulation.get_particle_position(i))
@@ -32,7 +31,7 @@ func _process(_delta: float) -> void:
 			for i in range(_simulation.get_particle_count()):
 				var m = _simulation.get_particle_mass(i)
 				var vl = _simulation._p_velocities[i].length() / _max_velocity
-				var r = sqrt(m) * vl * 10 * zoom_multiplier
+				var r = sqrt(m) * vl * 10
 				var t = Transform2D(0.0, Vector2(r, r), 0.0, _simulation.get_particle_position(i))
 				multimesh.set_instance_transform_2d(i, t)
 
@@ -55,13 +54,12 @@ func _on_population_changed(population: int) -> void:
 	
 	var mass_range = max_mass - min_mass
 	# If there is no dominant mass, make every mass have a low significance
-	if mass_range < 1000:
-		mass_range = 1000
+	mass_range = max(mass_range, 1000)
 	mass_range *= 2.5
 	
 	for i in range(_simulation.get_particle_count()):
 		var m = _simulation.get_particle_mass(i)
-		var significance = (m - min_mass) / mass_range
+		var significance = max(m / mass_range, minimum_significance)
 		if m > black_hole_threshold:
 			significance = 0.5
 		

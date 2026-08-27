@@ -3,7 +3,7 @@ render_mode blend_add;
 
 void fragment() {
 	float significance = COLOR.r;
-	significance = pow(significance, 0.1);
+	significance = pow(significance, 1.0);
 	vec2 uv = (UV * 2.0) - 1.0;
 	float r = length(uv);
 	float intensity = smoothstep(1.0, 0.0, r);
