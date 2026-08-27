@@ -31,11 +31,28 @@ func reset(config: SimulationConfig)
 
 # Conservation #
 
-@abstract
-func compute_total_linear_momentum() -> Vector2
+func compute_total_linear_momentum() -> Vector2:
+	var momentum = Vector2.ZERO
+	
+	for i in range(0, get_particle_count()):
+		var v = _p_velocities[i]
+		var m = _p_masses[i]
+		momentum += v * m
+	
+	return momentum
 
-@abstract
-func compute_total_angular_momentum() -> float
+func compute_total_angular_momentum() -> float:
+	var momentum := 0.0
+	
+	for i in range(0, get_particle_count()):
+		var pos = _p_positions[i]
+		var vel = _p_velocities[i]
+		var mass = _p_masses[i]
+		var centre = config.world_size / 2.0
+		var r = pos - centre
+		
+		momentum += mass * (r.x * vel.y - r.y * vel.x)
+	return momentum
 
 # Getters & Setters #
 
@@ -50,7 +67,6 @@ func get_particle_mass(index: int) -> float
 
 @abstract
 func get_border_mode() -> BorderType
-
 
 # Enums #
 enum BorderType {

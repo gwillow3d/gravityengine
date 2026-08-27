@@ -260,29 +260,6 @@ func _unpack_potential_energy(bytes: PackedByteArray) -> float:
 		total += bytes.decode_float(i * 4)
 	return total
 
-func compute_total_linear_momentum() -> Vector2:
-	var momentum = Vector2.ZERO
-	
-	for i in range(0, get_particle_count()):
-		var v = _p_velocities[i]
-		var m = _p_masses[i]
-		momentum += v * m
-	
-	return momentum
-
-func compute_total_angular_momentum() -> float:
-	var momentum := 0.0
-	
-	for i in range(0, get_particle_count()):
-		var pos = _p_positions[i]
-		var vel = _p_velocities[i]
-		var mass = _p_masses[i]
-		var centre = config.world_size / 2.0
-		var r = pos - centre
-		
-		momentum += mass * (r.x * vel.y - r.y * vel.x)
-	return momentum
-
 # Getters and setters #
 
 func get_particle_count() -> int:

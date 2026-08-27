@@ -161,28 +161,6 @@ func add_particle(position: Vector2, velocity: Vector2, mass: float) -> void:
 	population_changed.emit(_p_positions.size())
 
 # Getters and setters #
-func compute_total_linear_momentum() -> Vector2:
-	var momentum = Vector2.ZERO
-	
-	for i in range(0, get_particle_count()):
-		var v = _p_velocities[i]
-		var m = _p_masses[i]
-		momentum += v * m
-	
-	return momentum
-
-func compute_total_angular_momentum() -> float:
-	var momentum := 0.0
-	
-	for i in range(0, get_particle_count()):
-		var pos = _p_positions[i]
-		var vel = _p_velocities[i]
-		var mass = _p_masses[i]
-		var centre = config.world_size / 2.0
-		var r = pos - centre
-		
-		momentum += mass * (r.x * vel.y - r.y * vel.x)
-	return momentum
 
 func get_particle_count() -> int:
 	return _p_positions.size()
