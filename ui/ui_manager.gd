@@ -1,6 +1,8 @@
 class_name UIManager
 extends Node
 
+signal simulation_reset_requested
+
 @export var reset_button: Button
 @export var speed_slider: HSlider
 @export var speed_amount: Label
@@ -43,7 +45,7 @@ func _process(delta: float) -> void:
 	fps_label.text = "FPS: %s" % fps
 	
 func _on_reset_pressed() -> void:
-	_simulation.reset()
+	simulation_reset_requested.emit()
 
 func _on_slider_changed(value: float) -> void:
 	_manager.steps_per_frame = int(value)

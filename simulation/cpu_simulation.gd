@@ -34,7 +34,7 @@ func step(steps: int) -> void:
 	
 	energy_updated.emit(_kinetic_energy, _potential_energy, compute_total_linear_momentum(), compute_total_angular_momentum())
 
-func reset() -> void:
+func reset(config: SimulationConfig) -> void:
 	_p_positions.clear()
 	_p_velocities.clear()
 	_p_accelerations.clear()

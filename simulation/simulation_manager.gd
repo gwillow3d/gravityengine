@@ -38,6 +38,8 @@ func _ready() -> void:
 	
 	color_manager.color_changed.connect(glow_renderer._on_color_changed)
 	
+	ui_manager.simulation_reset_requested.connect(_on_simulation_reset)
+	
 	# Setup classes #
 	
 	simulation.setup()
@@ -45,3 +47,13 @@ func _ready() -> void:
 	particle_renderer.setup(simulation)
 	background_renderer.setup(simulation)
 	ui_manager.setup(simulation, simulation_manager, screenshot_manager)
+
+func _on_simulation_reset() -> void:
+	var config: SimulationConfig
+	
+	if OS.get_name() == "Web":
+		config = fast_presets[randi_range(0, fast_presets.size() - 1)]
+	else:
+		config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
+	
+	simulation.reset(config)

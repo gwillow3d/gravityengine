@@ -23,7 +23,7 @@ func setup()
 func step(steps: int) 
 
 @abstract
-func reset() 
+func reset(config: SimulationConfig) 
 
 # Conservation #
 
