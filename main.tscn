@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://n1bib1lh8qwu" path="res://ui/sprites/pixel.png" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bkp2x2xsuifkb" path="res://simulation/simulation_config.gd" id="2_d13ii"]
 [ext_resource type="Script" uid="uid://c2l4ttnyw6l5j" path="res://simulation/simulation_manager.gd" id="2_ryguw"]
-[ext_resource type="FontFile" uid="uid://b57matqt7m0fh" path="res://ui/fonts/bricolage_grotesque.ttf" id="2_ycdy4"]
 [ext_resource type="Resource" uid="uid://dacovaxkdp1xp" path="res://presets/fancy/protoplanetary_disk_a.tres" id="3_1u8w0"]
 [ext_resource type="Script" uid="uid://dafw1uv26b0j4" path="res://util/screenshot_manager.gd" id="3_getpj"]
 [ext_resource type="Resource" uid="uid://dubm64wi156km" path="res://presets/fast/tiny_black_hole.tres" id="3_lswn8"]
@@ -26,6 +25,7 @@
 [ext_resource type="Script" uid="uid://dqtpq7mn7qv8t" path="res://ui/components/screenshot_notifier.gd" id="16_d13ii"]
 [ext_resource type="Shader" uid="uid://b5pig4dbrj1qt" path="res://shader/render/particle.gdshader" id="16_getpj"]
 [ext_resource type="Script" uid="uid://b3g6bp4caki6w" path="res://rendering/background_renderer.gd" id="17_cegan"]
+[ext_resource type="FontFile" uid="uid://bcv7bul3u4ohb" path="res://ui/fonts/karla.ttf" id="20_xuqvo"]
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
 
@@ -52,7 +52,7 @@ shader_parameter/vignette_opacity = 0.5
 shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
 
 [sub_resource type="Theme" id="Theme_w48qg"]
-default_font = ExtResource("2_ycdy4")
+default_font = ExtResource("20_xuqvo")
 default_font_size = 20
 
 [sub_resource type="Theme" id="Theme_cegan"]
