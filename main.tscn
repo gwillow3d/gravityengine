@@ -28,7 +28,9 @@
 [ext_resource type="FontFile" uid="uid://bcv7bul3u4ohb" path="res://ui/fonts/karla.ttf" id="20_xuqvo"]
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
+[ext_resource type="Script" uid="uid://clavcgqsm6rs2" path="res://ui/components/population_widget.gd" id="22_kq58d"]
 [ext_resource type="Script" uid="uid://jf2d0yt8gthu" path="res://ui/components/energy_label.gd" id="22_qsp4k"]
+[ext_resource type="Script" uid="uid://bj5xvyu1jia18" path="res://ui/components/frame_time_widget.gd" id="22_seu75"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
 shader = ExtResource("9_82xsv")
@@ -59,7 +61,7 @@ default_font_size = 20
 [sub_resource type="Theme" id="Theme_cegan"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
-font_color = Color(0.8218375, 0.21961322, 0.3878216, 1)
+font_color = Color(1, 0.51246727, 0.42502993, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
 font_color = Color(0.641934, 0.641934, 0.641934, 0.45882353)
@@ -165,15 +167,15 @@ texture = ExtResource("1_h2yge")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
 
-[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("reset_button", "speed_slider", "speed_amount", "energy_widget", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent", "screenshot_widget")]
+[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("fps_label", "frame_time_widget", "population_widget", "reset_button", "speed_slider", "speed_amount", "energy_widget", "heavy_load_warning", "ui_parent", "screenshot_widget")]
 script = ExtResource("1_7mycd")
+fps_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/FPSWidget")
+frame_time_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/FrameTimeWidget")
+population_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/PopulationWidget")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
 speed_slider = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSlider")
 speed_amount = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSliderLabel")
 energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyLabel")
-fps_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/FPSLabel")
-render_time_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/RenderTimeLabel")
-population_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PopulationLabel")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 ui_parent = NodePath("../UIRoot/UIMarginContainer")
 screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
@@ -257,46 +259,55 @@ layout_mode = 2
 max_value = 20.0
 value = 4.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=748978879]
-visible = false
+[node name="PerformanceWidgets" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=748978879]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -54.0
-offset_right = 103.0
-grow_vertical = 0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -103.0
+offset_bottom = 83.0
+grow_horizontal = 0
 alignment = 2
 
-[node name="FPSLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1152752724]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "FPS: ..."
-
-[node name="RenderTimeLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1026097213]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "RT: 0ms"
-
-[node name="PopulationLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1130729556]
+[node name="FPSWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets" unique_id=1152752724]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
-text = "Particles: ..."
+text = "60 FPS"
+horizontal_alignment = 2
+
+[node name="FrameTimeWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets" unique_id=1026097213]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "12ms per frame"
+horizontal_alignment = 2
+script = ExtResource("22_seu75")
+
+[node name="PopulationWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets" unique_id=1130729556]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "3,000 particles"
+horizontal_alignment = 2
+script = ExtResource("22_kq58d")
 
 [node name="HeavyLoadLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1374327310]
-visible = false
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -20.0
-offset_right = 827.0
+offset_left = -413.5
+offset_top = -80.0
+offset_right = 413.5
+offset_bottom = -57.0
+grow_horizontal = 2
 grow_vertical = 0
 text = "Simulation is under heavy load! Try decreasing the simulation speed."
 label_settings = SubResource("LabelSettings_82xsv")
+horizontal_alignment = 1
 
 [node name="ScreenshotNotifier" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1344018861]
 layout_mode = 1
@@ -312,7 +323,6 @@ vertical_alignment = 2
 script = ExtResource("16_d13ii")
 
 [node name="EnergyLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
-visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
