@@ -15,23 +15,23 @@ signal simulation_reset_requested
 @export var screenshot_widget: ScreenshotNotifier
 
 var _simulation: Simulation
-var _manager: TimeManager
+var _time: TimeManager
 var _screenshot: ScreenshotManager
 
-func setup(simulation: Simulation, manager: TimeManager, screenshot: ScreenshotManager) -> void:
+func setup(simulation: Simulation, time: TimeManager, screenshot: ScreenshotManager) -> void:
 	_simulation = simulation
-	_manager = manager
+	_time = time
 	_screenshot = screenshot
 
 func _ready() -> void:
-	_manager.step_rate_updated.connect(speed_widget._on_simulation_rate_updated)
+	_time.step_rate_updated.connect(speed_widget._on_simulation_rate_updated)
 	
 	reset_button.pressed.connect(_on_reset_pressed)
-	speed_widget.speed_value_changed.connect(_manager.set_steps_per_frame)
+	speed_widget.speed_value_changed.connect(_time.set_steps_per_frame)
 	_simulation.energy_updated.connect(energy_widget._on_energy_updated)
 	_simulation.population_changed.connect(population_widget._on_population_changed)
-	_manager.average_time_updated.connect(_average_time_updated)
-	_manager.average_time_updated.connect(frame_time_widget._on_frame_time_updated)
+	_time.average_time_updated.connect(_average_time_updated)
+	_time.average_time_updated.connect(frame_time_widget._on_frame_time_updated)
 	_screenshot.screenshot_taken.connect(screenshot_widget._on_screenshot_taken)
 	
 func _input(event: InputEvent) -> void:
@@ -49,7 +49,7 @@ func _on_reset_pressed() -> void:
 	simulation_reset_requested.emit()
 
 func _average_time_updated(average_time: float) -> void:
-	if average_time * 1000 > 15 and _manager.steps_per_frame > 0:
+	if average_time * 1000 > 15 and _time.steps_per_frame > 0:
 		heavy_load_warning.visible = true
 	else:
 		heavy_load_warning.visible = false
