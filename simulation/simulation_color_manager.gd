@@ -3,7 +3,6 @@ extends Node
 
 signal color_changed(color: Color)
 
-@export var _simulation: Simulation
 @export var hue_shift_speed: float = 4.0
 
 var _new_color: Color = Color.BLACK

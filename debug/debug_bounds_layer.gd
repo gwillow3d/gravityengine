@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var simulation: Simulation = $"../../Simulation"
+@onready var simulation: Simulation = $"../../GPUSimulation"
 
 func _ready() -> void:
 	simulation.simulation_reset.connect(queue_redraw)
