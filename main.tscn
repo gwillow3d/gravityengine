@@ -28,6 +28,7 @@
 [ext_resource type="FontFile" uid="uid://bcv7bul3u4ohb" path="res://ui/fonts/karla.ttf" id="20_xuqvo"]
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
+[ext_resource type="Script" uid="uid://dqy5jik4vu586" path="res://ui/components/speed_widget.gd" id="22_htxhm"]
 [ext_resource type="Script" uid="uid://clavcgqsm6rs2" path="res://ui/components/population_widget.gd" id="22_kq58d"]
 [ext_resource type="Script" uid="uid://jf2d0yt8gthu" path="res://ui/components/energy_label.gd" id="22_qsp4k"]
 [ext_resource type="Script" uid="uid://bj5xvyu1jia18" path="res://ui/components/frame_time_widget.gd" id="22_seu75"]
@@ -167,14 +168,13 @@ texture = ExtResource("1_h2yge")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
 
-[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("fps_label", "frame_time_widget", "population_widget", "reset_button", "speed_slider", "speed_amount", "energy_widget", "heavy_load_warning", "ui_parent", "screenshot_widget")]
+[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("fps_label", "frame_time_widget", "population_widget", "reset_button", "speed_widget", "energy_widget", "heavy_load_warning", "ui_parent", "screenshot_widget")]
 script = ExtResource("1_7mycd")
 fps_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/FPSWidget")
 frame_time_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/FrameTimeWidget")
 population_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/PopulationWidget")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
-speed_slider = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSlider")
-speed_amount = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSliderLabel")
+speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedWidget")
 energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyLabel")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 ui_parent = NodePath("../UIRoot/UIMarginContainer")
@@ -234,7 +234,7 @@ grow_vertical = 0
 text = "New Simulation"
 icon = ExtResource("6_kek77")
 
-[node name="SpeedSliderContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=390316876]
+[node name="SpeedWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=390316876 node_paths=PackedStringArray("speed_label", "speed_slider")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -246,14 +246,17 @@ offset_top = -45.0
 offset_right = 75.0
 grow_horizontal = 2
 grow_vertical = 0
+script = ExtResource("22_htxhm")
+speed_label = NodePath("SpeedLabel")
+speed_slider = NodePath("SpeedSlider")
 
-[node name="SpeedSliderLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer" unique_id=1493288200]
+[node name="SpeedLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedWidget" unique_id=1493288200]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Normal (1.0x)"
 horizontal_alignment = 1
 
-[node name="SpeedSlider" type="HSlider" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer" unique_id=393079889]
+[node name="SpeedSlider" type="HSlider" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedWidget" unique_id=393079889]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 max_value = 20.0
