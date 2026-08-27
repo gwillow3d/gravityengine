@@ -1,6 +1,19 @@
 class_name ISimulation
 extends Node
 
+# Exports #
+@export_category("Simulation")
+@export var world_size: Vector2i = Vector2i(500, 500)
+@export var generator: Generator = null
+@export var border_type: BorderType = BorderType.None
+@export var timestep: float = 0.005
+
+@export_category("Forces")
+@export var gravity: float = 5.0 
+@export var softening: float = 5
+@export_range(0.0, 100.0, 1.0) var binding_radius: float = 0.0
+@export_range(0.0, 1.0, 0.0001) var binding_strength: float = 0.01
+
 # Enums #
 enum BorderType {
 	## There is no border, particles can travel endlessly in any direction.

@@ -7,18 +7,6 @@ signal population_changed(population: int)
 signal energy_updated(kinetic: float, potential: float, linear_momentum: Vector2)
 signal simulation_reset
 
-# Exports #
-@export_category("Simulation")
-@export var world_size: Vector2i = Vector2i(500, 500)
-@export var generator: Generator = null
-@export var border_type: BorderType = BorderType.Wraparound
-
-@export_category("Forces")
-@export var gravity_strength: float = 5.0 
-@export var softening: float = 5
-@export_range(0.0, 100.0, 1.0) var binding_radius: float = 0.0
-@export_range(0.0, 1.0, 0.0001) var binding_strength: float = 0.01
-
 # Private fields #
 const MAX_PARTICLES = 128
 
@@ -51,7 +39,7 @@ func reset() -> void:
 	_p_accelerations.clear()
 	_p_masses.clear()
 	
-	set_gravity(gravity_strength)
+	set_gravity(gravity)
 	if generator:
 		var state = generator.generate(_gravity, world_size)
 		
