@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://b57matqt7m0fh"
-path="res://.godot/imported/bricolage_grotesque.ttf-fee36a3fbe0d6bd6366f67d50230faba.fontdata"
+path="res://.godot/imported/bricolage_grotesque.ttf-43a52ebc67b216e7548c6e833057378d.fontdata"
 
 [deps]
 
-source_file="res://fonts/bricolage_grotesque.ttf"
-dest_files=["res://.godot/imported/bricolage_grotesque.ttf-fee36a3fbe0d6bd6366f67d50230faba.fontdata"]
+source_file="res://ui/fonts/bricolage_grotesque.ttf"
+dest_files=["res://.godot/imported/bricolage_grotesque.ttf-43a52ebc67b216e7548c6e833057378d.fontdata"]
 
 [params]
 

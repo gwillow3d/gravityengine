@@ -4,6 +4,8 @@
 
 [resource]
 script = ExtResource("1_b8abx")
+star_mass = 10000.0
+min_orbit_distance = 200.0
 max_orbit_distance = 600.0
 population = 3000
 max_initial_mass = 4.0

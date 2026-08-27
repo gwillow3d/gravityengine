@@ -7,11 +7,14 @@ signal camera_moved(new_position: Vector2)
 @export var min_zoom: float = 0.01
 @export var max_zoom: float = 25.0
 
+var _border_type: Simulation.BorderType
+var _world_size: Vector2i
+
 var _position: Vector2
 var _zoom: float = 1.0
 
-var _border_type: Simulation.BorderType
-var _world_size: Vector2i
+var _is_dragging := false
+var _drag_start_position: Vector2
 
 func _ready() -> void:
 	await get_tree().process_frame
@@ -39,17 +42,27 @@ func _process(delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.is_pressed():
+				_is_dragging = true
+			elif event.is_released():
+				_is_dragging = false
+		
 		if event.is_pressed():
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				_zoom *= 1.1
+				_zoom_toward(get_global_mouse_position(), 1.1)
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				_zoom *= 0.9
-			_zoom = clampf(_zoom, min_zoom, max_zoom)
-			camera_zoomed.emit(Vector2(_zoom, _zoom))
+				_zoom_toward(get_global_mouse_position(), 0.9)
+	
 	if event is InputEventKey:
 		if event.is_action("camera_return_home"):
 			_position = _world_size / 2.0
 			camera_moved.emit(_position)
+
+func _zoom_toward(where: Vector2, factor: float) -> void:
+	_zoom *= factor
+	_zoom = clampf(_zoom, min_zoom, max_zoom)
+	camera_zoomed.emit(Vector2(_zoom, _zoom))
 
 func _on_world_size_changed(world_size: Vector2i) -> void:
 	_world_size = world_size
