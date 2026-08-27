@@ -40,7 +40,7 @@ func _input(event: InputEvent) -> void:
 		if event.is_action_pressed("toggle_ui") and ui_parent:
 			ui_parent.visible = !ui_parent.visible
 		elif event.is_action_pressed("toggle_energy_widget"):
-			energy_widget.visible = !energy_widget.visible
+			energy_widget._on_visibility_toggled()
 
 func _process(delta: float) -> void:
 	var fps = Performance.get_monitor(Performance.TIME_FPS)

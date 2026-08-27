@@ -1,6 +1,26 @@
 class_name EnergyWidget
 extends Label
 
+var _tween: Tween
+
+func _ready() -> void:
+	visible = false
+	modulate.a = 0.0
+
+func _on_visibility_toggled() -> void:
+	var now_visible = !visible
+	
+	if _tween:
+		_tween.stop()
+	
+	_tween = create_tween()
+	if now_visible:
+		show()
+		_tween.tween_property(self, "modulate:a", 1.0, 0.2)
+	else:
+		_tween.tween_property(self, "modulate:a", 0.0, 0.2)
+		_tween.tween_callback(hide)
+
 func _on_energy_updated(kinetic: float, potential: float, linear_momentum: Vector2, angular_momentum: float) -> void:
 	var total = kinetic + potential
 	var contents = "~ Energy ~"
