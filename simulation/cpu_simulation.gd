@@ -132,19 +132,19 @@ func _accelerate() -> void:
 			
 			var acc = config.gravity / (r * r * r) * d
 			
-			if dist < config.binding_radius and sign(m1) == sign(m2) and false:
-				var total_mass = m1 + m2
-				var i_dom = m1 / total_mass
-				var j_dom = m2 / total_mass
-				
-				var iv = _p_velocities[i]
-				var jv = _p_velocities[j]
-				var v_com = (iv * m1 + jv * m2) / total_mass
-				
-				var strength = config.binding_strength * (1 - dist / config.binding_radius)
-				
-				_p_velocities[i] = iv.lerp(v_com, strength * j_dom)
-				_p_velocities[j] = jv.lerp(v_com, strength * i_dom)
+			#if dist < config.binding_radius and sign(m1) == sign(m2):
+			#	var total_mass = m1 + m2
+			#	var i_dom = m1 / total_mass
+			#	var j_dom = m2 / total_mass
+			#	
+			#	var iv = _p_velocities[i]
+			#	var jv = _p_velocities[j]
+			#	var v_com = (iv * m1 + jv * m2) / total_mass
+			#	
+			#	var strength = config.binding_strength * (1 - dist / config.binding_radius)
+			#	
+			#	_p_velocities[i] = iv.lerp(v_com, strength * j_dom)
+			#	_p_velocities[j] = jv.lerp(v_com, strength * i_dom)
 			
 			_p_accelerations[i] += acc * m2
 			_p_accelerations[j] -= acc * m1
