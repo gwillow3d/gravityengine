@@ -1,8 +1,8 @@
 [gd_resource type="GradientTexture1D" format=3 uid="uid://ioptcksipr35"]
 
 [sub_resource type="Gradient" id="Gradient_getpj"]
-offsets = PackedFloat32Array(0.05, 0.7131579, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.87119675, 0.68126136, 0.95470685, 1, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0.05, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.87119675, 0.68126136, 0.95470685, 1)
 
 [resource]
 gradient = SubResource("Gradient_getpj")
