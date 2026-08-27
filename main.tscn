@@ -77,7 +77,7 @@ shader = ExtResource("14_074og")
 [sub_resource type="MultiMesh" id="MultiMesh_074og"]
 mesh = SubResource("QuadMesh_82xsv")
 
-[node name="Control" type="Node2D" unique_id=425540829]
+[node name="Root" type="Node2D" unique_id=425540829]
 
 [node name="SimulationManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
