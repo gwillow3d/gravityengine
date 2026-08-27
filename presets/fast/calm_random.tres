@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SimulationConfig" format=3 uid="uid://0sfdd20tu23"]
+
+[ext_resource type="Script" uid="uid://ydsbc0nrhicu" path="res://generation/generator/random_generator.gd" id="1_qvvey"]
+[ext_resource type="Script" uid="uid://bkp2x2xsuifkb" path="res://simulation/simulation_config.gd" id="2_mk02l"]
+
+[sub_resource type="Resource" id="Resource_ftfba"]
+script = ExtResource("1_qvvey")
+population = 115
+max_initial_mass = 10.0
+metadata/_custom_type_script = "uid://ydsbc0nrhicu"
+
+[resource]
+script = ExtResource("2_mk02l")
+world_size = Vector2i(1000, 1000)
+generator = SubResource("Resource_ftfba")
+metadata/_custom_type_script = "uid://bkp2x2xsuifkb"

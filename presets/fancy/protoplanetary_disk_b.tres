@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="SimulationConfig" format=3 uid="uid://cfjvdx3svc0h0"]
+
+[ext_resource type="Script" uid="uid://bi6ljd47f24lk" path="res://generation/generator/protoplanetary_disk_generator.gd" id="1_csdqt"]
+[ext_resource type="Script" uid="uid://bkp2x2xsuifkb" path="res://simulation/simulation_config.gd" id="2_03rxo"]
+
+[sub_resource type="Resource" id="Resource_c8eo0"]
+script = ExtResource("1_csdqt")
+star_mass = 10000.0
+min_orbit_distance = 250.0
+max_orbit_distance = 400.0
+population = 3000
+max_initial_mass = 4.0
+metadata/_custom_type_script = "uid://bi6ljd47f24lk"
+
+[resource]
+script = ExtResource("2_03rxo")
+world_size = Vector2i(5000, 5000)
+generator = SubResource("Resource_c8eo0")
+metadata/_custom_type_script = "uid://bkp2x2xsuifkb"

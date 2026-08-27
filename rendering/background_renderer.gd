@@ -5,7 +5,7 @@ extends MultiMeshInstance2D
 
 @export var visualiser_type: VisualiserType = VisualiserType.MassDensity
 @export var black_hole_threshold: int = 500000
-@export var glow_size_multiplier: int = 50
+@export var glow_size_multiplier: int = 75
 @export_range(0.0, 1.0) var minimum_significance: float = 0.09
 
 var _simulation: Simulation

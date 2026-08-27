@@ -3,8 +3,8 @@ extends Node
 
 var simulation: Simulation
 
-@export var default_cpu_config: SimulationConfig
-@export var default_gpu_config: SimulationConfig
+@export var fast_presets: Array[SimulationConfig]
+@export var fancy_presets: Array[SimulationConfig]
 
 @export var simulation_manager: TimeManager
 @export var camera_controller: CameraController
@@ -21,10 +21,10 @@ var simulation: Simulation
 func _ready() -> void:
 	if OS.get_name() == "Web":
 		simulation = CPUSimulation.new()
-		simulation.config = default_cpu_config
+		simulation.config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
 		simulation = GPUSimulation.new()
-		simulation.config = default_gpu_config
+		simulation.config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
 	
 	# Wire signals #
 	
