@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://dqtpq7mn7qv8t" path="res://ui/components/screenshot_notifier.gd" id="16_d13ii"]
 [ext_resource type="Shader" uid="uid://b5pig4dbrj1qt" path="res://shader/render/particle.gdshader" id="16_getpj"]
 [ext_resource type="Script" uid="uid://bp0q6lwr0448w" path="res://debug/solar_system_debug_renderer.gd" id="17_074og"]
-[ext_resource type="Script" uid="uid://b3g6bp4caki6w" path="res://rendering/density_renderer.gd" id="17_cegan"]
+[ext_resource type="Script" uid="uid://b3g6bp4caki6w" path="res://rendering/background_renderer.gd" id="17_cegan"]
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
 
@@ -73,7 +73,7 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Control" type="Node2D" unique_id=425540829]
 
-[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "debug_boundary_renderer")]
+[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
 simulation = NodePath("../GPUSimulation")
 simulation_manager = NodePath("../SimulationManager")
@@ -82,6 +82,7 @@ color_manager = NodePath("../SimulationColorManager")
 ui_manager = NodePath("../UILayer/UIManager")
 glow_renderer = NodePath("../WorldLayer/WorldContainer/BackgroundContainer")
 screenshot_manager = NodePath("../ScreenshotManager")
+background_renderer = NodePath("../MassDensityViewport/BackgroundRenderer")
 debug_boundary_renderer = NodePath("../DebugViewport/DebugBoundaryRenderer")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=2076364281]
@@ -336,12 +337,11 @@ controller = NodePath("../../CameraController")
 [node name="MassDensityViewport" type="SubViewport" parent="." unique_id=1806105318]
 size = Vector2i(1920, 1080)
 
-[node name="MultiMeshInstance2D" type="MultiMeshInstance2D" parent="MassDensityViewport" unique_id=1695531475 node_paths=PackedStringArray("simulation")]
+[node name="BackgroundRenderer" type="MultiMeshInstance2D" parent="MassDensityViewport" unique_id=1695531475]
 material = SubResource("ShaderMaterial_ryguw")
 multimesh = SubResource("MultiMesh_074og")
 texture = ExtResource("1_h2yge")
 script = ExtResource("17_cegan")
-simulation = NodePath("../../GPUSimulation")
 
 [node name="Camera2D" type="Camera2D" parent="MassDensityViewport" unique_id=606442101 node_paths=PackedStringArray("controller")]
 script = ExtResource("21_ryguw")

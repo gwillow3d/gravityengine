@@ -9,6 +9,8 @@ extends Node
 @export var glow_renderer: GlowRenderer
 @export var screenshot_manager: ScreenshotManager
 
+@export var background_renderer: BackgroundRenderer
+
 @export var debug_boundary_renderer: DebugBoundaryLayer
 
 func _ready() -> void:
@@ -19,6 +21,7 @@ func _ready() -> void:
 	simulation.border_type_changed.connect(debug_boundary_renderer._on_simulation_border_type_changed)
 	simulation.border_type_changed.connect(camera_controller._on_border_type_changed)
 	simulation.world_size_changed.connect(camera_controller._on_world_size_changed)
+	simulation.population_changed.connect(background_renderer._on_population_changed)
 	
 	color_manager.color_changed.connect(glow_renderer._on_color_changed)
 	
@@ -26,4 +29,5 @@ func _ready() -> void:
 	
 	simulation.setup()
 	simulation_manager.setup(simulation)
+	background_renderer.setup(simulation)
 	ui_manager.setup(simulation, simulation_manager, screenshot_manager)
