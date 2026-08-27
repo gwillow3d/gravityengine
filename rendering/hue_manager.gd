@@ -1,4 +1,4 @@
-class_name SimulationColorManager
+class_name HueManager
 extends Node
 
 signal color_changed(color: Color)

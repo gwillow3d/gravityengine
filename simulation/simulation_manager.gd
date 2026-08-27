@@ -1,4 +1,4 @@
-class_name SceneManager
+class_name SimulationManager
 extends Node
 
 var simulation: Simulation
@@ -7,7 +7,7 @@ var simulation: Simulation
 
 @export var simulation_manager: TimeManager
 @export var camera_controller: CameraController
-@export var color_manager: SimulationColorManager
+@export var color_manager: HueManager
 @export var ui_manager: UIManager
 @export var glow_renderer: GlowRenderer
 @export var screenshot_manager: ScreenshotManager
