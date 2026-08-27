@@ -1,3 +1,4 @@
+@abstract
 class_name ISimulation
 extends Node
 
@@ -22,6 +23,40 @@ signal simulation_reset
 @export var softening: float = 5
 @export_range(0.0, 100.0, 1.0) var binding_radius: float = 0.0
 @export_range(0.0, 1.0, 0.0001) var binding_strength: float = 0.01
+
+# Functionality #
+
+@abstract
+func setup() 
+
+@abstract
+func step(steps: int) 
+
+@abstract
+func reset() 
+
+# Conservation #
+
+@abstract
+func compute_total_linear_momentum() -> Vector2
+
+@abstract
+func compute_total_angular_momentum() -> float
+
+# Getters & Setters #
+
+@abstract
+func get_particle_count() -> int
+
+@abstract
+func get_particle_position(index: int) -> Vector2
+
+@abstract
+func get_particle_mass(index: int) -> float
+
+@abstract
+func get_border_mode() -> BorderType
+
 
 # Enums #
 enum BorderType {
