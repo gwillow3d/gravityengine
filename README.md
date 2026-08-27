@@ -1,6 +1,8 @@
 # Gravity Engine
 Gravity Engine is a gravity simulator written in Godot.
 
+<img src="https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-28T00%3A26%3A13.png" width="720">
+
 ## How does it work?
 Gravity Engine uses the basic approach of calculating the force every particle exerts on every other particle.
 This is typically extremely computationally expensive, however these calculations are run on the GPU using a compute shader to achieve reasonable speeds.
