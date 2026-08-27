@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SimulationConfig" format=3 uid="uid://cgs5i6kv26jc3"]
+
+[ext_resource type="Script" uid="uid://bkp2x2xsuifkb" path="res://simulation/simulation_config.gd" id="1_5rg0t"]
+[ext_resource type="Resource" uid="uid://mkyrf18yfo4i" path="res://presets/accrete.tres" id="1_uhfcd"]
+
+[resource]
+script = ExtResource("1_5rg0t")
+world_size = Vector2i(5000, 5000)
+generator = ExtResource("1_uhfcd")
+border_type = 3
+timestep = 0.01
+metadata/_custom_type_script = "uid://bkp2x2xsuifkb"

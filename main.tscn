@@ -3,12 +3,11 @@
 [ext_resource type="Script" uid="uid://cwm7dkw1dfpxl" path="res://ui/ui_manager.gd" id="1_7mycd"]
 [ext_resource type="Script" uid="uid://hfopoq78x6v6" path="res://camera/camera_controller.gd" id="1_getpj"]
 [ext_resource type="Texture2D" uid="uid://n1bib1lh8qwu" path="res://ui/sprites/pixel.png" id="1_h2yge"]
-[ext_resource type="Script" uid="uid://c4yulqtaeg71d" path="res://simulation/gpu_simulation.gd" id="1_ig7tw"]
+[ext_resource type="Resource" uid="uid://cgs5i6kv26jc3" path="res://presets/test_config.tres" id="2_d13ii"]
 [ext_resource type="Script" uid="uid://c2l4ttnyw6l5j" path="res://scene_manager.gd" id="2_ryguw"]
 [ext_resource type="FontFile" uid="uid://b57matqt7m0fh" path="res://ui/fonts/bricolage_grotesque.ttf" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://dafw1uv26b0j4" path="res://util/screenshot_manager.gd" id="3_getpj"]
 [ext_resource type="Script" uid="uid://besj10rx7fok" path="res://simulation/simulation_manager.gd" id="5_272bh"]
-[ext_resource type="Resource" uid="uid://mkyrf18yfo4i" path="res://presets/accrete.tres" id="6_d13ii"]
 [ext_resource type="Texture2D" uid="uid://dg57pir0me7j1" path="res://ui/sprites/reset.png" id="6_kek77"]
 [ext_resource type="Script" uid="uid://d0atuigrnfn6b" path="res://simulation/simulation_color_manager.gd" id="7_ryguw"]
 [ext_resource type="Shader" uid="uid://c8o5f03h51snc" path="res://shader/render/mass_density.gdshader" id="9_82xsv"]
@@ -19,7 +18,6 @@
 [ext_resource type="Script" uid="uid://do5a0cm8yk5nb" path="res://rendering/particle_renderer.gd" id="16_82xsv"]
 [ext_resource type="Script" uid="uid://dqtpq7mn7qv8t" path="res://ui/components/screenshot_notifier.gd" id="16_d13ii"]
 [ext_resource type="Shader" uid="uid://b5pig4dbrj1qt" path="res://shader/render/particle.gdshader" id="16_getpj"]
-[ext_resource type="Script" uid="uid://bp0q6lwr0448w" path="res://debug/solar_system_debug_renderer.gd" id="17_074og"]
 [ext_resource type="Script" uid="uid://b3g6bp4caki6w" path="res://rendering/background_renderer.gd" id="17_cegan"]
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
@@ -73,9 +71,9 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Control" type="Node2D" unique_id=425540829]
 
-[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
+[node name="SceneManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
-simulation = NodePath("../GPUSimulation")
+config = ExtResource("2_d13ii")
 simulation_manager = NodePath("../SimulationManager")
 camera_controller = NodePath("../CameraController")
 color_manager = NodePath("../SimulationColorManager")
@@ -95,13 +93,6 @@ script = ExtResource("3_getpj")
 [node name="SimulationManager" type="Node" parent="." unique_id=1084845769 node_paths=PackedStringArray("particle_container")]
 script = ExtResource("5_272bh")
 particle_container = NodePath("../WorldLayer/WorldContainer/ParticleContainer")
-
-[node name="GPUSimulation" type="Node" parent="." unique_id=2008383607]
-script = ExtResource("1_ig7tw")
-world_size = Vector2i(5000, 5000)
-generator = ExtResource("6_d13ii")
-border_type = 3
-timestep = 0.01
 
 [node name="SimulationColorManager" type="Node" parent="." unique_id=1287690408]
 script = ExtResource("7_ryguw")
@@ -354,10 +345,6 @@ size = Vector2i(1920, 1080)
 [node name="Camera2D" type="Camera2D" parent="DebugViewport" unique_id=1748536474 node_paths=PackedStringArray("controller")]
 script = ExtResource("21_ryguw")
 controller = NodePath("../../CameraController")
-
-[node name="SolarSystemDebugRenderer" type="Node2D" parent="DebugViewport" unique_id=99286968 node_paths=PackedStringArray("simulation")]
-script = ExtResource("17_074og")
-simulation = NodePath("../../GPUSimulation")
 
 [node name="DebugBoundaryRenderer" type="Node2D" parent="DebugViewport" unique_id=613321849]
 script = ExtResource("21_getpj")

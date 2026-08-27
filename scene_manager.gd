@@ -1,7 +1,10 @@
 class_name SceneManager
 extends Node
 
-@export var simulation: Simulation
+var simulation: Simulation
+
+@export var config: SimulationConfig
+
 @export var simulation_manager: SimulationManager
 @export var camera_controller: CameraController
 @export var color_manager: SimulationColorManager
@@ -15,6 +18,9 @@ extends Node
 @export var debug_boundary_renderer: DebugBoundaryLayer
 
 func _ready() -> void:
+	simulation = GPUSimulation.new()
+	simulation.config = config
+	
 	# Wire signals #
 	
 	simulation.simulation_reset.connect(color_manager._on_simulation_reset)

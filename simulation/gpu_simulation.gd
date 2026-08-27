@@ -46,9 +46,9 @@ func setup() -> void:
 	_is_ready = true
 	simulation_ready.emit()
 	
-	world_size_changed.emit(world_size)
-	border_type_changed.emit(border_type)
-	gravity_changed.emit(gravity)
+	world_size_changed.emit(config.world_size)
+	border_type_changed.emit(config.border_type)
+	gravity_changed.emit(config.gravity)
 
 func _setup_shaders() -> void:
 	_rd = RenderingServer.create_local_rendering_device()
@@ -64,9 +64,9 @@ func _setup_shaders() -> void:
 	
 	var geometry_input_bytes = PackedByteArray()
 	geometry_input_bytes.resize(12)
-	geometry_input_bytes.encode_float(0, world_size.x)
-	geometry_input_bytes.encode_float(4, world_size.y)
-	geometry_input_bytes.encode_s32(8, border_type)
+	geometry_input_bytes.encode_float(0, config.world_size.x)
+	geometry_input_bytes.encode_float(4, config.world_size.y)
+	geometry_input_bytes.encode_s32(8, config.border_type)
 	_geometry_buffer = _rd.storage_buffer_create(geometry_input_bytes.size(), geometry_input_bytes)
 	
 	var geometry_uniform := RDUniform.new()
@@ -108,7 +108,7 @@ func step(steps: int) -> void:
 	_potential_energy = 0.0
 	
 	if steps > 0:
-		_gpu_process(timestep, steps)
+		_gpu_process(config.timestep, steps)
 		_update_kinetic_energy()
 	
 		energy_updated.emit(_kinetic_energy, _potential_energy, compute_total_linear_momentum(), compute_total_angular_momentum())
@@ -118,8 +118,8 @@ func reset() -> void:
 	_p_velocities.clear()
 	_p_masses.clear()
 	
-	if generator:
-		var state = generator.generate(gravity, world_size)
+	if config.generator:
+		var state = config.generator.generate(config.gravity, config.world_size)
 		_apply_state(state)
 	
 	simulation_reset.emit()
@@ -170,7 +170,7 @@ func _gpu_process(delta: float, steps: int) -> void:
 	var n = _p_positions.size()
 	var groups = int(ceil(float(n) / WORKGROUP_SIZE))
 	var constants := PackedByteArray()
-	constants.append_array(PackedFloat32Array([gravity, softening, delta]).to_byte_array())
+	constants.append_array(PackedFloat32Array([config.gravity, config.softening, delta]).to_byte_array())
 	constants.resize(16)
 	constants.encode_u32(12, n)
 	
@@ -272,7 +272,7 @@ func compute_total_angular_momentum() -> float:
 		var pos = _p_positions[i]
 		var vel = _p_velocities[i]
 		var mass = _p_masses[i]
-		var centre = world_size / 2.0
+		var centre = config.world_size / 2.0
 		var r = pos - centre
 		
 		momentum += mass * (r.x * vel.y - r.y * vel.x)
@@ -290,4 +290,4 @@ func get_particle_mass(index: int) -> float:
 	return _p_masses[index]
 
 func get_border_mode() -> BorderType:
-	return border_type
+	return config.border_type
