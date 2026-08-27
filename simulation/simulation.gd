@@ -1,6 +1,15 @@
 class_name ISimulation
 extends Node
 
+# Signals #
+signal simulation_ready
+signal world_size_changed(world_size: Vector2i)
+signal border_type_changed(border_type: BorderType)
+signal gravity_changed(strength: float)
+signal population_changed(population: int)
+signal energy_updated(kinetic: float, potential: float, linear_momentum: Vector2, angular_momentum: float)
+signal simulation_reset
+
 # Exports #
 @export_category("Simulation")
 @export var world_size: Vector2i = Vector2i(500, 500)

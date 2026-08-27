@@ -1,12 +1,6 @@
 class_name CPUSimulation
 extends ISimulation
 
-# Signals #
-signal gravity_changed(strength: float)
-signal population_changed(population: int)
-signal energy_updated(kinetic: float, potential: float, linear_momentum: Vector2)
-signal simulation_reset
-
 # Private fields #
 const MAX_PARTICLES = 128
 
