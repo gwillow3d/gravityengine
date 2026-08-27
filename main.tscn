@@ -28,6 +28,7 @@
 [ext_resource type="FontFile" uid="uid://bcv7bul3u4ohb" path="res://ui/fonts/karla.ttf" id="20_xuqvo"]
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
+[ext_resource type="Script" uid="uid://jf2d0yt8gthu" path="res://ui/components/energy_label.gd" id="22_qsp4k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
 shader = ExtResource("9_82xsv")
@@ -164,12 +165,12 @@ texture = ExtResource("1_h2yge")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
 
-[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("reset_button", "speed_slider", "speed_amount", "energy_label", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent", "screenshot_widget")]
+[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("reset_button", "speed_slider", "speed_amount", "energy_widget", "fps_label", "render_time_label", "population_label", "heavy_load_warning", "ui_parent", "screenshot_widget")]
 script = ExtResource("1_7mycd")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
 speed_slider = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSlider")
 speed_amount = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedSliderContainer/SpeedSliderLabel")
-energy_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyLabel")
+energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyLabel")
 fps_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/FPSLabel")
 render_time_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/RenderTimeLabel")
 population_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PopulationLabel")
@@ -224,30 +225,12 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -100.0
+offset_left = -191.0
 offset_top = -33.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "Reset"
+text = "New Simulation"
 icon = ExtResource("6_kek77")
-
-[node name="EnergyLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
-visible = false
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -54.5
-offset_right = 41.0
-offset_bottom = 54.5
-grow_vertical = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "Energy
-TE:
-KE:
-GPE:
-LM:"
 
 [node name="SpeedSliderContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=390316876]
 layout_mode = 1
@@ -327,6 +310,26 @@ text = "Saved screenshot as file.png"
 label_settings = SubResource("LabelSettings_d13ii")
 vertical_alignment = 2
 script = ExtResource("16_d13ii")
+
+[node name="EnergyLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -68.5
+offset_right = 62.0
+offset_bottom = 68.5
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "Energy
+TE:
+KE:
+GPE:
+LM:"
+vertical_alignment = 1
+script = ExtResource("22_qsp4k")
 
 [node name="ParticlesViewport" type="SubViewport" parent="." unique_id=1988896197]
 transparent_bg = true
