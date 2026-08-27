@@ -60,8 +60,8 @@ func _on_population_changed(population: int) -> void:
 	for i in range(_simulation.get_particle_count()):
 		var m = _simulation.get_particle_mass(i)
 		var significance = max(m / mass_range, minimum_significance)
-		if m > black_hole_threshold:
-			significance = 0.5
+		if m >= black_hole_threshold:
+			significance = 0.8
 		
 		multimesh.set_instance_color(i, Color(significance, 0.0, 0.0, 1.0))
 
