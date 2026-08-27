@@ -1,5 +1,5 @@
 class_name CPUSimulation
-extends ISimulation
+extends Simulation
 
 # Private fields #
 const MAX_PARTICLES = 128

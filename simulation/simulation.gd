@@ -1,5 +1,5 @@
 @abstract
-class_name ISimulation
+class_name Simulation
 extends Node
 
 # Signals #

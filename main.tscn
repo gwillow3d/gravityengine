@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://dafw1uv26b0j4" path="res://util/screenshot_manager.gd" id="3_getpj"]
 [ext_resource type="Script" uid="uid://besj10rx7fok" path="res://simulation/simulation_manager.gd" id="5_272bh"]
 [ext_resource type="Texture2D" uid="uid://dg57pir0me7j1" path="res://ui/sprites/reset.png" id="6_kek77"]
-[ext_resource type="Resource" uid="uid://mkyrf18yfo4i" path="res://presets/accrete.tres" id="6_ryguw"]
 [ext_resource type="Script" uid="uid://d0atuigrnfn6b" path="res://simulation/simulation_color_manager.gd" id="7_ryguw"]
 [ext_resource type="Shader" uid="uid://c8o5f03h51snc" path="res://shader/render/mass_density.gdshader" id="9_82xsv"]
 [ext_resource type="Script" uid="uid://dqv7ofiir60wj" path="res://rendering/glow_renderer.gd" id="10_ryguw"]
@@ -95,11 +94,6 @@ particle_container = NodePath("../WorldLayer/WorldContainer/ParticleContainer")
 
 [node name="Simulation" type="Node" parent="." unique_id=2008383607]
 script = ExtResource("1_ig7tw")
-world_size = Vector2i(5000, 5000)
-generator = ExtResource("6_ryguw")
-border_type = 3
-timestep = 0.01
-binding_strength = 0.0
 
 [node name="SimulationColorManager" type="Node" parent="." unique_id=1287690408]
 script = ExtResource("7_ryguw")

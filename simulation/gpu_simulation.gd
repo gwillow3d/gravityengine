@@ -1,5 +1,5 @@
-class_name Simulation
-extends ISimulation
+class_name GPUSimulation
+extends Simulation
 
 # Private fields #
 const MAX_PARTICLES = 8192
