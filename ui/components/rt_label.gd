@@ -1,6 +1,6 @@
 extends Label
 
-@onready var simulation_manager: SimulationManager = $"../../../../../../SimulationManager"
+@onready var simulation_manager: TimeManager = $"../../../../../../TimeManager"
 
 func _ready() -> void:
 	simulation_manager.average_time_updated.connect(_on_step_completed)

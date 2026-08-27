@@ -1,4 +1,4 @@
-class_name SimulationManager
+class_name TimeManager
 extends Node
 
 signal average_time_updated(time: float)

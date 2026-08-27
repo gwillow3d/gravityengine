@@ -5,7 +5,7 @@ var simulation: Simulation
 
 @export var config: SimulationConfig
 
-@export var simulation_manager: SimulationManager
+@export var simulation_manager: TimeManager
 @export var camera_controller: CameraController
 @export var color_manager: SimulationColorManager
 @export var ui_manager: UIManager

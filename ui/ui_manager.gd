@@ -13,10 +13,10 @@ extends Node
 @export var screenshot_widget: ScreenshotNotifier
 
 var _simulation: Simulation
-var _manager: SimulationManager
+var _manager: TimeManager
 var _screenshot: ScreenshotManager
 
-func setup(simulation: Simulation, manager: SimulationManager, screenshot: ScreenshotManager) -> void:
+func setup(simulation: Simulation, manager: TimeManager, screenshot: ScreenshotManager) -> void:
 	_simulation = simulation
 	_manager = manager
 	_screenshot = screenshot
