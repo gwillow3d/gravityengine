@@ -4,10 +4,7 @@ extends Simulation
 # Private fields #
 const MAX_PARTICLES = 128
 
-var _p_positions: PackedVector2Array
-var _p_velocities: PackedVector2Array
 var _p_accelerations: PackedVector2Array
-var _p_masses: PackedFloat32Array
 
 var _kinetic_energy: float
 var _potential_energy: float

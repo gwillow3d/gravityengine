@@ -11,6 +11,10 @@ signal population_changed(population: int)
 signal energy_updated(kinetic: float, potential: float, linear_momentum: Vector2, angular_momentum: float)
 signal simulation_reset
 
+var _p_positions: PackedVector2Array
+var _p_velocities: PackedVector2Array
+var _p_masses: PackedFloat32Array
+
 # Exports #
 @export var config: SimulationConfig
 

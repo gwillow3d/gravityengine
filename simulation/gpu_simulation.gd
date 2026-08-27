@@ -31,10 +31,6 @@ var _buffer: RID
 var _gpe_buffer: RID
 var _geometry_buffer: RID
 
-var _p_positions: PackedVector2Array
-var _p_velocities: PackedVector2Array
-var _p_masses: PackedFloat32Array
-
 var _has_submitted := false
 var _state_update_needed := false
 
