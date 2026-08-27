@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Screensuite"
+config/name="Gravity Engine"
 run/main_scene="uid://ca7h7lxghmqf6"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0.015686275, 0.015686275, 0.015686275, 1)
