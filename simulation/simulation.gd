@@ -11,12 +11,11 @@ signal population_changed(population: int)
 signal energy_updated(kinetic: float, potential: float, linear_momentum: Vector2, angular_momentum: float)
 signal simulation_reset
 
+var config: SimulationConfig
+
 var _p_positions: PackedVector2Array
 var _p_velocities: PackedVector2Array
 var _p_masses: PackedFloat32Array
-
-# Exports #
-@export var config: SimulationConfig
 
 # Functionality #
 
@@ -62,6 +61,9 @@ func get_particle_count() -> int:
 func get_particle_position(index: int) -> Vector2:
 	return _p_positions[index]
 
+func get_particle_velocity(index: int) -> Vector2:
+	return _p_velocities[index]
+
 func get_particle_mass(index: int) -> float:
 	return _p_masses[index]
 
@@ -69,6 +71,7 @@ func get_border_mode() -> BorderType:
 	return config.border_type
 
 # Enums #
+
 enum BorderType {
 	## There is no border, particles can travel endlessly in any direction.
 	None,

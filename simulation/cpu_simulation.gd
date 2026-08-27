@@ -162,18 +162,6 @@ func add_particle(position: Vector2, velocity: Vector2, mass: float) -> void:
 
 # Getters and setters #
 
-func get_particle_count() -> int:
-	return _p_positions.size()
-
-func get_particle_position(index: int) -> Vector2:
-	return _p_positions[index]
-
-func get_particle_mass(index: int) -> float:
-	return _p_masses[index]
-
-func get_border_mode() -> BorderType:
-	return config.border_type
-
 func set_gravity(strength: float) -> void:
 	config.gravity = strength
 	gravity_changed.emit(config.gravity)

@@ -30,7 +30,7 @@ func _process(_delta: float) -> void:
 		VisualiserType.Velocity:
 			for i in range(_simulation.get_particle_count()):
 				var m = _simulation.get_particle_mass(i)
-				var vl = _simulation._p_velocities[i].length() / _max_velocity
+				var vl = _simulation.get_particle_velocity(i).length() / _max_velocity
 				var r = sqrt(m) * vl * 10
 				var t = Transform2D(0.0, Vector2(r, r), 0.0, _simulation.get_particle_position(i))
 				multimesh.set_instance_transform_2d(i, t)
@@ -43,7 +43,7 @@ func _on_population_changed(population: int) -> void:
 	
 	for i in range(_simulation.get_particle_count()):
 		var m = _simulation.get_particle_mass(i)
-		var v = _simulation._p_velocities[i]
+		var v = _simulation.get_particle_velocity(i)
 		if v.length() > _max_velocity:
 			_max_velocity = v.length()
 		
