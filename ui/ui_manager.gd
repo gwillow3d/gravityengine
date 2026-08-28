@@ -19,6 +19,8 @@ var _simulation: Simulation
 var _time: TimeManager
 var _screenshot: ScreenshotManager
 
+var _tween: Tween
+
 func setup(manager: SimulationManager, simulation: Simulation, time: TimeManager, screenshot: ScreenshotManager) -> void:
 	_manager = manager
 	_simulation = simulation
@@ -39,7 +41,10 @@ func setup(manager: SimulationManager, simulation: Simulation, time: TimeManager
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.is_action_pressed("toggle_ui") and ui_root:
-			ui_root.visible = !ui_root.visible
+			if !ui_root.visible:
+				_show_ui()
+			else:
+				_hide_ui()
 		elif event.is_action_pressed("toggle_energy_widget"):
 			energy_widget._on_visibility_toggled()
 
@@ -51,3 +56,20 @@ func _average_time_updated(average_time: float) -> void:
 		heavy_load_warning.visible = true
 	else:
 		heavy_load_warning.visible = false
+
+func _show_ui() -> void:	
+	ui_root.show()
+	
+	if _tween:
+		_tween.stop()
+	
+	_tween = create_tween()
+	_tween.tween_property(ui_root, "modulate:a", 1.0, 0.3)
+
+func _hide_ui() -> void:
+	if _tween:
+		_tween.stop()
+	
+	_tween = create_tween()
+	_tween.tween_property(ui_root, "modulate:a", 0.0, 0.3)
+	_tween.tween_callback(ui_root.hide)

@@ -60,6 +60,16 @@ shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
 default_font = ExtResource("20_xuqvo")
 default_font_size = 20
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0rl1p"]
+shader = ExtResource("27_jq2sk")
+shader_parameter/pixel_size = 16
+shader_parameter/blur_strength = 4.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jq2sk"]
+shader = ExtResource("27_jq2sk")
+shader_parameter/pixel_size = 16
+shader_parameter/blur_strength = 4.5
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4k2k6"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
@@ -71,16 +81,6 @@ font_color = Color(0.641934, 0.641934, 0.641934, 0.45882353)
 [sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
 font_color = Color(0.95, 0.4655, 0.51394993, 1)
 shadow_size = 0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jq2sk"]
-shader = ExtResource("27_jq2sk")
-shader_parameter/pixel_size = 16
-shader_parameter/blur_strength = 4.5
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0rl1p"]
-shader = ExtResource("27_jq2sk")
-shader_parameter/pixel_size = 16
-shader_parameter/blur_strength = 4.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ok6jj"]
 shader = ExtResource("27_jq2sk")
@@ -193,8 +193,8 @@ texture = ExtResource("1_h2yge")
 [node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("ui_root", "performance_widgets", "energy_widget", "screenshot_widget", "heavy_load_warning", "speed_widget", "reset_button")]
 script = ExtResource("1_7mycd")
 ui_root = NodePath("../UIRoot")
-performance_widgets = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceContainer/MarginContainer/PerformanceWidget")
-energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyWidget")
+performance_widgets = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget")
+energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget")
 screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget")
@@ -225,6 +225,118 @@ theme_override_constants/margin_bottom = 16
 [node name="MainContainer" type="Control" parent="UILayer/UIRoot/UIMarginContainer" unique_id=380448043]
 layout_mode = 2
 mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=2111789820]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1888.0
+offset_bottom = 1048.0
+grow_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="PerformanceContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=1196907181]
+material = SubResource("ShaderMaterial_0rl1p")
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer" unique_id=1352731236]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="PerformanceWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer" unique_id=748978879 node_paths=PackedStringArray("fps_label", "frame_time_label", "population_label", "render_mode_label")]
+layout_mode = 2
+alignment = 2
+script = ExtResource("22_0rl1p")
+fps_label = NodePath("FPSWidget")
+frame_time_label = NodePath("FrameTimeWidget")
+population_label = NodePath("PopulationWidget")
+render_mode_label = NodePath("RenderModeWidget")
+
+[node name="PerformanceLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1813452783]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "PERFORMANCE"
+label_settings = ExtResource("22_jq2sk")
+horizontal_alignment = 2
+
+[node name="FPSWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1152752724]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "60 FPS"
+horizontal_alignment = 2
+
+[node name="FrameTimeWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1026097213]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "12ms per frame"
+horizontal_alignment = 2
+
+[node name="PopulationWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1130729556]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "3,000 particles"
+horizontal_alignment = 2
+
+[node name="RenderModeWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1904594339]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "GPU mode"
+horizontal_alignment = 2
+
+[node name="EnergyWidget" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=927186072 node_paths=PackedStringArray("energy_label", "momentum_label")]
+material = SubResource("ShaderMaterial_jq2sk")
+layout_mode = 2
+size_flags_horizontal = 8
+script = ExtResource("22_qsp4k")
+energy_label = NodePath("Margin/VBox/EnergyValues")
+momentum_label = NodePath("Margin/VBox/MomentumValues")
+
+[node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget" unique_id=1247022618]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin" unique_id=605300344]
+custom_minimum_size = Vector2(195, 0)
+layout_mode = 2
+
+[node name="EnergyCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin/VBox" unique_id=977675964]
+layout_mode = 2
+text = "ENERGY"
+label_settings = ExtResource("22_jq2sk")
+horizontal_alignment = 2
+
+[node name="EnergyValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin/VBox" unique_id=766411606]
+layout_mode = 2
+text = "Total: 0 J
+Kinetic: 0 J
+Potential: 0 J"
+horizontal_alignment = 2
+
+[node name="MomentumCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin/VBox" unique_id=1170963133]
+layout_mode = 2
+text = "
+MOMENTUM"
+label_settings = ExtResource("22_jq2sk")
+horizontal_alignment = 2
+
+[node name="MomentumValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin/VBox" unique_id=1433716876]
+layout_mode = 2
+text = "Linear: ...
+Angular: 0 J"
+horizontal_alignment = 2
 
 [node name="TitleContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1719298483]
 material = SubResource("ShaderMaterial_4k2k6")
@@ -294,115 +406,6 @@ grow_vertical = 0
 text = "Simulation is under heavy load! Try decreasing the simulation speed."
 label_settings = SubResource("LabelSettings_82xsv")
 horizontal_alignment = 1
-
-[node name="EnergyWidget" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=927186072 node_paths=PackedStringArray("energy_label", "momentum_label")]
-material = SubResource("ShaderMaterial_jq2sk")
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -101.0
-offset_right = 124.0
-offset_bottom = 101.0
-grow_vertical = 2
-script = ExtResource("22_qsp4k")
-energy_label = NodePath("Margin/VBox/EnergyValues")
-momentum_label = NodePath("Margin/VBox/MomentumValues")
-
-[node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget" unique_id=1247022618]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="VBox" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget/Margin" unique_id=605300344]
-custom_minimum_size = Vector2(195, 0)
-layout_mode = 2
-
-[node name="EnergyCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget/Margin/VBox" unique_id=977675964]
-layout_mode = 2
-text = "ENERGY"
-label_settings = ExtResource("22_jq2sk")
-
-[node name="EnergyValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget/Margin/VBox" unique_id=766411606]
-layout_mode = 2
-text = "Total: 0 J
-Kinetic: 0 J
-Potential: 0 J"
-
-[node name="MomentumCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget/Margin/VBox" unique_id=1170963133]
-layout_mode = 2
-text = "
-MOMENTUM"
-label_settings = ExtResource("22_jq2sk")
-
-[node name="MomentumValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget/Margin/VBox" unique_id=1433716876]
-layout_mode = 2
-text = "Linear: ...
-Angular: 0 J"
-
-[node name="PerformanceContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1196907181]
-material = SubResource("ShaderMaterial_0rl1p")
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -149.0
-offset_bottom = 139.0
-grow_horizontal = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceContainer" unique_id=1352731236]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="PerformanceWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceContainer/MarginContainer" unique_id=748978879 node_paths=PackedStringArray("fps_label", "frame_time_label", "population_label", "render_mode_label")]
-layout_mode = 2
-alignment = 2
-script = ExtResource("22_0rl1p")
-fps_label = NodePath("FPSWidget")
-frame_time_label = NodePath("FrameTimeWidget")
-population_label = NodePath("PopulationWidget")
-render_mode_label = NodePath("RenderModeWidget")
-
-[node name="PerformanceLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1813452783]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-text = "PERFORMANCE"
-label_settings = ExtResource("22_jq2sk")
-horizontal_alignment = 2
-
-[node name="FPSWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1152752724]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-text = "60 FPS"
-horizontal_alignment = 2
-
-[node name="FrameTimeWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1026097213]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-text = "12ms per frame"
-horizontal_alignment = 2
-
-[node name="PopulationWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1130729556]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-text = "3,000 particles"
-horizontal_alignment = 2
-
-[node name="RenderModeWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1904594339]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-text = "GPU mode"
-horizontal_alignment = 2
 
 [node name="SpeedContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=304425883]
 material = SubResource("ShaderMaterial_ok6jj")
