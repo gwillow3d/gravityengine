@@ -3,17 +3,20 @@ extends Node
 
 signal simulation_reset_requested
 
+@export var ui_parent: Control
+
 @export var fps_label: Label
 @export var frame_time_widget: FrameTimeWidget
 @export var population_widget: PopualtionWidget
 
-@export var reset_button: Button
-@export var speed_widget: SpeedWidget
 @export var energy_widget: EnergyWidget
 @export var render_mode_widget: RenderModeWidget
-@export var heavy_load_warning: Label
-@export var ui_parent: Control
 @export var screenshot_widget: ScreenshotNotifier
+
+@export var heavy_load_warning: Label
+@export var speed_widget: SpeedWidget
+
+@export var reset_button: Button
 
 var _manager: SimulationManager
 var _simulation: Simulation
@@ -54,7 +57,7 @@ func _on_reset_pressed() -> void:
 	simulation_reset_requested.emit()
 
 func _average_time_updated(average_time: float) -> void:
-	if average_time * 1000 > 15 and _time.steps_per_frame > 0:
+	if average_time * 1000 > 17 and _time.steps_per_frame > 1:
 		heavy_load_warning.visible = true
 	else:
 		heavy_load_warning.visible = false

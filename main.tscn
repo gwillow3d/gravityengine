@@ -65,7 +65,7 @@ default_font_size = 20
 font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
-font_color = Color(0.95, 0.6555, 0.68494993, 1)
+font_color = Color(0.95, 0.4655, 0.51394993, 1)
 shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
@@ -89,7 +89,6 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="SimulationManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
-render_mode = 0
 fast_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_lswn8"), ExtResource("4_a6jrf"), ExtResource("5_xuqvo")])
 fancy_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_1u8w0"), ExtResource("4_1u8w0"), ExtResource("5_0odxb")])
 simulation_manager = NodePath("../TimeManager")
@@ -173,18 +172,18 @@ texture = ExtResource("1_h2yge")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
 
-[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("fps_label", "frame_time_widget", "population_widget", "reset_button", "speed_widget", "energy_widget", "render_mode_widget", "heavy_load_warning", "ui_parent", "screenshot_widget")]
+[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("ui_parent", "fps_label", "frame_time_widget", "population_widget", "energy_widget", "render_mode_widget", "screenshot_widget", "heavy_load_warning", "speed_widget", "reset_button")]
 script = ExtResource("1_7mycd")
+ui_parent = NodePath("../UIRoot/UIMarginContainer")
 fps_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/FPSWidget")
 frame_time_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/FrameTimeWidget")
 population_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/PopulationWidget")
-reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
-speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedWidget")
 energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyWidget")
 render_mode_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/RenderModeWidget")
-heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
-ui_parent = NodePath("../UIRoot/UIMarginContainer")
 screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
+heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
+speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedWidget")
+reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
 
 [node name="UIRoot" type="Control" parent="UILayer" unique_id=2098282740]
 layout_mode = 3
@@ -214,8 +213,8 @@ mouse_filter = 1
 
 [node name="AppInfoContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1762340981]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 132.0
+offset_bottom = 44.0
 
 [node name="TitleLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/AppInfoContainer" unique_id=1877865842]
 layout_mode = 2
