@@ -6,6 +6,7 @@ signal camera_moved(new_position: Vector2)
 
 @export var min_zoom: float = 0.01
 @export var max_zoom: float = 25.0
+@export var camera_move_speed: float = 400
 
 var _border_type: Simulation.BorderType
 var _world_size: Vector2i
@@ -25,7 +26,7 @@ func _process(delta: float) -> void:
 	var vector = Input.get_vector("camera_move_left", "camera_move_right", "camera_move_up", "camera_move_down")
 	if vector.length_squared() > 0:
 		vector = vector.normalized()
-	_position += vector * delta * 1000
+	_position += vector * delta * (camera_move_speed / _zoom)
 	
 	var camera_bounds = Vector2.ZERO
 	
