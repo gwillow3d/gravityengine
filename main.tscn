@@ -70,6 +70,11 @@ shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
 shader_parameter/blur_strength = 4.5
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_facbu"]
+shader = ExtResource("27_jq2sk")
+shader_parameter/pixel_size = 16
+shader_parameter/blur_strength = 4.5
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4k2k6"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
@@ -194,7 +199,7 @@ texture = ExtResource("1_h2yge")
 script = ExtResource("1_7mycd")
 ui_root = NodePath("../UIRoot")
 performance_widgets = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget")
-energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget")
+energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets")
 screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget")
@@ -293,46 +298,67 @@ size_flags_vertical = 0
 text = "GPU mode"
 horizontal_alignment = 2
 
-[node name="EnergyWidget" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=927186072 node_paths=PackedStringArray("energy_label", "momentum_label")]
+[node name="ConservationWidgets" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=550560336 node_paths=PackedStringArray("energy_label", "momentum_label")]
+layout_mode = 2
+theme_override_constants/separation = 8
+script = ExtResource("22_qsp4k")
+energy_label = NodePath("EnergyWidget/Margin/VBox/EnergyValues")
+momentum_label = NodePath("MomentumWidget/Margin/VBox/MomentumValues")
+
+[node name="EnergyWidget" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets" unique_id=927186072]
 material = SubResource("ShaderMaterial_jq2sk")
 layout_mode = 2
 size_flags_horizontal = 8
-script = ExtResource("22_qsp4k")
-energy_label = NodePath("Margin/VBox/EnergyValues")
-momentum_label = NodePath("Margin/VBox/MomentumValues")
 
-[node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget" unique_id=1247022618]
+[node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/EnergyWidget" unique_id=1247022618]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="VBox" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin" unique_id=605300344]
+[node name="VBox" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/EnergyWidget/Margin" unique_id=605300344]
 custom_minimum_size = Vector2(195, 0)
 layout_mode = 2
 
-[node name="EnergyCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin/VBox" unique_id=977675964]
+[node name="EnergyCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/EnergyWidget/Margin/VBox" unique_id=977675964]
 layout_mode = 2
 text = "ENERGY"
 label_settings = ExtResource("22_jq2sk")
 horizontal_alignment = 2
 
-[node name="EnergyValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin/VBox" unique_id=766411606]
+[node name="EnergyValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/EnergyWidget/Margin/VBox" unique_id=766411606]
 layout_mode = 2
 text = "Total: 0 J
 Kinetic: 0 J
 Potential: 0 J"
 horizontal_alignment = 2
 
-[node name="MomentumCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin/VBox" unique_id=1170963133]
+[node name="MomentumWidget" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets" unique_id=86085866]
+material = SubResource("ShaderMaterial_facbu")
 layout_mode = 2
-text = "
-MOMENTUM"
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/MomentumWidget" unique_id=1882686044]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/MomentumWidget/Margin" unique_id=4375908]
+custom_minimum_size = Vector2(195, 0)
+layout_mode = 2
+
+[node name="MomentumCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/MomentumWidget/Margin/VBox" unique_id=1418845169]
+layout_mode = 2
+size_flags_vertical = 0
+text = "MOMENTUM"
 label_settings = ExtResource("22_jq2sk")
 horizontal_alignment = 2
 
-[node name="MomentumValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/EnergyWidget/Margin/VBox" unique_id=1433716876]
+[node name="MomentumValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/MomentumWidget/Margin/VBox" unique_id=818450123]
 layout_mode = 2
 text = "Linear: ...
 Angular: 0 J"

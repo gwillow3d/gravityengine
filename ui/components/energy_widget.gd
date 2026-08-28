@@ -30,7 +30,7 @@ func _on_energy_updated(kinetic: float, potential: float, linear_momentum: Vecto
 	energy_contents += "\nKinetic: " + _format_joules(kinetic)
 	energy_contents += "\nPotential: " + _format_joules(potential)
 	
-	var momentum_contents = "Linear: %.1v N" % linear_momentum
+	var momentum_contents = "Linear: %.1v N*s" % [round(linear_momentum * 10) / 10]
 	momentum_contents += "\nAngular: " + _format_joules(angular_momentum)
 	
 	energy_label.text = energy_contents
