@@ -18,6 +18,9 @@ void fragment() {
 	float grid_uv_y = round(SCREEN_UV.y * yFactor) / yFactor;
 	
 	vec4 text = textureLod(SCREEN_TEXTURE, vec2(grid_uv_x, grid_uv_y), blur_strength);
+	float brightness = (text.r + text.g + text.b) / 3.0;
+	brightness = min(brightness, 0.1);
 	
-	COLOR.rgb = text.rgb;
+	float boost = smoothstep(0.0, 1.0, brightness / 0.1) / 12.0;
+	COLOR.rgb = text.rgb + vec3(boost, boost, boost);
 }

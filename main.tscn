@@ -225,11 +225,9 @@ shader_parameter/pixel_size = 16
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b1qrp"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f6a44"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ok6jj"]
 shader = ExtResource("27_jq2sk")
@@ -237,7 +235,6 @@ shader_parameter/pixel_size = 16
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wnkbs"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0rl1p"]
 shader = ExtResource("27_jq2sk")
@@ -245,15 +242,12 @@ shader_parameter/pixel_size = 16
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d2t1y"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_come4"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h8e4i"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jq2sk"]
 shader = ExtResource("27_jq2sk")
@@ -261,11 +255,9 @@ shader_parameter/pixel_size = 16
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gngh3"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4lmeg"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_facbu"]
 shader = ExtResource("27_jq2sk")
@@ -273,15 +265,12 @@ shader_parameter/pixel_size = 16
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0cp0l"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0n3wm"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qnost"]
 shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
 
 [sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
 font_color = Color(0.641934, 0.641934, 0.641934, 0.45882353)
@@ -293,6 +282,15 @@ shadow_size = 0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0cbny"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hrvbo"]
+shader = ExtResource("25_4k2k6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uypp3"]
+shader = ExtResource("25_4k2k6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_blkrb"]
+shader = ExtResource("25_4k2k6")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_074og"]
 shader = ExtResource("16_getpj")
@@ -741,6 +739,7 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SimualtionConfigWidgets/ForcesFrame/MarginContainer/VBoxContainer" unique_id=926882079]
+material = SubResource("ShaderMaterial_hrvbo")
 layout_mode = 2
 text = "FORCES"
 label_settings = ExtResource("22_jq2sk")
@@ -752,6 +751,7 @@ theme_override_constants/v_separation = 8
 columns = 2
 
 [node name="GravityLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SimualtionConfigWidgets/ForcesFrame/MarginContainer/VBoxContainer/GridContainer" unique_id=1620745022]
+material = SubResource("ShaderMaterial_uypp3")
 layout_mode = 2
 text = "Gravity"
 
@@ -763,6 +763,7 @@ max_value = 1000.0
 suffix = "G"
 
 [node name="SofteningLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SimualtionConfigWidgets/ForcesFrame/MarginContainer/VBoxContainer/GridContainer" unique_id=1307944138]
+material = SubResource("ShaderMaterial_blkrb")
 layout_mode = 2
 text = "Softening"
 
