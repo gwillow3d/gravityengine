@@ -57,9 +57,53 @@ shader_parameter/vignette_intensity = 0.4
 shader_parameter/vignette_opacity = 0.5
 shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4k2k6"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8560673, 0.8560673, 0.85606724, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 1
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 1
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0rl1p"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.6501286, 0.6501282, 0.65012825, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 1
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 1
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ok6jj"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35531354, 0.3553136, 0.35531336, 1)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 1
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 1
+
 [sub_resource type="Theme" id="Theme_w48qg"]
 default_font = ExtResource("20_xuqvo")
 default_font_size = 20
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_4k2k6")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_0rl1p")
+HSlider/styles/slider = SubResource("StyleBoxFlat_ok6jj")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0rl1p"]
 shader = ExtResource("27_jq2sk")
@@ -449,11 +493,15 @@ label_settings = ExtResource("22_jq2sk")
 [node name="ScreenshotNotifier" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1344018861]
 material = SubResource("ShaderMaterial_qnost")
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -104.5
 offset_top = -20.0
-offset_right = 209.0
+offset_right = 104.5
+grow_horizontal = 2
 grow_vertical = 0
 text = "Saved screenshot as file.png"
 label_settings = SubResource("LabelSettings_d13ii")
@@ -477,15 +525,11 @@ icon = ExtResource("6_kek77")
 [node name="SpeedContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=304425883]
 material = SubResource("ShaderMaterial_ok6jj")
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -75.0
-offset_top = -45.0
-offset_right = 75.0
-grow_horizontal = 2
+offset_top = -53.0
+offset_right = 158.0
 grow_vertical = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer" unique_id=518765856]
@@ -503,12 +547,19 @@ script = ExtResource("22_htxhm")
 speed_label = NodePath("SpeedLabel")
 speed_slider = NodePath("SpeedSlider")
 
+[node name="SpeedLabel2" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget" unique_id=241030858]
+material = SubResource("ShaderMaterial_wnkbs")
+layout_mode = 2
+size_flags_horizontal = 0
+text = "SPEED"
+label_settings = ExtResource("22_jq2sk")
+
 [node name="SpeedLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget" unique_id=1493288200]
 material = SubResource("ShaderMaterial_wnkbs")
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 text = "Normal (1.0x)"
-horizontal_alignment = 1
+horizontal_alignment = 2
 
 [node name="SpeedSlider" type="HSlider" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget" unique_id=393079889]
 custom_minimum_size = Vector2(150, 0)
@@ -517,16 +568,22 @@ max_value = 16.0
 value = 4.0
 
 [node name="HeavyLoadLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1374327310]
-layout_mode = 0
-offset_left = 693.0
-offset_top = 966.0
-offset_right = 1195.0
-offset_bottom = 986.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -251.0
+offset_top = -53.0
+offset_right = 251.0
+offset_bottom = -33.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Simulation is under heavy load! Try decreasing the simulation speed."
 label_settings = SubResource("LabelSettings_82xsv")
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ParticlesViewport" type="SubViewport" parent="." unique_id=1988896197]
 transparent_bg = true

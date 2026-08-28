@@ -21,7 +21,7 @@ func _on_slider_changed(value: float) -> void:
 
 func _update_speed_label(value: float) -> void:
 	var rating = _get_speed_rating(value)
-	speed_label.text = "%sx (%s)" % [value / 4, rating]
+	speed_label.text = "%.0f%% (%s)" % [value / 4 * 100, rating]
 
 func _get_speed_rating(speed: float) -> String:
 	if speed == 0:
