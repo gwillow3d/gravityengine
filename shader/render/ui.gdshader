@@ -3,7 +3,7 @@ shader_type canvas_item;
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
 uniform int pixel_size = 16;
-uniform float blur_strength = 4.5;
+const float blur_strength = 2.5;
 
 void fragment() {
 	ivec2 size = textureSize(SCREEN_TEXTURE, 0);

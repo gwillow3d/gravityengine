@@ -110,7 +110,6 @@ HSlider/styles/slider = SubResource("StyleBoxFlat_ok6jj")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0rl1p"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
-shader_parameter/blur_strength = 4.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d2t1y"]
 shader = ExtResource("25_4k2k6")
@@ -127,7 +126,6 @@ shader_parameter/threshold = 0.9
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jq2sk"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
-shader_parameter/blur_strength = 4.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gngh3"]
 shader = ExtResource("25_4k2k6")
@@ -140,7 +138,6 @@ shader_parameter/threshold = 0.9
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_facbu"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
-shader_parameter/blur_strength = 4.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0cp0l"]
 shader = ExtResource("25_4k2k6")
@@ -153,7 +150,6 @@ shader_parameter/threshold = 0.9
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4k2k6"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
-shader_parameter/blur_strength = 4.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b1qrp"]
 shader = ExtResource("25_4k2k6")
@@ -173,7 +169,6 @@ font_color = Color(0.641934, 0.641934, 0.641934, 0.45882353)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ok6jj"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
-shader_parameter/blur_strength = 4.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wnkbs"]
 shader = ExtResource("25_4k2k6")
