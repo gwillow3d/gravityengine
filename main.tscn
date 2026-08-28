@@ -30,7 +30,7 @@
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
 [ext_resource type="Script" uid="uid://dqy5jik4vu586" path="res://ui/components/speed_widget.gd" id="22_htxhm"]
 [ext_resource type="Script" uid="uid://clavcgqsm6rs2" path="res://ui/components/population_widget.gd" id="22_kq58d"]
-[ext_resource type="Script" uid="uid://jf2d0yt8gthu" path="res://ui/components/energy_label.gd" id="22_qsp4k"]
+[ext_resource type="Script" uid="uid://jf2d0yt8gthu" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
 [ext_resource type="Script" uid="uid://bj5xvyu1jia18" path="res://ui/components/frame_time_widget.gd" id="22_seu75"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
@@ -59,10 +59,15 @@ shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
 default_font = ExtResource("20_xuqvo")
 default_font_size = 20
 
-[sub_resource type="Theme" id="Theme_cegan"]
+[sub_resource type="LabelSettings" id="LabelSettings_p1su1"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_a0v5i"]
+font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
-font_color = Color(1, 0.51246727, 0.42502993, 1)
+font_color = Color(0.95, 0.6555, 0.68494993, 1)
+shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
 font_color = Color(0.641934, 0.641934, 0.641934, 0.45882353)
@@ -175,7 +180,7 @@ frame_time_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/Performa
 population_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/PopulationWidget")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
 speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedWidget")
-energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyLabel")
+energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyWidget")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 ui_parent = NodePath("../UIRoot/UIMarginContainer")
 screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
@@ -206,33 +211,19 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 mouse_filter = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1705931504]
+[node name="AppInfoContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1762340981]
 layout_mode = 0
-offset_right = 140.0
-offset_bottom = 25.0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="MenuBar" type="MenuBar" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer" unique_id=1229227145]
+[node name="TitleLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/AppInfoContainer" unique_id=1877865842]
 layout_mode = 2
+text = "Gravity Engine"
 
-[node name="Gravity Engine" type="PopupMenu" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/MenuBar" unique_id=51029604]
-oversampling_override = 1.0
-theme = SubResource("Theme_cegan")
-item_count = 1
-item_0/id = 0
-
-[node name="ResetButton" type="Button" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1442580474]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -191.0
-offset_top = -33.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "New Simulation"
-icon = ExtResource("6_kek77")
+[node name="AuthorLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/AppInfoContainer" unique_id=2026103147]
+layout_mode = 2
+text = "by Winkassador!"
+label_settings = SubResource("LabelSettings_p1su1")
 
 [node name="SpeedWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=390316876 node_paths=PackedStringArray("speed_label", "speed_slider")]
 layout_mode = 1
@@ -259,7 +250,7 @@ horizontal_alignment = 1
 [node name="SpeedSlider" type="HSlider" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedWidget" unique_id=393079889]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-max_value = 20.0
+max_value = 16.0
 value = 4.0
 
 [node name="PerformanceWidgets" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=748978879]
@@ -295,6 +286,55 @@ text = "3,000 particles"
 horizontal_alignment = 2
 script = ExtResource("22_kq58d")
 
+[node name="EnergyWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=605300344 node_paths=PackedStringArray("energy_label", "momentum_label")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -27.0
+offset_right = 150.0
+offset_bottom = 27.0
+grow_vertical = 2
+script = ExtResource("22_qsp4k")
+energy_label = NodePath("EnergyValues")
+momentum_label = NodePath("MomentumValues")
+
+[node name="EnergyCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget" unique_id=977675964]
+layout_mode = 2
+text = "ENERGY"
+label_settings = SubResource("LabelSettings_a0v5i")
+
+[node name="EnergyValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget" unique_id=766411606]
+layout_mode = 2
+text = "Total: 0 J
+Kinetic: 0 J
+Potential: 0 J"
+
+[node name="MomentumCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget" unique_id=1170963133]
+layout_mode = 2
+text = "
+MOMENTUM"
+label_settings = SubResource("LabelSettings_a0v5i")
+
+[node name="MomentumValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget" unique_id=1433716876]
+layout_mode = 2
+text = "Linear: ...
+Angular: 0 J"
+
+[node name="ResetButton" type="Button" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1442580474]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -191.0
+offset_top = -33.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "New Simulation"
+icon = ExtResource("6_kek77")
+
 [node name="HeavyLoadLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1374327310]
 layout_mode = 1
 anchors_preset = 7
@@ -324,25 +364,6 @@ text = "Saved screenshot as file.png"
 label_settings = SubResource("LabelSettings_d13ii")
 vertical_alignment = 2
 script = ExtResource("16_d13ii")
-
-[node name="EnergyLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1101181911]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -68.5
-offset_right = 62.0
-offset_bottom = 68.5
-grow_vertical = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
-text = "Energy
-TE:
-KE:
-GPE:
-LM:"
-vertical_alignment = 1
-script = ExtResource("22_qsp4k")
 
 [node name="ParticlesViewport" type="SubViewport" parent="." unique_id=1988896197]
 transparent_bg = true

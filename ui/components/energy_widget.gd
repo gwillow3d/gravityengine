@@ -1,5 +1,8 @@
 class_name EnergyWidget
-extends Label
+extends Control
+
+@export var energy_label: Label
+@export var momentum_label: Label
 
 var _tween: Tween
 
@@ -23,15 +26,15 @@ func _on_visibility_toggled() -> void:
 
 func _on_energy_updated(kinetic: float, potential: float, linear_momentum: Vector2, angular_momentum: float) -> void:
 	var total = kinetic + potential
-	var contents = "~ Energy ~"
-	contents += "\nTotal: " + _format_joules(total)
-	contents += "\nKinetic: " + _format_joules(kinetic)
-	contents += "\nPotential: " + _format_joules(potential)
-	contents += "\n\n~ Momentum ~"
-	contents += "\nLinear: %.1v N" % linear_momentum
-	contents += "\nAngular: " + _format_joules(angular_momentum)
+	var energy_contents = "Total: " + _format_joules(total)
+	energy_contents += "\nKinetic: " + _format_joules(kinetic)
+	energy_contents += "\nPotential: " + _format_joules(potential)
 	
-	text = contents
+	var momentum_contents = "Linear: %.1v N" % linear_momentum
+	momentum_contents += "\nAngular: " + _format_joules(angular_momentum)
+	
+	energy_label.text = energy_contents
+	momentum_label.text = momentum_contents
 	
 func _format_joules(raw_amount: float) -> String:
 	if abs(raw_amount) >= 1000000000000: # Terajoule

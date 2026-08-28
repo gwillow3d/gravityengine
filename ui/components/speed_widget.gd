@@ -28,11 +28,13 @@ func _get_speed_rating(speed: float) -> String:
 		return "Paused"
 	elif speed < 4:
 		return "Slow"
+	elif speed == 4:
+		return "Default"
 	elif speed < 8:
-		return "Normal"
+		return "Moderate"
 	elif speed < 12:
 		return "Fast"
 	elif speed < 16:
-		return "Very Fast"
+		return "Extreme"
 	else:
 		return "Max"
