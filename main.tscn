@@ -33,6 +33,7 @@
 [ext_resource type="LabelSettings" uid="uid://bisl1ui6vd2bb" path="res://ui/label_styles/header.tres" id="22_jq2sk"]
 [ext_resource type="Script" uid="uid://8cw6ljvr04cx" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
 [ext_resource type="Shader" uid="uid://ckferoweww072" path="res://shader/render/dynamic_text.gdshader" id="25_4k2k6"]
+[ext_resource type="Script" uid="uid://chwg182t1usb1" path="res://ui/components/keybind_label.gd" id="26_0rl1p"]
 [ext_resource type="Shader" uid="uid://dsffpc0gexbth" path="res://shader/render/ui.gdshader" id="27_jq2sk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
@@ -423,6 +424,8 @@ layout_mode = 2
 text = "ENERGY"
 label_settings = ExtResource("22_jq2sk")
 horizontal_alignment = 2
+script = ExtResource("26_0rl1p")
+action = "toggle_energy_widget"
 
 [node name="EnergyValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/EnergyWidget/Margin/VBox" unique_id=766411606]
 material = SubResource("ShaderMaterial_4lmeg")
@@ -457,6 +460,8 @@ size_flags_vertical = 0
 text = "MOMENTUM"
 label_settings = ExtResource("22_jq2sk")
 horizontal_alignment = 2
+script = ExtResource("26_0rl1p")
+action = "toggle_energy_widget"
 
 [node name="MomentumValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/MomentumWidget/Margin/VBox" unique_id=818450123]
 layout_mode = 2
