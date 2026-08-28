@@ -32,6 +32,7 @@
 [ext_resource type="Script" uid="uid://dqy5jik4vu586" path="res://ui/components/speed_widget.gd" id="22_htxhm"]
 [ext_resource type="LabelSettings" uid="uid://bisl1ui6vd2bb" path="res://ui/label_styles/header.tres" id="22_jq2sk"]
 [ext_resource type="Script" uid="uid://8cw6ljvr04cx" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
+[ext_resource type="Shader" uid="uid://dsffpc0gexbth" path="res://shader/render/ui.gdshader" id="27_jq2sk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
 shader = ExtResource("9_82xsv")
@@ -58,6 +59,10 @@ shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
 [sub_resource type="Theme" id="Theme_w48qg"]
 default_font = ExtResource("20_xuqvo")
 default_font_size = 20
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_htxhm"]
+shader = ExtResource("27_jq2sk")
+shader_parameter/pixel_size = 8
 
 [sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
 font_color = Color(0.95, 0.4655, 0.51394993, 1)
@@ -175,7 +180,7 @@ performance_widgets = NodePath("../UIRoot/UIMarginContainer/MainContainer/Perfor
 energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyWidget")
 screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
-speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedWidget")
+speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/SpeedWidget")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
 
 [node name="UIRoot" type="Control" parent="UILayer" unique_id=2098282740]
@@ -204,6 +209,47 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 mouse_filter = 1
 
+[node name="PanelContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=278547894]
+material = SubResource("ShaderMaterial_htxhm")
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -45.0
+offset_right = 75.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer" unique_id=46925917]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="SpeedWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer" unique_id=390316876 node_paths=PackedStringArray("speed_label", "speed_slider")]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+script = ExtResource("22_htxhm")
+speed_label = NodePath("SpeedLabel")
+speed_slider = NodePath("SpeedSlider")
+
+[node name="SpeedLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/SpeedWidget" unique_id=1493288200]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Normal (1.0x)"
+horizontal_alignment = 1
+
+[node name="SpeedSlider" type="HSlider" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/SpeedWidget" unique_id=393079889]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+max_value = 16.0
+value = 4.0
+
 [node name="AppInfoContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1762340981]
 layout_mode = 0
 offset_right = 132.0
@@ -217,34 +263,6 @@ text = "Gravity Engine"
 layout_mode = 2
 text = "by Winkassador!"
 label_settings = ExtResource("22_jq2sk")
-
-[node name="SpeedWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=390316876 node_paths=PackedStringArray("speed_label", "speed_slider")]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -75.0
-offset_top = -45.0
-offset_right = 75.0
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("22_htxhm")
-speed_label = NodePath("SpeedLabel")
-speed_slider = NodePath("SpeedSlider")
-
-[node name="SpeedLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedWidget" unique_id=1493288200]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Normal (1.0x)"
-horizontal_alignment = 1
-
-[node name="SpeedSlider" type="HSlider" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedWidget" unique_id=393079889]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-max_value = 16.0
-value = 4.0
 
 [node name="PerformanceWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=748978879 node_paths=PackedStringArray("fps_label", "frame_time_label", "population_label", "render_mode_label")]
 layout_mode = 1
