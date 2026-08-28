@@ -32,6 +32,7 @@
 [ext_resource type="Script" uid="uid://dqy5jik4vu586" path="res://ui/components/speed_widget.gd" id="22_htxhm"]
 [ext_resource type="LabelSettings" uid="uid://bisl1ui6vd2bb" path="res://ui/label_styles/header.tres" id="22_jq2sk"]
 [ext_resource type="Script" uid="uid://8cw6ljvr04cx" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
+[ext_resource type="Shader" uid="uid://ckferoweww072" path="res://shader/render/dynamic_text.gdshader" id="25_4k2k6"]
 [ext_resource type="Shader" uid="uid://dsffpc0gexbth" path="res://shader/render/ui.gdshader" id="27_jq2sk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
@@ -65,32 +66,76 @@ shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
 shader_parameter/blur_strength = 4.5
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d2t1y"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_come4"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h8e4i"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jq2sk"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
 shader_parameter/blur_strength = 4.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gngh3"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4lmeg"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_facbu"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
 shader_parameter/blur_strength = 4.5
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0cp0l"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0n3wm"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4k2k6"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
 shader_parameter/blur_strength = 4.5
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b1qrp"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f6a44"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qnost"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
 [sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
 font_color = Color(0.641934, 0.641934, 0.641934, 0.45882353)
-
-[sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
-font_color = Color(0.95, 0.4655, 0.51394993, 1)
-shadow_size = 0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ok6jj"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
 shader_parameter/blur_strength = 4.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wnkbs"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
+[sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
+font_color = Color(0.95, 0.4655, 0.51394993, 1)
+shadow_size = 0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_074og"]
 shader = ExtResource("16_getpj")
@@ -196,14 +241,14 @@ texture = ExtResource("1_h2yge")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
 
-[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("ui_root", "performance_widgets", "energy_widget", "screenshot_widget", "heavy_load_warning", "speed_widget", "reset_button")]
+[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("ui_root", "performance_widgets", "energy_widget", "screenshot_widget", "speed_widget", "heavy_load_warning", "reset_button")]
 script = ExtResource("1_7mycd")
 ui_root = NodePath("../UIRoot")
 performance_widgets = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget")
 energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets")
 screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
-heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget")
+heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
 
 [node name="UIRoot" type="Control" parent="UILayer" unique_id=2098282740]
@@ -264,6 +309,7 @@ population_label = NodePath("PopulationWidget")
 render_mode_label = NodePath("RenderModeWidget")
 
 [node name="PerformanceLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1813452783]
+material = SubResource("ShaderMaterial_d2t1y")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -272,6 +318,7 @@ label_settings = ExtResource("22_jq2sk")
 horizontal_alignment = 2
 
 [node name="FPSWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1152752724]
+material = SubResource("ShaderMaterial_come4")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -279,6 +326,7 @@ text = "60 FPS"
 horizontal_alignment = 2
 
 [node name="FrameTimeWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1026097213]
+material = SubResource("ShaderMaterial_h8e4i")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -286,6 +334,7 @@ text = "12ms per frame"
 horizontal_alignment = 2
 
 [node name="PopulationWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1130729556]
+material = SubResource("ShaderMaterial_h8e4i")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -293,6 +342,7 @@ text = "3,000 particles"
 horizontal_alignment = 2
 
 [node name="RenderModeWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget" unique_id=1904594339]
+material = SubResource("ShaderMaterial_h8e4i")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -323,12 +373,14 @@ custom_minimum_size = Vector2(195, 0)
 layout_mode = 2
 
 [node name="EnergyCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/EnergyWidget/Margin/VBox" unique_id=977675964]
+material = SubResource("ShaderMaterial_gngh3")
 layout_mode = 2
 text = "ENERGY"
 label_settings = ExtResource("22_jq2sk")
 horizontal_alignment = 2
 
 [node name="EnergyValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/EnergyWidget/Margin/VBox" unique_id=766411606]
+material = SubResource("ShaderMaterial_4lmeg")
 layout_mode = 2
 text = "Total: 0 J
 Kinetic: 0 J
@@ -342,6 +394,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 
 [node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/MomentumWidget" unique_id=1882686044]
+material = SubResource("ShaderMaterial_0cp0l")
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
@@ -353,6 +406,7 @@ custom_minimum_size = Vector2(195, 0)
 layout_mode = 2
 
 [node name="MomentumCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/MomentumWidget/Margin/VBox" unique_id=1418845169]
+material = SubResource("ShaderMaterial_0n3wm")
 layout_mode = 2
 size_flags_vertical = 0
 text = "MOMENTUM"
@@ -382,15 +436,18 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=1877865842]
+material = SubResource("ShaderMaterial_b1qrp")
 layout_mode = 2
 text = "Gravity Engine"
 
 [node name="AuthorLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=2026103147]
+material = SubResource("ShaderMaterial_f6a44")
 layout_mode = 2
 text = "by Winkassador!"
 label_settings = ExtResource("22_jq2sk")
 
 [node name="ScreenshotNotifier" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1344018861]
+material = SubResource("ShaderMaterial_qnost")
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -416,23 +473,6 @@ grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 10
 icon = ExtResource("6_kek77")
-
-[node name="HeavyLoadLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1374327310]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -413.5
-offset_top = -80.0
-offset_right = 413.5
-offset_bottom = -57.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Simulation is under heavy load! Try decreasing the simulation speed."
-label_settings = SubResource("LabelSettings_82xsv")
-horizontal_alignment = 1
 
 [node name="SpeedContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=304425883]
 material = SubResource("ShaderMaterial_ok6jj")
@@ -464,6 +504,7 @@ speed_label = NodePath("SpeedLabel")
 speed_slider = NodePath("SpeedSlider")
 
 [node name="SpeedLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget" unique_id=1493288200]
+material = SubResource("ShaderMaterial_wnkbs")
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Normal (1.0x)"
@@ -474,6 +515,18 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 max_value = 16.0
 value = 4.0
+
+[node name="HeavyLoadLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1374327310]
+layout_mode = 0
+offset_left = 693.0
+offset_top = 966.0
+offset_right = 1195.0
+offset_bottom = 986.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Simulation is under heavy load! Try decreasing the simulation speed."
+label_settings = SubResource("LabelSettings_82xsv")
+horizontal_alignment = 1
 
 [node name="ParticlesViewport" type="SubViewport" parent="." unique_id=1988896197]
 transparent_bg = true

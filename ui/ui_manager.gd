@@ -8,9 +8,9 @@ signal simulation_reset_requested
 @export var performance_widgets: PerformanceWidgets
 @export var energy_widget: EnergyWidget
 @export var screenshot_widget: ScreenshotNotifier
+@export var speed_widget: SpeedWidget
 
 @export var heavy_load_warning: Label
-@export var speed_widget: SpeedWidget
 
 @export var reset_button: Button
 
