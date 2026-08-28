@@ -6,7 +6,7 @@ void fragment() {
 	float r = length(uv);
 	if(COLOR.r > 0.0) {
 		float alpha = smoothstep(1.0, 0.0, r);
-		COLOR.a = alpha * 1.4;
+		COLOR.a = alpha * 4.0;
 	} else {
 		if(r > 1.0) { COLOR.a = 0.0; }
 		else {
