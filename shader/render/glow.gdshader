@@ -1,6 +1,8 @@
 shader_type canvas_item;
 render_mode blend_add;
 
+uniform sampler2D color_map;
+
 void fragment() {
 	float significance = COLOR.r;
 	significance = pow(significance, 1.0);
