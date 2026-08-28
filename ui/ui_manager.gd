@@ -10,15 +10,18 @@ signal simulation_reset_requested
 @export var reset_button: Button
 @export var speed_widget: SpeedWidget
 @export var energy_widget: EnergyWidget
+@export var render_mode_widget: RenderModeWidget
 @export var heavy_load_warning: Label
 @export var ui_parent: Control
 @export var screenshot_widget: ScreenshotNotifier
 
+var _manager: SimulationManager
 var _simulation: Simulation
 var _time: TimeManager
 var _screenshot: ScreenshotManager
 
-func setup(simulation: Simulation, time: TimeManager, screenshot: ScreenshotManager) -> void:
+func setup(manager: SimulationManager, simulation: Simulation, time: TimeManager, screenshot: ScreenshotManager) -> void:
+	_manager = manager
 	_simulation = simulation
 	_time = time
 	_screenshot = screenshot
@@ -33,6 +36,8 @@ func _ready() -> void:
 	_time.average_time_updated.connect(_average_time_updated)
 	_time.average_time_updated.connect(frame_time_widget._on_frame_time_updated)
 	_screenshot.screenshot_taken.connect(screenshot_widget._on_screenshot_taken)
+	
+	_manager.render_mode_changed.connect(render_mode_widget._on_render_mode_updated)
 	
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:

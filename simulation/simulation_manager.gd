@@ -1,9 +1,11 @@
 class_name SimulationManager
 extends Node
 
+signal render_mode_changed(mode: RenderMode)
+
 var simulation: Simulation
 
-@export var preferred_mode: SimulationMode = SimulationMode.GPU
+@export var render_mode: RenderMode = RenderMode.GPU
 
 @export var fast_presets: Array[SimulationConfig]
 @export var fancy_presets: Array[SimulationConfig]
@@ -22,9 +24,9 @@ var simulation: Simulation
 
 func _ready() -> void:
 	if OS.get_name() == "Web":
-		preferred_mode = SimulationMode.CPU
+		render_mode = RenderMode.CPU
 	
-	if preferred_mode == SimulationMode.CPU:
+	if render_mode == RenderMode.CPU:
 		simulation = CPUSimulation.new()
 		simulation.config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
@@ -51,19 +53,24 @@ func _ready() -> void:
 	simulation_manager.setup(simulation)
 	particle_renderer.setup(simulation)
 	background_renderer.setup(simulation)
-	ui_manager.setup(simulation, simulation_manager, screenshot_manager)
+	ui_manager.setup(self, simulation, simulation_manager, screenshot_manager)
+	
+	call_deferred("_broadcast_render_mode")
+
+func _broadcast_render_mode() -> void:
+	render_mode_changed.emit(render_mode)
 
 func _on_simulation_reset() -> void:
 	var config: SimulationConfig
 	
-	if preferred_mode == SimulationMode.CPU:
+	if render_mode == RenderMode.CPU:
 		config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
 		config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
 	
 	simulation.reset(config)
 
-enum SimulationMode {
+enum RenderMode {
 	CPU,
 	GPU
 }

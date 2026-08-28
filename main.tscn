@@ -33,6 +33,7 @@
 [ext_resource type="Script" uid="uid://clavcgqsm6rs2" path="res://ui/components/population_widget.gd" id="22_kq58d"]
 [ext_resource type="Script" uid="uid://jf2d0yt8gthu" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
 [ext_resource type="Script" uid="uid://bj5xvyu1jia18" path="res://ui/components/frame_time_widget.gd" id="22_seu75"]
+[ext_resource type="Script" uid="uid://cptwaos3h706" path="res://ui/components/render_mode_widget.gd" id="25_4k2k6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
 shader = ExtResource("9_82xsv")
@@ -88,6 +89,7 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="SimulationManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
+render_mode = 0
 fast_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_lswn8"), ExtResource("4_a6jrf"), ExtResource("5_xuqvo")])
 fancy_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_1u8w0"), ExtResource("4_1u8w0"), ExtResource("5_0odxb")])
 simulation_manager = NodePath("../TimeManager")
@@ -171,7 +173,7 @@ texture = ExtResource("1_h2yge")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=292682058]
 
-[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("fps_label", "frame_time_widget", "population_widget", "reset_button", "speed_widget", "energy_widget", "heavy_load_warning", "ui_parent", "screenshot_widget")]
+[node name="UIManager" type="Node" parent="UILayer" unique_id=1001283596 node_paths=PackedStringArray("fps_label", "frame_time_widget", "population_widget", "reset_button", "speed_widget", "energy_widget", "render_mode_widget", "heavy_load_warning", "ui_parent", "screenshot_widget")]
 script = ExtResource("1_7mycd")
 fps_label = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/FPSWidget")
 frame_time_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/FrameTimeWidget")
@@ -179,6 +181,7 @@ population_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/Performa
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/ResetButton")
 speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedWidget")
 energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/EnergyWidget")
+render_mode_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets/RenderModeWidget")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 ui_parent = NodePath("../UIRoot/UIMarginContainer")
 screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
@@ -291,6 +294,14 @@ size_flags_vertical = 0
 text = "3,000 particles"
 horizontal_alignment = 2
 script = ExtResource("22_kq58d")
+
+[node name="RenderModeWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets" unique_id=1904594339]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "GPU mode"
+horizontal_alignment = 2
+script = ExtResource("25_4k2k6")
 
 [node name="EnergyWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=605300344 node_paths=PackedStringArray("energy_label", "momentum_label")]
 layout_mode = 1
