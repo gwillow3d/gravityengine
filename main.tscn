@@ -29,6 +29,7 @@
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
 [ext_resource type="Script" uid="uid://dqy5jik4vu586" path="res://ui/components/speed_widget.gd" id="22_htxhm"]
+[ext_resource type="LabelSettings" uid="uid://bisl1ui6vd2bb" path="res://ui/label_styles/header.tres" id="22_jq2sk"]
 [ext_resource type="Script" uid="uid://clavcgqsm6rs2" path="res://ui/components/population_widget.gd" id="22_kq58d"]
 [ext_resource type="Script" uid="uid://jf2d0yt8gthu" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
 [ext_resource type="Script" uid="uid://bj5xvyu1jia18" path="res://ui/components/frame_time_widget.gd" id="22_seu75"]
@@ -60,9 +61,6 @@ default_font = ExtResource("20_xuqvo")
 default_font_size = 20
 
 [sub_resource type="LabelSettings" id="LabelSettings_p1su1"]
-font_size = 12
-
-[sub_resource type="LabelSettings" id="LabelSettings_a0v5i"]
 font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
@@ -263,6 +261,14 @@ offset_bottom = 83.0
 grow_horizontal = 0
 alignment = 2
 
+[node name="PerformanceLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets" unique_id=1813452783]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "PERFORMANCE"
+label_settings = ExtResource("22_jq2sk")
+horizontal_alignment = 2
+
 [node name="FPSWidget" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PerformanceWidgets" unique_id=1152752724]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -302,7 +308,7 @@ momentum_label = NodePath("MomentumValues")
 [node name="EnergyCaption" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget" unique_id=977675964]
 layout_mode = 2
 text = "ENERGY"
-label_settings = SubResource("LabelSettings_a0v5i")
+label_settings = ExtResource("22_jq2sk")
 
 [node name="EnergyValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget" unique_id=766411606]
 layout_mode = 2
@@ -314,7 +320,7 @@ Potential: 0 J"
 layout_mode = 2
 text = "
 MOMENTUM"
-label_settings = SubResource("LabelSettings_a0v5i")
+label_settings = ExtResource("22_jq2sk")
 
 [node name="MomentumValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/EnergyWidget" unique_id=1433716876]
 layout_mode = 2
