@@ -32,6 +32,7 @@
 [ext_resource type="Script" uid="uid://dqy5jik4vu586" path="res://ui/components/speed_widget.gd" id="22_htxhm"]
 [ext_resource type="LabelSettings" uid="uid://bisl1ui6vd2bb" path="res://ui/label_styles/header.tres" id="22_jq2sk"]
 [ext_resource type="Script" uid="uid://8cw6ljvr04cx" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
+[ext_resource type="Texture2D" uid="uid://3gcu1fw0jxaq" path="res://ui/sprites/settings.png" id="24_b1qrp"]
 [ext_resource type="Shader" uid="uid://ckferoweww072" path="res://shader/render/dynamic_text.gdshader" id="25_4k2k6"]
 [ext_resource type="Texture2D" uid="uid://b1s858upwh61s" path="res://ui/sprites/clock.png" id="25_facbu"]
 [ext_resource type="Script" uid="uid://chwg182t1usb1" path="res://ui/components/keybind_label.gd" id="26_0rl1p"]
@@ -101,7 +102,7 @@ content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
-bg_color = Color(1, 1, 1, 1)
+bg_color = Color(1, 1, 1, 0.4117647)
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -194,7 +195,6 @@ corner_detail = 6
 [sub_resource type="Theme" id="Theme_w48qg"]
 default_font = ExtResource("20_xuqvo")
 default_font_size = 20
-Button/colors/font_pressed_color = Color(0, 0, 0, 1)
 Button/styles/hover = SubResource("StyleBoxFlat_come4")
 Button/styles/normal = SubResource("StyleBoxFlat_h8e4i")
 Button/styles/normal_mirrored = SubResource("StyleBoxFlat_facbu")
@@ -205,6 +205,18 @@ HSlider/styles/slider = SubResource("StyleBoxFlat_ok6jj")
 LineEdit/styles/focus = SubResource("StyleBoxFlat_0cp0l")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_0cp0l")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_b1qrp")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4k2k6"]
+shader = ExtResource("27_jq2sk")
+shader_parameter/pixel_size = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b1qrp"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f6a44"]
+shader = ExtResource("25_4k2k6")
+shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ok6jj"]
 shader = ExtResource("27_jq2sk")
@@ -251,18 +263,6 @@ shader = ExtResource("25_4k2k6")
 shader_parameter/threshold = 0.9
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0n3wm"]
-shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4k2k6"]
-shader = ExtResource("27_jq2sk")
-shader_parameter/pixel_size = 16
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b1qrp"]
-shader = ExtResource("25_4k2k6")
-shader_parameter/threshold = 0.9
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f6a44"]
 shader = ExtResource("25_4k2k6")
 shader_parameter/threshold = 0.9
 
@@ -421,6 +421,44 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 mouse_filter = 1
 
+[node name="HBoxContainer" type="HBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1759043146]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 8
+
+[node name="TitleContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer" unique_id=1719298483]
+material = SubResource("ShaderMaterial_4k2k6")
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/TitleContainer" unique_id=1372798529]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="AppInfoContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/TitleContainer/MarginContainer" unique_id=1762340981]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=1877865842]
+material = SubResource("ShaderMaterial_b1qrp")
+layout_mode = 2
+text = "Gravity Engine"
+
+[node name="AuthorLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=2026103147]
+material = SubResource("ShaderMaterial_f6a44")
+layout_mode = 2
+text = "by Winkassador!"
+label_settings = ExtResource("22_jq2sk")
+
+[node name="SettingsButton" type="Button" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer" unique_id=1221862576]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+icon = ExtResource("24_b1qrp")
+icon_alignment = 1
+
 [node name="TimeControlWidgets" type="HBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=499949398]
 layout_mode = 1
 anchors_preset = 2
@@ -434,6 +472,8 @@ theme_override_constants/separation = 12
 [node name="SpeedContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets" unique_id=304425883]
 material = SubResource("ShaderMaterial_ok6jj")
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
 
 [node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets/SpeedContainer" unique_id=518765856]
 layout_mode = 2
@@ -482,8 +522,8 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -1888.0
-offset_bottom = 1048.0
+offset_left = -203.0
+offset_bottom = 343.0
 grow_horizontal = 0
 theme_override_constants/separation = 8
 
@@ -551,6 +591,7 @@ horizontal_alignment = 2
 
 [node name="ConservationWidgets" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer" unique_id=550560336 node_paths=PackedStringArray("energy_label", "momentum_label")]
 layout_mode = 2
+size_flags_horizontal = 8
 theme_override_constants/separation = 8
 script = ExtResource("22_qsp4k")
 energy_label = NodePath("EnergyWidget/Margin/VBox/EnergyValues")
@@ -622,33 +663,6 @@ layout_mode = 2
 text = "Linear: ...
 Angular: 0 J"
 horizontal_alignment = 2
-
-[node name="TitleContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1719298483]
-material = SubResource("ShaderMaterial_4k2k6")
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer" unique_id=1372798529]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="AppInfoContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer/MarginContainer" unique_id=1762340981]
-layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=1877865842]
-material = SubResource("ShaderMaterial_b1qrp")
-layout_mode = 2
-text = "Gravity Engine"
-
-[node name="AuthorLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=2026103147]
-material = SubResource("ShaderMaterial_f6a44")
-layout_mode = 2
-text = "by Winkassador!"
-label_settings = ExtResource("22_jq2sk")
 
 [node name="ScreenshotNotifier" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1344018861]
 material = SubResource("ShaderMaterial_qnost")
