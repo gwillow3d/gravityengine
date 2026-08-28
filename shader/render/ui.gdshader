@@ -19,5 +19,5 @@ void fragment() {
 	
 	vec4 text = textureLod(SCREEN_TEXTURE, vec2(grid_uv_x, grid_uv_y), blur_strength);
 	
-	COLOR = text;
+	COLOR.rgb = text.rgb;
 }

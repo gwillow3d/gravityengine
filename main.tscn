@@ -192,6 +192,18 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 1
 corner_detail = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d2t1y"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
 [sub_resource type="Theme" id="Theme_w48qg"]
 default_font = ExtResource("20_xuqvo")
 default_font_size = 20
@@ -205,6 +217,7 @@ HSlider/styles/slider = SubResource("StyleBoxFlat_ok6jj")
 LineEdit/styles/focus = SubResource("StyleBoxFlat_0cp0l")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_0cp0l")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_b1qrp")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_d2t1y")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4k2k6"]
 shader = ExtResource("27_jq2sk")
