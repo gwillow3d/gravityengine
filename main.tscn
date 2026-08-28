@@ -31,7 +31,7 @@
 [ext_resource type="Script" uid="uid://dc0spdl5dg8ep" path="res://ui/components/performance_widgets.gd" id="22_0rl1p"]
 [ext_resource type="Script" uid="uid://dqy5jik4vu586" path="res://ui/components/speed_widget.gd" id="22_htxhm"]
 [ext_resource type="LabelSettings" uid="uid://bisl1ui6vd2bb" path="res://ui/label_styles/header.tres" id="22_jq2sk"]
-[ext_resource type="Script" uid="uid://jf2d0yt8gthu" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
+[ext_resource type="Script" uid="uid://8cw6ljvr04cx" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
 shader = ExtResource("9_82xsv")
