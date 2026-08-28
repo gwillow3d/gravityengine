@@ -60,6 +60,59 @@ shader_parameter/vignette_intensity = 0.4
 shader_parameter/vignette_opacity = 0.5
 shader_parameter/vignette_rgb = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_come4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.17641911, 0.17641908, 0.17641908, 0.47058824)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 1
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 1
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h8e4i"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.19215687)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 1
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 1
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_facbu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4lmeg"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 1
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 1
+corner_detail = 6
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4k2k6"]
 content_margin_left = 4.0
 content_margin_top = 4.0
@@ -102,12 +155,56 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 1
 corner_detail = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0cp0l"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.09019608)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 0.79607844)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 1
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 1
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1qrp"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.4862745)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.44291076, 0.44291076, 0.44291073, 0.79607844)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 1
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 1
+corner_detail = 6
+
 [sub_resource type="Theme" id="Theme_w48qg"]
 default_font = ExtResource("20_xuqvo")
 default_font_size = 20
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_come4")
+Button/styles/normal = SubResource("StyleBoxFlat_h8e4i")
+Button/styles/normal_mirrored = SubResource("StyleBoxFlat_facbu")
+Button/styles/pressed = SubResource("StyleBoxFlat_4lmeg")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_4k2k6")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_0rl1p")
 HSlider/styles/slider = SubResource("StyleBoxFlat_ok6jj")
+LineEdit/styles/focus = SubResource("StyleBoxFlat_0cp0l")
+LineEdit/styles/normal = SubResource("StyleBoxFlat_0cp0l")
+LineEdit/styles/read_only = SubResource("StyleBoxFlat_b1qrp")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ok6jj"]
 shader = ExtResource("27_jq2sk")
@@ -623,6 +720,8 @@ label_settings = ExtResource("22_jq2sk")
 
 [node name="GridContainer" type="GridContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SimualtionConfigWidgets/ForcesFrame/MarginContainer/VBoxContainer" unique_id=123004812]
 layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 8
 columns = 2
 
 [node name="GravityLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SimualtionConfigWidgets/ForcesFrame/MarginContainer/VBoxContainer/GridContainer" unique_id=1620745022]
