@@ -34,7 +34,7 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if !_paused:
 		var start_time = Time.get_unix_time_from_system()
-		_simulation.step(steps_per_frame)
+		_simulation.step(4)
 		var end_time = Time.get_unix_time_from_system()
 		
 		_frame_time_accumulator += end_time - start_time

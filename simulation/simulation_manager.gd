@@ -3,6 +3,8 @@ extends Node
 
 var simulation: Simulation
 
+@export var preferred_mode: SimulationMode = SimulationMode.GPU
+
 @export var fast_presets: Array[SimulationConfig]
 @export var fancy_presets: Array[SimulationConfig]
 
@@ -20,6 +22,9 @@ var simulation: Simulation
 
 func _ready() -> void:
 	if OS.get_name() == "Web":
+		preferred_mode = SimulationMode.CPU
+	
+	if preferred_mode == SimulationMode.CPU:
 		simulation = CPUSimulation.new()
 		simulation.config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
@@ -51,9 +56,14 @@ func _ready() -> void:
 func _on_simulation_reset() -> void:
 	var config: SimulationConfig
 	
-	if OS.get_name() == "Web":
+	if preferred_mode == SimulationMode.CPU:
 		config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
 		config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
 	
 	simulation.reset(config)
+
+enum SimulationMode {
+	CPU,
+	GPU
+}

@@ -31,13 +31,14 @@ func step(steps: int) -> void:
 	
 	energy_updated.emit(_kinetic_energy, _potential_energy, compute_total_linear_momentum(), compute_total_angular_momentum())
 
-func reset(config: SimulationConfig) -> void:
+func reset(_config: SimulationConfig) -> void:
 	_p_positions.clear()
 	_p_velocities.clear()
 	_p_accelerations.clear()
 	_p_masses.clear()
 	
-	set_gravity(config.gravity)
+	config = _config
+	
 	if config.generator:
 		var state = config.generator.generate(config.gravity, config.world_size)
 		
@@ -45,6 +46,10 @@ func reset(config: SimulationConfig) -> void:
 		_remove_drift()
 	
 	simulation_reset.emit()
+	
+	world_size_changed.emit(config.world_size)
+	border_type_changed.emit(config.border_type)
+	gravity_changed.emit(config.gravity)
 
 # Private functions #
 func _apply_state(state: SimulationState) -> void:
