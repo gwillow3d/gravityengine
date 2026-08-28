@@ -135,6 +135,7 @@ script = ExtResource("7_ryguw")
 
 [node name="CameraController" type="Node2D" parent="." unique_id=2076364281]
 script = ExtResource("1_getpj")
+zoom_speed = 0.09999999999999999
 
 [node name="WorldLayer" type="CanvasLayer" parent="." unique_id=1843700673]
 

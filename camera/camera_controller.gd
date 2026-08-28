@@ -4,8 +4,9 @@ extends Node2D
 signal camera_zoomed(new_zoom: Vector2)
 signal camera_moved(new_position: Vector2)
 
-@export var min_zoom: float = 0.01
+@export var min_zoom: float = 0.25
 @export var max_zoom: float = 25.0
+@export_range(0.01, 0.5, 0.01) var zoom_speed: float = 1.1
 @export var camera_move_speed: float = 400
 
 var _border_type: Simulation.BorderType
@@ -52,9 +53,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		if event.is_pressed():
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				_zoom_toward(get_global_mouse_position(), 1.1)
+				_zoom_toward(get_global_mouse_position(), 1 + zoom_speed)
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				_zoom_toward(get_global_mouse_position(), 0.9)
+				_zoom_toward(get_global_mouse_position(), 1 / (1 + zoom_speed))
 	
 	if event is InputEventKey:
 		if event.is_action("camera_return_home"):
