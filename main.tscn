@@ -178,6 +178,10 @@ shader_parameter/threshold = 0.9
 font_color = Color(0.95, 0.4655, 0.51394993, 1)
 shadow_size = 0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0cbny"]
+shader = ExtResource("27_jq2sk")
+shader_parameter/pixel_size = 16
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_074og"]
 shader = ExtResource("16_getpj")
 
@@ -516,12 +520,15 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -32.0
+offset_left = -47.0
 offset_top = -45.0
+offset_right = -5.0
+offset_bottom = -3.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 10
 icon = ExtResource("6_kek77")
+icon_alignment = 1
 
 [node name="SpeedContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=304425883]
 material = SubResource("ShaderMaterial_ok6jj")
@@ -585,6 +592,74 @@ text = "Simulation is under heavy load! Try decreasing the simulation speed."
 label_settings = SubResource("LabelSettings_82xsv")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1443232465]
+material = SubResource("ShaderMaterial_0cbny")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -216.0
+offset_top = -155.0
+offset_bottom = -66.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer" unique_id=139555507]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer" unique_id=198396275]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=926882079]
+layout_mode = 2
+text = "FORCES"
+label_settings = ExtResource("22_jq2sk")
+
+[node name="GridContainer" type="GridContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=123004812]
+layout_mode = 2
+columns = 2
+
+[node name="GravityLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1620745022]
+layout_mode = 2
+text = "Gravity"
+
+[node name="GravityBox" type="SpinBox" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1018712385]
+layout_mode = 2
+size_flags_horizontal = 10
+min_value = -1000.0
+max_value = 1000.0
+suffix = "G"
+
+[node name="SofteningLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1307944138]
+layout_mode = 2
+text = "Softening"
+
+[node name="SofteningBox" type="SpinBox" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1521861831]
+layout_mode = 2
+size_flags_horizontal = 10
+min_value = 0.001
+max_value = 100000.0
+value = 0.001
+suffix = "m"
+
+[node name="TimestepLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=639024198]
+layout_mode = 2
+text = "Timestep"
+
+[node name="TimestepBox" type="SpinBox" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer" unique_id=1156519552]
+layout_mode = 2
+size_flags_horizontal = 10
+min_value = 0.001
+max_value = 100000.0
+value = 0.001
+suffix = "s/s"
 
 [node name="ParticlesViewport" type="SubViewport" parent="." unique_id=1988896197]
 transparent_bg = true
