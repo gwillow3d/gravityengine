@@ -57,8 +57,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event is InputEventKey:
 		if event.is_action("camera_return_home"):
-			_position = _world_size / 2.0
-			camera_moved.emit(_position)
+			focus_on_world_centre()
 	
 	if event is InputEventMouseMotion and _is_dragging:
 		var mouse_pos = get_global_mouse_position()
@@ -72,8 +71,13 @@ func _zoom_toward(where: Vector2, factor: float) -> void:
 	_zoom = clampf(_zoom, min_zoom, max_zoom)
 	camera_zoomed.emit(Vector2(_zoom, _zoom))
 
+func focus_on_world_centre() -> void:
+	_position = _world_size / 2.0
+	camera_moved.emit(_position)
+
 func _on_world_size_changed(world_size: Vector2i) -> void:
 	_world_size = world_size
+	focus_on_world_centre()
 
 func _on_border_type_changed(border_type: Simulation.BorderType) -> void:
 	_border_type = border_type
