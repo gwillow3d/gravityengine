@@ -12,6 +12,7 @@ void fragment() {
 			luminance = (luminance - threshold) / (1.0 - threshold);
 			float key = smoothstep(threshold, 0.0, luminance);
 			COLOR.rgb = vec3(key, key, key);
+			COLOR.rgb = vec3(0.0);
 		}
 	}
 }

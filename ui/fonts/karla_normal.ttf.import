@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://b57matqt7m0fh"
-path="res://.godot/imported/bricolage_grotesque.ttf-43a52ebc67b216e7548c6e833057378d.fontdata"
+uid="uid://bcv7bul3u4ohb"
+path="res://.godot/imported/karla_normal.ttf-ba6d65d651115d803d970c143f35a07d.fontdata"
 
 [deps]
 
-source_file="res://ui/fonts/bricolage_grotesque.ttf"
-dest_files=["res://.godot/imported/bricolage_grotesque.ttf-43a52ebc67b216e7548c6e833057378d.fontdata"]
+source_file="res://ui/fonts/karla_normal.ttf"
+dest_files=["res://.godot/imported/karla_normal.ttf-ba6d65d651115d803d970c143f35a07d.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
-hinting=1
+hinting=3
 subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0

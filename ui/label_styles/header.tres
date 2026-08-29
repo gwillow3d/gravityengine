@@ -1,5 +1,8 @@
 [gd_resource type="LabelSettings" format=3 uid="uid://bisl1ui6vd2bb"]
 
+[ext_resource type="FontFile" uid="uid://c7jdnmnw84o1n" path="res://ui/fonts/karla_bold.ttf" id="1_7gxt0"]
+
 [resource]
+font = ExtResource("1_7gxt0")
 font_size = 12
-font_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
+font_color = Color(0.86, 0.86, 0.86, 1)

@@ -25,7 +25,7 @@
 [ext_resource type="Script" uid="uid://dqtpq7mn7qv8t" path="res://ui/components/screenshot_notifier.gd" id="16_d13ii"]
 [ext_resource type="Shader" uid="uid://b5pig4dbrj1qt" path="res://shader/render/particle.gdshader" id="16_getpj"]
 [ext_resource type="Script" uid="uid://b3g6bp4caki6w" path="res://rendering/background_renderer.gd" id="17_cegan"]
-[ext_resource type="FontFile" uid="uid://bcv7bul3u4ohb" path="res://ui/fonts/karla.ttf" id="20_xuqvo"]
+[ext_resource type="FontFile" uid="uid://bcv7bul3u4ohb" path="res://ui/fonts/karla_normal.ttf" id="20_xuqvo"]
 [ext_resource type="Script" uid="uid://dnqpe4te7cd3r" path="res://debug/debug_bounds_layer.gd" id="21_getpj"]
 [ext_resource type="Script" uid="uid://c0b6ouf05hp0l" path="res://camera/linked_camera.gd" id="21_ryguw"]
 [ext_resource type="Script" uid="uid://dc0spdl5dg8ep" path="res://ui/components/performance_widgets.gd" id="22_0rl1p"]
@@ -34,9 +34,8 @@
 [ext_resource type="Script" uid="uid://8cw6ljvr04cx" path="res://ui/components/energy_widget.gd" id="22_qsp4k"]
 [ext_resource type="Texture2D" uid="uid://3gcu1fw0jxaq" path="res://ui/sprites/settings.png" id="24_b1qrp"]
 [ext_resource type="Shader" uid="uid://ckferoweww072" path="res://shader/render/dynamic_text.gdshader" id="25_4k2k6"]
-[ext_resource type="Texture2D" uid="uid://b1s858upwh61s" path="res://ui/sprites/clock.png" id="25_facbu"]
 [ext_resource type="Script" uid="uid://chwg182t1usb1" path="res://ui/components/keybind_label.gd" id="26_0rl1p"]
-[ext_resource type="Shader" uid="uid://dsffpc0gexbth" path="res://shader/render/ui.gdshader" id="27_jq2sk"]
+[ext_resource type="Shader" uid="uid://dsffpc0gexbth" path="res://shader/render/mosaic_ui.gdshader" id="27_jq2sk"]
 [ext_resource type="Texture2D" uid="uid://6bbc1atp6w7p" path="res://ui/sprites/gravity.png" id="29_ok6jj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d13ii"]
@@ -219,6 +218,13 @@ LineEdit/styles/normal = SubResource("StyleBoxFlat_0cp0l")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_b1qrp")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_d2t1y")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ok6jj"]
+shader = ExtResource("27_jq2sk")
+shader_parameter/pixel_size = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wnkbs"]
+shader = ExtResource("25_4k2k6")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4k2k6"]
 shader = ExtResource("27_jq2sk")
 shader_parameter/pixel_size = 16
@@ -227,13 +233,6 @@ shader_parameter/pixel_size = 16
 shader = ExtResource("25_4k2k6")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f6a44"]
-shader = ExtResource("25_4k2k6")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ok6jj"]
-shader = ExtResource("27_jq2sk")
-shader_parameter/pixel_size = 16
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wnkbs"]
 shader = ExtResource("25_4k2k6")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0rl1p"]
@@ -269,11 +268,14 @@ shader = ExtResource("25_4k2k6")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0n3wm"]
 shader = ExtResource("25_4k2k6")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_abqjc"]
+shader = ExtResource("25_4k2k6")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qnost"]
 shader = ExtResource("25_4k2k6")
 
 [sub_resource type="LabelSettings" id="LabelSettings_d13ii"]
-font_color = Color(0.641934, 0.641934, 0.641934, 0.45882353)
+font_color = Color(0.89, 0.89, 0.89, 0.45882353)
 
 [sub_resource type="LabelSettings" id="LabelSettings_82xsv"]
 font_color = Color(0.95, 0.4655, 0.51394993, 1)
@@ -402,7 +404,7 @@ ui_root = NodePath("../UIRoot")
 performance_widgets = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/PerformanceContainer/MarginContainer/PerformanceWidget")
 energy_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets")
 screenshot_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/ScreenshotNotifier")
-speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets/SpeedContainer/MarginContainer/SpeedWidget")
+speed_widget = NodePath("../UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget")
 heavy_load_warning = NodePath("../UIRoot/UIMarginContainer/MainContainer/HeavyLoadLabel")
 reset_button = NodePath("../UIRoot/UIMarginContainer/MainContainer/SimualtionConfigWidgets/ConfigButtons/ResetButton")
 
@@ -432,68 +434,26 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 mouse_filter = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1759043146]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/separation = 8
-
-[node name="TitleContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer" unique_id=1719298483]
-material = SubResource("ShaderMaterial_4k2k6")
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/TitleContainer" unique_id=1372798529]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="AppInfoContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/TitleContainer/MarginContainer" unique_id=1762340981]
-layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=1877865842]
-material = SubResource("ShaderMaterial_b1qrp")
-layout_mode = 2
-text = "Gravity Engine"
-
-[node name="AuthorLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=2026103147]
-material = SubResource("ShaderMaterial_f6a44")
-layout_mode = 2
-text = "by Winkassador!"
-label_settings = ExtResource("22_jq2sk")
-
-[node name="SettingsButton" type="Button" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/HBoxContainer" unique_id=1221862576]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-icon = ExtResource("24_b1qrp")
-icon_alignment = 1
-
-[node name="TimeControlWidgets" type="HBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=499949398]
+[node name="SpeedContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=304425883]
+material = SubResource("ShaderMaterial_ok6jj")
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -72.0
-offset_right = 194.0
+offset_right = 158.0
 grow_vertical = 0
-theme_override_constants/separation = 12
-
-[node name="SpeedContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets" unique_id=304425883]
-material = SubResource("ShaderMaterial_ok6jj")
-layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets/SpeedContainer" unique_id=518765856]
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer" unique_id=518765856]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="SpeedWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets/SpeedContainer/MarginContainer" unique_id=390316876 node_paths=PackedStringArray("speed_label", "speed_slider")]
+[node name="SpeedWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer" unique_id=390316876 node_paths=PackedStringArray("speed_label", "speed_slider")]
 layout_mode = 2
 size_flags_horizontal = 6
 alignment = 1
@@ -501,31 +461,62 @@ script = ExtResource("22_htxhm")
 speed_label = NodePath("SpeedLabel")
 speed_slider = NodePath("SpeedSlider")
 
-[node name="SpeedLabel2" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets/SpeedContainer/MarginContainer/SpeedWidget" unique_id=241030858]
+[node name="SpeedLabel2" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget" unique_id=241030858]
 material = SubResource("ShaderMaterial_wnkbs")
 layout_mode = 2
 size_flags_horizontal = 0
 text = "SPEED"
 label_settings = ExtResource("22_jq2sk")
 
-[node name="SpeedLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets/SpeedContainer/MarginContainer/SpeedWidget" unique_id=1493288200]
+[node name="SpeedLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget" unique_id=1493288200]
 material = SubResource("ShaderMaterial_wnkbs")
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Normal (1.0x)"
 horizontal_alignment = 2
 
-[node name="SpeedSlider" type="HSlider" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets/SpeedContainer/MarginContainer/SpeedWidget" unique_id=393079889]
+[node name="SpeedSlider" type="HSlider" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer/SpeedWidget" unique_id=393079889]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 max_value = 16.0
 value = 4.0
 
-[node name="TimestepButton" type="Button" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TimeControlWidgets" unique_id=664604803]
+[node name="TitleContainer" type="HBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1759043146]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 8
+
+[node name="TitleContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer" unique_id=1719298483]
+material = SubResource("ShaderMaterial_4k2k6")
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer/TitleContainer" unique_id=1372798529]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="AppInfoContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer/TitleContainer/MarginContainer" unique_id=1762340981]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=1877865842]
+material = SubResource("ShaderMaterial_b1qrp")
+layout_mode = 2
+text = "Gravity Engine"
+
+[node name="AuthorLabel" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer/TitleContainer/MarginContainer/AppInfoContainer" unique_id=2026103147]
+material = SubResource("ShaderMaterial_f6a44")
+layout_mode = 2
+text = "by Winkassador!"
+label_settings = ExtResource("22_jq2sk")
+
+[node name="SettingsButton" type="Button" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer" unique_id=1221862576]
 layout_mode = 2
 size_flags_horizontal = 6
-size_flags_vertical = 8
-icon = ExtResource("25_facbu")
+size_flags_vertical = 4
+icon = ExtResource("24_b1qrp")
 icon_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=2111789820]
@@ -670,6 +661,7 @@ script = ExtResource("26_0rl1p")
 action = "toggle_energy_widget"
 
 [node name="MomentumValues" type="Label" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/VBoxContainer/ConservationWidgets/MomentumWidget/Margin/VBox" unique_id=818450123]
+material = SubResource("ShaderMaterial_abqjc")
 layout_mode = 2
 text = "Linear: ...
 Angular: 0 J"
@@ -701,9 +693,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -251.0
-offset_top = -53.0
+offset_top = -43.0
 offset_right = 251.0
-offset_bottom = -33.0
+offset_bottom = -23.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Simulation is under heavy load! Try decreasing the simulation speed."
