@@ -294,8 +294,16 @@ shader = ExtResource("25_4k2k6")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_blkrb"]
 shader = ExtResource("25_4k2k6")
 
+[sub_resource type="Gradient" id="Gradient_b1qrp"]
+offsets = PackedFloat32Array(0.94055945, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_facbu"]
+gradient = SubResource("Gradient_b1qrp")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_074og"]
 shader = ExtResource("16_getpj")
+shader_parameter/black_hole_gradient = SubResource("GradientTexture1D_facbu")
 
 [sub_resource type="QuadMesh" id="QuadMesh_82xsv"]
 
