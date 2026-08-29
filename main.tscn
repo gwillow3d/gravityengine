@@ -776,6 +776,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
+focus_mode = 0
 icon = ExtResource("29_ok6jj")
 icon_alignment = 1
 
@@ -783,6 +784,7 @@ icon_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
+focus_mode = 0
 icon = ExtResource("6_kek77")
 icon_alignment = 1
 
