@@ -23,7 +23,7 @@ func setup(simulation: Simulation) -> void:
 
 func _ready() -> void:
 	await get_tree().process_frame
-	_simulation.reset(_simulation.config) # TODO: Get rid of whatever this is 
+	_simulation.reset(_simulation._config) # TODO: Get rid of whatever this is 
 	step_rate_updated.emit(steps_per_frame)
 
 func _input(event: InputEvent) -> void:

@@ -9,6 +9,9 @@ const PARTICLE_SIZE_BYTES = 32
 
 var _is_ready := false
 
+var _positions: PackedVector2Array
+var _velocities: PackedVector2Array
+var _masses: PackedFloat32Array
 var _potential_energy: float
 
 var _rd: RenderingDevice
@@ -36,19 +39,14 @@ var _geometry_buffer: RID
 var _has_submitted := false
 var _state_update_needed := false
 
-func setup() -> void:
+func setup(config: SimulationConfig) -> void:
 	if OS.get_name() == "Web":
 		printerr("Cannot run GPU simulation on WebGL!")
 		return
-	_setup_shaders()
+	_setup_shaders(config)
 	_is_ready = true
-	simulation_ready.emit()
-	
-	world_size_changed.emit(config.world_size)
-	border_type_changed.emit(config.border_type)
-	gravity_changed.emit(config.gravity)
 
-func _setup_shaders() -> void:
+func _setup_shaders(config: SimulationConfig) -> void:
 	_rd = RenderingServer.create_local_rendering_device()
 	
 	var input_bytes = PackedByteArray()
@@ -98,44 +96,18 @@ func _setup_shaders() -> void:
 	_constrain_pipeline = _rd.compute_pipeline_create(_constrain_shader)
 
 # Public functions
-func istep(steps: int) -> void:
+func istep(steps: int, config: SimulationConfig) -> void:
 	if !_is_ready:
 		return
 	
 	_potential_energy = 0.0
 	
 	if steps > 0:
-		_gpu_process(config.timestep, steps)
-
-func reset(_config: SimulationConfig) -> void:
-	_p_positions.clear()
-	_p_velocities.clear()
-	_p_masses.clear()
-	
-	config = _config
-	
-	if config.generator:
-		var state = config.generator.generate(config.gravity, config.world_size)
-		_apply_state(state)
-	
-	simulation_reset.emit()
-	
-	world_size_changed.emit(config.world_size)
-	border_type_changed.emit(config.border_type)
-	gravity_changed.emit(config.gravity)
+		_gpu_process(steps, config)
 
 # Private functions #
-func _apply_state(state: SimulationState) -> void:
-	_p_positions = state.positions.duplicate()
-	_p_velocities = state.velocities.duplicate()
-	_p_masses = state.masses.duplicate()
-	population_changed.emit(get_particle_count())
-	
-	_remove_drift()
-	
-	_state_update_needed = true
 
-func _gpu_process(delta: float, steps: int) -> void:
+func _gpu_process(steps: int, config: SimulationConfig) -> void:
 	if _state_update_needed:
 		if _has_submitted:
 			_rd.sync()
@@ -150,13 +122,13 @@ func _gpu_process(delta: float, steps: int) -> void:
 		_potential_energy = _unpack_potential_energy(gpe_bytes)
 		_has_submitted = false
 	
-	if _p_positions.size() == 0:
+	if _positions.size() == 0:
 		return
 	
-	var n = _p_positions.size()
+	var n = _positions.size()
 	var groups = int(ceil(float(n) / WORKGROUP_SIZE))
 	var constants := PackedByteArray()
-	constants.append_array(PackedFloat32Array([config.gravity, config.softening, delta]).to_byte_array())
+	constants.append_array(PackedFloat32Array([config.gravity, config.softening, config.timestep]).to_byte_array())
 	constants.resize(16)
 	constants.encode_u32(12, n)
 	
@@ -205,12 +177,12 @@ func _gpu_process(delta: float, steps: int) -> void:
 
 func _pack_particles() -> PackedByteArray:
 	var bytes := PackedByteArray()
-	for i in range(0, _p_positions.size()):
-		var pos_array = PackedFloat32Array([_p_positions[i].x, _p_positions[i].y])
+	for i in range(0, _positions.size()):
+		var pos_array = PackedFloat32Array([_positions[i].x, _positions[i].y])
 		var acc_array = PackedFloat32Array()
 		acc_array.resize(2)
-		var vel_array = PackedFloat32Array([_p_velocities[i].x, _p_velocities[i].y])
-		var mass_array = PackedFloat32Array([_p_masses[i], 0.0])
+		var vel_array = PackedFloat32Array([_velocities[i].x, _velocities[i].y])
+		var mass_array = PackedFloat32Array([_masses[i], 0.0])
 		bytes.append_array(pos_array.to_byte_array())
 		bytes.append_array(acc_array.to_byte_array())
 		bytes.append_array(vel_array.to_byte_array())
@@ -218,16 +190,16 @@ func _pack_particles() -> PackedByteArray:
 	return bytes
 
 func _unpack_particles(bytes: PackedByteArray) -> void:
-	for i in range(0, _p_positions.size()):
+	for i in range(0, _positions.size()):
 		var pos_x = bytes.decode_float(i * PARTICLE_SIZE_BYTES + POSITION_BYTE_OFFSET)
 		var pos_y = bytes.decode_float(i * PARTICLE_SIZE_BYTES + POSITION_BYTE_OFFSET + 4)
 		var vel_x = bytes.decode_float(i * PARTICLE_SIZE_BYTES + POSITION_BYTE_OFFSET + 16)
 		var vel_y = bytes.decode_float(i * PARTICLE_SIZE_BYTES + POSITION_BYTE_OFFSET + 20)
 		
-		_p_positions[i].x = pos_x
-		_p_positions[i].y = pos_y
-		_p_velocities[i].x = vel_x
-		_p_velocities[i].y = vel_y
+		_positions[i].x = pos_x
+		_positions[i].y = pos_y
+		_velocities[i].x = vel_x
+		_velocities[i].y = vel_y
 
 func _unpack_potential_energy(bytes: PackedByteArray) -> float:
 	var total := 0.0
@@ -235,5 +207,18 @@ func _unpack_potential_energy(bytes: PackedByteArray) -> float:
 		total += bytes.decode_float(i * 4)
 	return total
 
+func set_state(positions: PackedVector2Array, velocities: PackedVector2Array, masses: PackedFloat32Array) -> void:
+	_positions = positions
+	_velocities = velocities
+	_masses = masses
+	
+	_state_update_needed = true
+
 func get_potential_energy() -> float:
 	return _potential_energy
+
+func get_positions() -> PackedVector2Array:
+	return _positions
+
+func get_velocities() -> PackedVector2Array:
+	return _velocities

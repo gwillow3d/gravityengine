@@ -4,104 +4,76 @@ extends Simulation
 # Private fields #
 const MAX_PARTICLES = 128
 
-var _p_accelerations: PackedVector2Array
+var _positions: PackedVector2Array
+var _velocities: PackedVector2Array
+var _accelerations: PackedVector2Array
+var _masses: PackedFloat32Array
 
 var _potential_energy: float
 
-func setup() -> void:
-	simulation_ready.emit()
-	
-	world_size_changed.emit(config.world_size)
-	border_type_changed.emit(config.border_type)
-	gravity_changed.emit(config.gravity)
+func setup(config: SimulationConfig) -> void:
+	pass
 
 # Public functions
-func istep(steps: int) -> void:
+func istep(steps: int, config: SimulationConfig) -> void:
 	_potential_energy = 0.0
 	
 	for step in steps:
-		_half_kick()
-		_drift()
-		_accelerate()
-		_half_kick()
-
-func reset(_config: SimulationConfig) -> void:
-	_p_positions.clear()
-	_p_velocities.clear()
-	_p_accelerations.clear()
-	_p_masses.clear()
-	
-	config = _config
-	
-	if config.generator:
-		var state = config.generator.generate(config.gravity, config.world_size)
-		
-		_apply_state(state)
-		_remove_drift()
-	
-	simulation_reset.emit()
-	
-	world_size_changed.emit(config.world_size)
-	border_type_changed.emit(config.border_type)
-	gravity_changed.emit(config.gravity)
+		_half_kick(config)
+		_drift(config)
+		_accelerate(config)
+		_half_kick(config)
 
 # Private functions #
-func _apply_state(state: SimulationState) -> void:
-	_p_positions = state.positions.duplicate()
-	_p_velocities = state.velocities.duplicate()
-	_p_accelerations = PackedVector2Array()
-	_p_accelerations.resize(_p_positions.size())
-	_p_masses = state.masses.duplicate()
-	population_changed.emit(get_particle_count())
 
-func _half_kick() -> void:
+func _half_kick(config: SimulationConfig) -> void:
 	for i in range(0, get_particle_count()):
-		_p_velocities[i] += _p_accelerations[i] * config.timestep * 0.5
+		_velocities[i] += _accelerations[i] * config.timestep * 0.5
 
-func _drift() -> void:
+func _drift(config: SimulationConfig) -> void:
 	for i in range(0, get_particle_count()):
-		_p_positions[i] += _p_velocities[i] * config.timestep
-		_constrain(i)
-		_p_accelerations[i] = Vector2.ZERO
+		_positions[i] += _velocities[i] * config.timestep
+		_constrain(i, config)
+		_accelerations[i] = Vector2.ZERO
 
-func _constrain(i: int) -> void:
+func _constrain(i: int, config: SimulationConfig) -> void:
 	var w: float = config.world_size.x
 	var h: float = config.world_size.y
-	var x = _p_positions[i].x
-	var y = _p_positions[i].y
+	var x = _positions[i].x
+	var y = _positions[i].y
 		
 	match config.border_type:
 			BorderType.Wraparound:
-				_p_positions[i].x = fmod(fmod(x, w) + w, w)
-				_p_positions[i].y = fmod(fmod(y, h) + h, h)
+				_positions[i].x = fmod(fmod(x, w) + w, w)
+				_positions[i].y = fmod(fmod(y, h) + h, h)
 			BorderType.Stop:
 				var old_x = x
 				var old_y = y
-				_p_positions[i].x = clampf(x, 0, config.world_size.x)
-				_p_positions[i].y = clampf(y, 0, config.world_size.y)
-				if _p_positions[i].x != old_x:
-					_p_velocities[i].x = 0.0
-				if _p_positions[i].y != old_y:
-					_p_velocities[i].y = 0.0
+				_positions[i].x = clampf(x, 0, config.world_size.x)
+				_positions[i].y = clampf(y, 0, config.world_size.y)
+				if _positions[i].x != old_x:
+					_velocities[i].x = 0.0
+				if _positions[i].y != old_y:
+					_velocities[i].y = 0.0
 			BorderType.Bounce:
 				if x < 0 or x > config.world_size.x:
 					var offset = (-x if x < 0 else config.world_size.x - x) * 2
-					_p_positions[i].x += offset
-					_p_velocities[i].x *= -1
+					_positions[i].x += offset
+					_velocities[i].x *= -1
 				if y < 0 or y > config.world_size.y:
 					var offset = (-y if y < 0 else config.world_size.y - y) * 2
-					_p_positions[i].y += offset
-					_p_velocities[i].y *= -1
+					_positions[i].y += offset
+					_velocities[i].y *= -1
 
-func _accelerate() -> void:
+func _accelerate(config: SimulationConfig) -> void:
 	var particle_count = get_particle_count()
 	var half_size = config.world_size / 2.0
 	for i in range(0, particle_count):
-		var p1 = _p_positions[i]
-		var m1 = _p_masses[i]
+		var p1 = _positions[i]
+		var m1 = _masses[i]
 		for j in range(i + 1, particle_count):
-			var p2 = _p_positions[j]
-			var m2 = _p_masses[j]
+			var p2 = _positions[j]
+			var m2 = _masses[j]
 			var d = p2 - p1
 			if config.border_type == BorderType.Wraparound:
 				if d.x >  half_size.x: d.x -= config.world_size.x
@@ -128,9 +100,23 @@ func _accelerate() -> void:
 			#	_p_velocities[i] = iv.lerp(v_com, strength * j_dom)
 			#	_p_velocities[j] = jv.lerp(v_com, strength * i_dom)
 			
-			_p_accelerations[i] += acc * m2
-			_p_accelerations[j] -= acc * m1
+			_accelerations[i] += acc * m2
+			_accelerations[j] -= acc * m1
 			_potential_energy -= config.gravity * m1 * m2 / r
+
+func set_state(positions: PackedVector2Array, velocities: PackedVector2Array, masses: PackedFloat32Array) -> void:
+	_positions = positions
+	_velocities = velocities
+	_masses = masses
+	
+	_accelerations = PackedVector2Array()
+	_accelerations.resize(_positions.size())
 
 func get_potential_energy() -> float:
 	return _potential_energy
+
+func get_positions() -> PackedVector2Array:
+	return _positions
+
+func get_velocities() -> PackedVector2Array:
+	return _velocities

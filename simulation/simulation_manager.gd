@@ -28,10 +28,10 @@ func _ready() -> void:
 	
 	if render_mode == RenderMode.CPU:
 		simulation = CPUSimulation.new()
-		simulation.config = fast_presets[randi_range(0, fast_presets.size() - 1)]
+		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
 		simulation = GPUSimulation.new()
-		simulation.config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
+		simulation._config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
 	
 	# Wire signals #
 	
@@ -49,7 +49,7 @@ func _ready() -> void:
 	
 	# Setup classes #
 	
-	simulation.setup()
+	simulation.setup(simulation._config)
 	simulation_manager.setup(simulation)
 	particle_renderer.setup(simulation)
 	background_renderer.setup(simulation)
