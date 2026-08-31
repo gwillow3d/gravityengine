@@ -50,20 +50,6 @@ func _apply_state(state: SimulationState) -> void:
 	_p_masses = state.masses.duplicate()
 	population_changed.emit(get_particle_count())
 
-func _remove_drift() -> void:
-	var weighted_velocites: Vector2 = Vector2.ZERO
-	var total_mass: float = 0.0
-	var particle_count = get_particle_count()
-	for i in range(0, particle_count):
-		var m = abs(_p_masses[i])
-		weighted_velocites += _p_velocities[i] * m
-		total_mass += m
-	
-	var mean_drift = weighted_velocites / total_mass
-	
-	for i in range(0, particle_count):
-		_p_velocities[i] -= mean_drift
-
 func _half_kick() -> void:
 	for i in range(0, get_particle_count()):
 		_p_velocities[i] += _p_accelerations[i] * config.timestep * 0.5

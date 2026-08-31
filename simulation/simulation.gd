@@ -41,6 +41,20 @@ func istep(steps: int)
 @abstract
 func reset(config: SimulationConfig) 
 
+func _remove_drift() -> void:
+	var weighted_velocites: Vector2 = Vector2.ZERO
+	var total_mass: float = 0.0
+	var particle_count = get_particle_count()
+	for i in range(0, particle_count):
+		var m = abs(_p_masses[i])
+		weighted_velocites += _p_velocities[i] * m
+		total_mass += m
+	
+	var mean_drift = weighted_velocites / total_mass
+	
+	for i in range(0, particle_count):
+		_p_velocities[i] -= mean_drift
+
 # Conservation #
 
 func compute_total_linear_momentum() -> Vector2:
