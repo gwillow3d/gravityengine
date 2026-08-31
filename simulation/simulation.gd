@@ -25,6 +25,8 @@ func step(steps: int):
 	_kinetic_energy = 0.0
 
 	_simulation_instance.step(steps, _config)
+	_p_positions = _simulation_instance.get_positions()
+	_p_velocities = _simulation_instance.get_velocities()
 	
 	_update_kinetic_energy()
 	
@@ -49,7 +51,7 @@ func reset(config: SimulationConfig) -> void:
 		
 		_remove_drift()
 		
-		_simulation_instance.set_state(_p_positions, _p_velocities, _p_masses)
+		_simulation_instance.set_state(_p_positions.duplicate(), _p_velocities.duplicate(), _p_masses)
 	
 	simulation_reset.emit()
 	

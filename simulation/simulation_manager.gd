@@ -28,6 +28,9 @@ func _ready() -> void:
 	if render_mode == RenderMode.CPU:
 		simulation._simulation_instance = CPUSimulation.new()
 		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
+	elif render_mode == RenderMode.FastCPU:
+		simulation._simulation_instance = FastCPUSimulation.new()
+		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
 		simulation._simulation_instance = GPUSimulation.new()
 		simulation._config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
@@ -62,7 +65,7 @@ func _broadcast_render_mode() -> void:
 func _on_simulation_reset() -> void:
 	var config: SimulationConfig
 	
-	if render_mode == RenderMode.CPU:
+	if render_mode == RenderMode.CPU or render_mode == RenderMode.FastCPU:
 		config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
 		config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
@@ -71,5 +74,6 @@ func _on_simulation_reset() -> void:
 
 enum RenderMode {
 	CPU,
-	GPU
+	GPU,
+	FastCPU,
 }
