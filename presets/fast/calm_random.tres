@@ -13,4 +13,5 @@ metadata/_custom_type_script = "uid://ydsbc0nrhicu"
 script = ExtResource("2_mk02l")
 world_size = Vector2i(1000, 1000)
 generator = SubResource("Resource_ftfba")
+border_type = 3
 metadata/_custom_type_script = "uid://bkp2x2xsuifkb"

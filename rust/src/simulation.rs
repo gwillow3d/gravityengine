@@ -27,7 +27,7 @@ impl FastCPUSimulation {
     fn step(&mut self, steps: i32, config: Gd<Resource>) {
         self.potential_energy = 0.0;
 
-        let world_size: Vector2i = config.get("world_size").to::<Vector2i>();
+        let world_size: Vector2 = config.get("world_size").to::<Vector2i>().to_vector2();
         let border_type: i32 = config.get("border_type").to::<i32>();
         let timestep: f32 = config.get("timestep").to::<f32>();
         let softening: f32 = config.get("softening").to::<f32>();
@@ -35,8 +35,8 @@ impl FastCPUSimulation {
         
         for _step in 0..steps {
             self.half_kick(timestep);
-            self.drift(timestep, world_size.to_vector2(), border_type);
-            self.accelerate(softening, gravity);
+            self.drift(timestep, world_size, border_type);
+            self.accelerate(softening, gravity, world_size, border_type);
             self.half_kick(timestep);
         }
     }
@@ -93,9 +93,10 @@ impl FastCPUSimulation {
         }
     }
 
-    fn accelerate(&mut self, softening: f32, gravity: f32) {
+    fn accelerate(&mut self, softening: f32, gravity: f32, world_size: Vector2, border_type: i32) {
         let particle_count: i32 = self.positions.len() as i32;
         let softening_sq = softening * softening;
+        let half_size = world_size / 2.0;
 
         for i in 0..particle_count {
             let p1 = self.positions[i as usize];
@@ -103,7 +104,14 @@ impl FastCPUSimulation {
             for j in (i + 1)..particle_count {
                 let m2 = self.masses[j as usize];
 
-                let d = self.positions[j as usize] - p1;
+                let mut d = self.positions[j as usize] - p1;
+                if border_type == BORDER_TYPE_WRAPAROUND {
+                    if d.x >  half_size.x { d.x -= world_size.x; }
+                    if d.x < -half_size.x { d.x += world_size.x; }
+                    if d.y >  half_size.y { d.y -= world_size.y; }
+                    if d.y < -half_size.y { d.y += world_size.y; }
+                }
+
                 let dist_sq = d.length_squared();
                 let r = (dist_sq + softening_sq).sqrt();
                 
