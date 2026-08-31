@@ -1,5 +1,10 @@
 use godot::prelude::*;
 
+const BORDER_TYPE_NONE: i32 = 0;
+const BORDER_TYPE_STOP: i32 = 1;
+const BORDER_TYPE_BOUNCE: i32 = 2;
+const BORDER_TYPE_WRAPAROUND: i32 = 3;
+
 #[derive(GodotClass)]
 #[class(init, base=Resource)]
 struct FastCPUSimulation {
@@ -22,13 +27,15 @@ impl FastCPUSimulation {
     fn step(&mut self, steps: i32, config: Gd<Resource>) {
         self.potential_energy = 0.0;
 
+        let world_size: Vector2i = config.get("world_size").to::<Vector2i>();
+        let border_type: i32 = config.get("border_type").to::<i32>();
         let timestep: f32 = config.get("timestep").to::<f32>();
         let softening: f32 = config.get("softening").to::<f32>();
         let gravity: f32 = config.get("gravity").to::<f32>();
         
         for _step in 0..steps {
             self.half_kick(timestep);
-            self.drift(timestep);
+            self.drift(timestep, world_size.to_vector2(), border_type);
             self.accelerate(softening, gravity);
             self.half_kick(timestep);
         }
@@ -40,11 +47,49 @@ impl FastCPUSimulation {
         }
     }
 
-    fn drift(&mut self, timestep: f32) {
+    fn drift(&mut self, timestep: f32, world_size: Vector2, border_type: i32) {
         for i in 0..self.positions.len() {
             self.positions[i] += self.velocities[i] * timestep;
-            //_constrain(i, config)
+            self.constrain(i, world_size, border_type);
             self.accelerations[i] = Vector2::ZERO;
+        }
+    }
+
+    fn constrain(&mut self, i: usize, world_size: Vector2, border_type: i32) {
+        let w: f32 = world_size.x;
+        let h: f32 = world_size.y;
+        let x: f32 = self.positions[i].x;
+        let y: f32 = self.positions[i].y;
+            
+        match border_type {
+            BORDER_TYPE_WRAPAROUND => {
+                self.positions[i].x = (x.rem_euclid(w) + w).rem_euclid(w);
+                self.positions[i].y = (y.rem_euclid(h) + h).rem_euclid(h);
+            }
+            BORDER_TYPE_STOP => {
+                let prev_x = x;
+                let prev_y = y;
+                self.positions[i].x = x.clamp(0.0, world_size.x);
+                self.positions[i].y = y.clamp(0.0, world_size.y);
+                if self.positions[i].x != prev_x {
+                    self.velocities[i].x = 0.0;
+                } if self.positions[i].y != prev_y {
+                    self.velocities[i].y = 0.0;
+                }
+            }
+            BORDER_TYPE_BOUNCE => {
+                if x < 0.0 || x > world_size.x {
+                    let offset = (if x < 0.0 { -x } else { world_size.x - x }) * 2.0;
+                    self.positions[i].x += offset;
+                    self.velocities[i].x *= -1.0;
+                }
+                if y < 0.0 || y > world_size.y {
+                    let offset = (if y < 0.0 { -y } else { world_size.y - y }) * 2.0;
+                    self.positions[i].y += offset;
+                    self.velocities[i].y *= -1.0;
+                }
+            }
+            _default => {}
         }
     }
 
