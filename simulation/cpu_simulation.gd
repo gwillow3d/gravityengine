@@ -1,5 +1,5 @@
 class_name CPUSimulation
-extends Simulation
+extends Resource
 
 # Private fields #
 const MAX_PARTICLES = 128
@@ -15,7 +15,7 @@ func setup(config: SimulationConfig) -> void:
 	pass
 
 # Public functions
-func istep(steps: int, config: SimulationConfig) -> void:
+func step(steps: int, config: SimulationConfig) -> void:
 	_potential_energy = 0.0
 	
 	for step in steps:
@@ -27,11 +27,11 @@ func istep(steps: int, config: SimulationConfig) -> void:
 # Private functions #
 
 func _half_kick(config: SimulationConfig) -> void:
-	for i in range(0, get_particle_count()):
+	for i in range(0, _positions.size()):
 		_velocities[i] += _accelerations[i] * config.timestep * 0.5
 
 func _drift(config: SimulationConfig) -> void:
-	for i in range(0, get_particle_count()):
+	for i in range(0, _positions.size()):
 		_positions[i] += _velocities[i] * config.timestep
 		_constrain(i, config)
 		_accelerations[i] = Vector2.ZERO
@@ -43,10 +43,10 @@ func _constrain(i: int, config: SimulationConfig) -> void:
 	var y = _positions[i].y
 		
 	match config.border_type:
-			BorderType.Wraparound:
+			Simulation.BorderType.Wraparound:
 				_positions[i].x = fmod(fmod(x, w) + w, w)
 				_positions[i].y = fmod(fmod(y, h) + h, h)
-			BorderType.Stop:
+			Simulation.BorderType.Stop:
 				var old_x = x
 				var old_y = y
 				_positions[i].x = clampf(x, 0, config.world_size.x)
@@ -55,7 +55,7 @@ func _constrain(i: int, config: SimulationConfig) -> void:
 					_velocities[i].x = 0.0
 				if _positions[i].y != old_y:
 					_velocities[i].y = 0.0
-			BorderType.Bounce:
+			Simulation.BorderType.Bounce:
 				if x < 0 or x > config.world_size.x:
 					var offset = (-x if x < 0 else config.world_size.x - x) * 2
 					_positions[i].x += offset
@@ -66,7 +66,7 @@ func _constrain(i: int, config: SimulationConfig) -> void:
 					_velocities[i].y *= -1
 
 func _accelerate(config: SimulationConfig) -> void:
-	var particle_count = get_particle_count()
+	var particle_count = _positions.size()
 	var half_size = config.world_size / 2.0
 	for i in range(0, particle_count):
 		var p1 = _positions[i]
@@ -75,7 +75,7 @@ func _accelerate(config: SimulationConfig) -> void:
 			var p2 = _positions[j]
 			var m2 = _masses[j]
 			var d = p2 - p1
-			if config.border_type == BorderType.Wraparound:
+			if config.border_type == Simulation.BorderType.Wraparound:
 				if d.x >  half_size.x: d.x -= config.world_size.x
 				if d.x < -half_size.x: d.x += config.world_size.x
 				if d.y >  half_size.y: d.y -= config.world_size.y

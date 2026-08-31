@@ -25,10 +25,8 @@ func _ready() -> void:
 	if OS.get_name() == "Web":
 		render_mode = RenderMode.CPU
 	
-	
-	
 	if render_mode == RenderMode.CPU:
-		#simulation._simulation_instance = CPUSimulation.new()
+		simulation._simulation_instance = CPUSimulation.new()
 		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
 		simulation._simulation_instance = GPUSimulation.new()
