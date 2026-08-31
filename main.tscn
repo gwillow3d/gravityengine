@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ca7h7lxghmqf6"]
 
 [ext_resource type="Script" uid="uid://cwm7dkw1dfpxl" path="res://ui/ui_manager.gd" id="1_7mycd"]
+[ext_resource type="Script" uid="uid://bejrg0kdd3vwv" path="res://simulation/simulation.gd" id="1_b1qrp"]
 [ext_resource type="Script" uid="uid://hfopoq78x6v6" path="res://camera/camera_controller.gd" id="1_getpj"]
 [ext_resource type="Texture2D" uid="uid://n1bib1lh8qwu" path="res://ui/sprites/pixel.png" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bkp2x2xsuifkb" path="res://simulation/simulation_config.gd" id="2_d13ii"]
@@ -319,10 +320,16 @@ mesh = SubResource("QuadMesh_82xsv")
 
 [node name="Root" type="Node2D" unique_id=425540829]
 
-[node name="SimulationManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
+[node name="Simulation" type="Node" parent="." unique_id=627766696]
+script = ExtResource("1_b1qrp")
+metadata/_custom_type_script = "uid://bejrg0kdd3vwv"
+
+[node name="SimulationManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
+render_mode = 2
 fast_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_lswn8"), ExtResource("4_a6jrf"), ExtResource("5_xuqvo")])
 fancy_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_1u8w0"), ExtResource("4_1u8w0"), ExtResource("5_0odxb")])
+simulation = NodePath("../Simulation")
 simulation_manager = NodePath("../TimeManager")
 camera_controller = NodePath("../CameraController")
 color_manager = NodePath("../HueManager")
@@ -382,7 +389,6 @@ mouse_filter = 2
 texture = SubResource("ViewportTexture_cegan")
 
 [node name="DebugContainer" type="TextureRect" parent="WorldLayer/WorldContainer" unique_id=1203977162]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

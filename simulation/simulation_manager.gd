@@ -3,13 +3,12 @@ extends Node
 
 signal render_mode_changed(mode: RenderMode)
 
-var simulation: Simulation
-
 @export var render_mode: RenderMode = RenderMode.GPU
 
 @export var fast_presets: Array[SimulationConfig]
 @export var fancy_presets: Array[SimulationConfig]
 
+@export var simulation: Simulation
 @export var simulation_manager: TimeManager
 @export var camera_controller: CameraController
 @export var color_manager: HueManager
@@ -27,11 +26,14 @@ func _ready() -> void:
 		render_mode = RenderMode.CPU
 	
 	if render_mode == RenderMode.CPU:
-		simulation = CPUSimulation.new()
-		simulation.config = fast_presets[randi_range(0, fast_presets.size() - 1)]
+		simulation._simulation_instance = CPUSimulation.new()
+		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
+	elif render_mode == RenderMode.FastCPU:
+		simulation._simulation_instance = FastCPUSimulation.new()
+		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
-		simulation = GPUSimulation.new()
-		simulation.config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
+		simulation._simulation_instance = GPUSimulation.new()
+		simulation._config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
 	
 	# Wire signals #
 	
@@ -63,7 +65,7 @@ func _broadcast_render_mode() -> void:
 func _on_simulation_reset() -> void:
 	var config: SimulationConfig
 	
-	if render_mode == RenderMode.CPU:
+	if render_mode == RenderMode.CPU or render_mode == RenderMode.FastCPU:
 		config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
 		config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
@@ -72,5 +74,6 @@ func _on_simulation_reset() -> void:
 
 enum RenderMode {
 	CPU,
-	GPU
+	GPU,
+	FastCPU,
 }

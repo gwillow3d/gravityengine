@@ -1,9 +1,7 @@
-@abstract
 class_name Simulation
 extends Node
 
 # Signals #
-signal simulation_ready
 signal world_size_changed(world_size: Vector2i)
 signal border_type_changed(border_type: BorderType)
 signal gravity_changed(strength: float)
@@ -11,22 +9,70 @@ signal population_changed(population: int)
 signal energy_updated(kinetic: float, potential: float, linear_momentum: Vector2, angular_momentum: float)
 signal simulation_reset
 
-var config: SimulationConfig
+var _config: SimulationConfig
 
 var _p_positions: PackedVector2Array
 var _p_velocities: PackedVector2Array
 var _p_masses: PackedFloat32Array
 
+var _kinetic_energy: float
+
+var _simulation_instance: Resource
+
 # Functionality #
 
-@abstract
-func setup() 
+func step(steps: int):
+	_kinetic_energy = 0.0
 
-@abstract
-func step(steps: int) 
+	_simulation_instance.step(steps, _config)
+	_p_positions = _simulation_instance.get_positions()
+	_p_velocities = _simulation_instance.get_velocities()
+	
+	_update_kinetic_energy()
+	
+	energy_updated.emit(_kinetic_energy, _get_potential_energy(), compute_total_linear_momentum(), compute_total_angular_momentum())
 
-@abstract
-func reset(config: SimulationConfig) 
+func setup() -> void:
+	_simulation_instance.setup(_config)
+
+func reset(config: SimulationConfig) -> void:
+	_p_positions.clear()
+	_p_velocities.clear()
+	_p_masses.clear()
+	
+	_config = config
+	
+	if _config.generator:
+		var state = _config.generator.generate(_config.gravity, _config.world_size)
+		
+		_p_positions = state.positions.duplicate()
+		_p_velocities = state.velocities.duplicate()
+		_p_masses = state.masses.duplicate()
+		
+		_remove_drift()
+		
+		_simulation_instance.set_state(_p_positions.duplicate(), _p_velocities.duplicate(), _p_masses)
+	
+	simulation_reset.emit()
+	
+	population_changed.emit(get_particle_count())
+	world_size_changed.emit(_config.world_size)
+	border_type_changed.emit(_config.border_type)
+	gravity_changed.emit(_config.gravity)
+
+func _remove_drift() -> void:
+	var weighted_velocites: Vector2 = Vector2.ZERO
+	var total_mass: float = 0.0
+	var particle_count = get_particle_count()
+	for i in range(0, particle_count):
+		var m = abs(_p_masses[i])
+		weighted_velocites += _p_velocities[i] * m
+		total_mass += m
+	
+	var mean_drift = weighted_velocites / total_mass
+	
+	for i in range(0, particle_count):
+		_p_velocities[i] -= mean_drift
 
 # Conservation #
 
@@ -47,11 +93,20 @@ func compute_total_angular_momentum() -> float:
 		var pos = _p_positions[i]
 		var vel = _p_velocities[i]
 		var mass = _p_masses[i]
-		var centre = config.world_size / 2.0
+		var centre = _config.world_size / 2.0
 		var r = pos - centre
 		
 		momentum += mass * (r.x * vel.y - r.y * vel.x)
 	return momentum
+
+func _update_kinetic_energy() -> void:
+	for i in range(0, get_particle_count()):
+		var m1 = _p_masses[i]
+		var vel = _p_velocities[i].length()
+		_kinetic_energy += 0.5 * m1 * (vel*vel)
+
+func _get_potential_energy() -> float:
+	return _simulation_instance.get_potential_energy()
 
 # Getters & Setters #
 
@@ -68,7 +123,7 @@ func get_particle_mass(index: int) -> float:
 	return _p_masses[index]
 
 func get_border_mode() -> BorderType:
-	return config.border_type
+	return _config.border_type
 
 # Enums #
 
