@@ -59,8 +59,8 @@ impl FastCPUSimulation {
                 let m2 = self.masses[j as usize];
                 let d = p2 - p1;
                 
-                let dist = d.length();
-                let r = (dist * dist + softening * softening).sqrt();
+                let dist_sq = d.length_squared();
+                let r = (dist_sq + softening * softening).sqrt();
                 
                 let acc = gravity / (r * r * r) * d;
                 
