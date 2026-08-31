@@ -1,4 +1,3 @@
-@abstract
 class_name Simulation
 extends Node
 
@@ -18,22 +17,21 @@ var _p_masses: PackedFloat32Array
 
 var _kinetic_energy: float
 
+var _simulation_instance: Resource
+
 # Functionality #
 
 func step(steps: int):
 	_kinetic_energy = 0.0
 
-	istep(steps, _config)
+	_simulation_instance.step(steps, _config)
 	
 	_update_kinetic_energy()
 	
 	energy_updated.emit(_kinetic_energy, _get_potential_energy(), compute_total_linear_momentum(), compute_total_angular_momentum())
 
-@abstract
-func setup(config: SimulationConfig) 
-
-@abstract
-func istep(steps: int, config: SimulationConfig) 
+func setup() -> void:
+	_simulation_instance.setup(_config)
 
 func reset(config: SimulationConfig) -> void:
 	_p_positions.clear()
@@ -51,7 +49,7 @@ func reset(config: SimulationConfig) -> void:
 		
 		_remove_drift()
 		
-		set_state(_p_positions, _p_velocities, _p_masses)
+		_simulation_instance.set_state(_p_positions, _p_velocities, _p_masses)
 	
 	simulation_reset.emit()
 	
@@ -59,18 +57,6 @@ func reset(config: SimulationConfig) -> void:
 	world_size_changed.emit(_config.world_size)
 	border_type_changed.emit(_config.border_type)
 	gravity_changed.emit(_config.gravity)
-
-@abstract
-func get_potential_energy() -> float
-
-@abstract
-func get_positions() -> PackedVector2Array
-
-@abstract
-func get_velocities() -> PackedVector2Array
-
-@abstract
-func set_state(positions: PackedVector2Array, velocities: PackedVector2Array, masses: PackedFloat32Array)
 
 func _remove_drift() -> void:
 	var weighted_velocites: Vector2 = Vector2.ZERO
@@ -118,7 +104,7 @@ func _update_kinetic_energy() -> void:
 		_kinetic_energy += 0.5 * m1 * (vel*vel)
 
 func _get_potential_energy() -> float:
-	return get_potential_energy()
+	return _simulation_instance.get_potential_energy()
 
 # Getters & Setters #
 

@@ -1,5 +1,5 @@
 class_name GPUSimulation
-extends Simulation
+extends Resource
 
 # Private fields #
 const MAX_PARTICLES = 8192
@@ -96,7 +96,7 @@ func _setup_shaders(config: SimulationConfig) -> void:
 	_constrain_pipeline = _rd.compute_pipeline_create(_constrain_shader)
 
 # Public functions
-func istep(steps: int, config: SimulationConfig) -> void:
+func step(steps: int, config: SimulationConfig) -> void:
 	if !_is_ready:
 		return
 	
@@ -203,7 +203,7 @@ func _unpack_particles(bytes: PackedByteArray) -> void:
 
 func _unpack_potential_energy(bytes: PackedByteArray) -> float:
 	var total := 0.0
-	for i in range(0, get_particle_count()):
+	for i in range(0, _positions.size()):
 		total += bytes.decode_float(i * 4)
 	return total
 

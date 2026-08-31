@@ -3,13 +3,12 @@ extends Node
 
 signal render_mode_changed(mode: RenderMode)
 
-var simulation: Simulation
-
 @export var render_mode: RenderMode = RenderMode.GPU
 
 @export var fast_presets: Array[SimulationConfig]
 @export var fancy_presets: Array[SimulationConfig]
 
+@export var simulation: Simulation
 @export var simulation_manager: TimeManager
 @export var camera_controller: CameraController
 @export var color_manager: HueManager
@@ -26,11 +25,13 @@ func _ready() -> void:
 	if OS.get_name() == "Web":
 		render_mode = RenderMode.CPU
 	
+	
+	
 	if render_mode == RenderMode.CPU:
-		simulation = CPUSimulation.new()
+		#simulation._simulation_instance = CPUSimulation.new()
 		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
-		simulation = GPUSimulation.new()
+		simulation._simulation_instance = GPUSimulation.new()
 		simulation._config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
 	
 	# Wire signals #
@@ -49,7 +50,7 @@ func _ready() -> void:
 	
 	# Setup classes #
 	
-	simulation.setup(simulation._config)
+	simulation.setup()
 	simulation_manager.setup(simulation)
 	particle_renderer.setup(simulation)
 	background_renderer.setup(simulation)
