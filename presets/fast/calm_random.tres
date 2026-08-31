@@ -6,7 +6,7 @@
 [sub_resource type="Resource" id="Resource_ftfba"]
 script = ExtResource("1_qvvey")
 population = 512
-max_initial_mass = 10.0
+max_initial_mass = 75.0
 metadata/_custom_type_script = "uid://ydsbc0nrhicu"
 
 [resource]
