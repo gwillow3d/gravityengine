@@ -3,10 +3,10 @@ use godot::prelude::*;
 #[derive(GodotClass)]
 #[class(init, base=Resource)]
 struct FastCPUSimulation {
-    positions: PackedVector2Array,
-    velocities: PackedVector2Array,
-    accelerations: PackedVector2Array,
-    masses: PackedFloat32Array,
+    positions: Vec<Vector2>,
+    velocities: Vec<Vector2>,
+    accelerations: Vec<Vector2>,
+    masses: Vec<f32>,
 
     potential_energy: f32,
 
@@ -73,12 +73,12 @@ impl FastCPUSimulation {
     
     #[func]
     fn set_state(&mut self, positions: PackedVector2Array, velocities: PackedVector2Array, masses: PackedFloat32Array) {
-        self.positions = positions;
-        self.velocities = velocities;
-        self.masses = masses;
+        self.positions = positions.to_vec();
+        self.velocities = velocities.to_vec();
+        self.masses = masses.to_vec();
         
-        self.accelerations = PackedVector2Array::new();
-        self.accelerations.resize(self.positions.len())
+        self.accelerations = Vec::new();
+        self.accelerations.resize(positions.len(), Vector2::ZERO);
     }
 
     #[func]
@@ -88,11 +88,11 @@ impl FastCPUSimulation {
 
     #[func]
     fn get_positions(&self) -> PackedVector2Array {
-        self.positions.clone()
+        PackedVector2Array::from(self.positions.clone())
     }
 
     #[func]
     fn get_velocities(&self) -> PackedVector2Array {
-        self.velocities.clone()
+        PackedVector2Array::from(self.velocities.clone())
     }
 }

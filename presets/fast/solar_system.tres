@@ -7,7 +7,7 @@
 script = ExtResource("1_o8gpb")
 min_orbit_distance = 110.0
 max_orbit_distance = 500.0
-population = 115
+population = 512
 max_initial_mass = 75.0
 metadata/_custom_type_script = "uid://bi6ljd47f24lk"
 
