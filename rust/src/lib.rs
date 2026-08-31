@@ -1,3 +1,5 @@
+mod simulation;
+
 use godot::prelude::*;
 
 struct FastCPUSimulation;
