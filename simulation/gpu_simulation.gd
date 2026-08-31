@@ -9,6 +9,8 @@ const PARTICLE_SIZE_BYTES = 32
 
 var _is_ready := false
 
+var _potential_energy: float
+
 var _rd: RenderingDevice
 
 var _accelerate_shader: RID
@@ -99,6 +101,8 @@ func _setup_shaders() -> void:
 func istep(steps: int) -> void:
 	if !_is_ready:
 		return
+	
+	_potential_energy = 0.0
 	
 	if steps > 0:
 		_gpu_process(config.timestep, steps)
@@ -230,3 +234,6 @@ func _unpack_potential_energy(bytes: PackedByteArray) -> float:
 	for i in range(0, get_particle_count()):
 		total += bytes.decode_float(i * 4)
 	return total
+
+func get_potential_energy() -> float:
+	return _potential_energy

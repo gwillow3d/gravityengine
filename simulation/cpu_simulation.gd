@@ -6,6 +6,8 @@ const MAX_PARTICLES = 128
 
 var _p_accelerations: PackedVector2Array
 
+var _potential_energy: float
+
 func setup() -> void:
 	simulation_ready.emit()
 	
@@ -15,6 +17,8 @@ func setup() -> void:
 
 # Public functions
 func istep(steps: int) -> void:
+	_potential_energy = 0.0
+	
 	for step in steps:
 		_half_kick()
 		_drift()
@@ -127,3 +131,6 @@ func _accelerate() -> void:
 			_p_accelerations[i] += acc * m2
 			_p_accelerations[j] -= acc * m1
 			_potential_energy -= config.gravity * m1 * m2 / r
+
+func get_potential_energy() -> float:
+	return _potential_energy

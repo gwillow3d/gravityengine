@@ -18,19 +18,17 @@ var _p_velocities: PackedVector2Array
 var _p_masses: PackedFloat32Array
 
 var _kinetic_energy: float
-var _potential_energy: float
 
 # Functionality #
 
 func step(steps: int):
 	_kinetic_energy = 0.0
-	_potential_energy = 0.0
-	
+
 	istep(steps)
 	
 	_update_kinetic_energy()
 	
-	energy_updated.emit(_kinetic_energy, _potential_energy, compute_total_linear_momentum(), compute_total_angular_momentum())
+	energy_updated.emit(_kinetic_energy, _get_potential_energy(), compute_total_linear_momentum(), compute_total_angular_momentum())
 
 @abstract
 func setup() 
@@ -40,6 +38,9 @@ func istep(steps: int)
 
 @abstract
 func reset(config: SimulationConfig) 
+
+@abstract
+func get_potential_energy() -> float
 
 func _remove_drift() -> void:
 	var weighted_velocites: Vector2 = Vector2.ZERO
@@ -85,6 +86,9 @@ func _update_kinetic_energy() -> void:
 		var m1 = _p_masses[i]
 		var vel = _p_velocities[i].length()
 		_kinetic_energy += 0.5 * m1 * (vel*vel)
+
+func _get_potential_energy() -> float:
+	return get_potential_energy()
 
 # Getters & Setters #
 
