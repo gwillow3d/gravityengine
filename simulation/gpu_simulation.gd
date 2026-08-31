@@ -34,9 +34,6 @@ var _geometry_buffer: RID
 var _has_submitted := false
 var _state_update_needed := false
 
-var _kinetic_energy: float
-var _potential_energy: float
-
 func setup() -> void:
 	if OS.get_name() == "Web":
 		printerr("Cannot run GPU simulation on WebGL!")
@@ -99,18 +96,12 @@ func _setup_shaders() -> void:
 	_constrain_pipeline = _rd.compute_pipeline_create(_constrain_shader)
 
 # Public functions
-func step(steps: int) -> void:
+func istep(steps: int) -> void:
 	if !_is_ready:
 		return
 	
-	_kinetic_energy = 0.0
-	_potential_energy = 0.0
-	
 	if steps > 0:
 		_gpu_process(config.timestep, steps)
-		_update_kinetic_energy()
-	
-		energy_updated.emit(_kinetic_energy, _potential_energy, compute_total_linear_momentum(), compute_total_angular_momentum())
 
 func reset(_config: SimulationConfig) -> void:
 	_p_positions.clear()
@@ -221,12 +212,6 @@ func _gpu_process(delta: float, steps: int) -> void:
 	
 	_rd.submit()
 	_has_submitted = true
-
-func _update_kinetic_energy() -> void:
-	for i in range(0, get_particle_count()):
-		var m1 = _p_masses[i]
-		var vel = _p_velocities[i].length()
-		_kinetic_energy += 0.5 * m1 * (vel*vel)
 
 func _pack_particles() -> PackedByteArray:
 	var bytes := PackedByteArray()

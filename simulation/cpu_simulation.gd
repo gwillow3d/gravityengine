@@ -6,9 +6,6 @@ const MAX_PARTICLES = 128
 
 var _p_accelerations: PackedVector2Array
 
-var _kinetic_energy: float
-var _potential_energy: float
-
 func setup() -> void:
 	simulation_ready.emit()
 	
@@ -17,19 +14,12 @@ func setup() -> void:
 	gravity_changed.emit(config.gravity)
 
 # Public functions
-func step(steps: int) -> void:
-	_kinetic_energy = 0.0
-	_potential_energy = 0.0
-	
+func istep(steps: int) -> void:
 	for step in steps:
 		_half_kick()
 		_drift()
 		_accelerate()
 		_half_kick()
-	
-	_update_kinetic_energy()
-	
-	energy_updated.emit(_kinetic_energy, _potential_energy, compute_total_linear_momentum(), compute_total_angular_momentum())
 
 func reset(_config: SimulationConfig) -> void:
 	_p_positions.clear()
@@ -151,22 +141,3 @@ func _accelerate() -> void:
 			_p_accelerations[i] += acc * m2
 			_p_accelerations[j] -= acc * m1
 			_potential_energy -= config.gravity * m1 * m2 / r
-
-func _update_kinetic_energy() -> void:
-	for i in range(0, get_particle_count()):
-		var m1 = _p_masses[i]
-		var vel = _p_velocities[i].length()
-		_kinetic_energy += 0.5 * m1 * (vel*vel)
-
-func add_particle(position: Vector2, velocity: Vector2, mass: float) -> void:
-	_p_positions.append(position)
-	_p_velocities.append(velocity)
-	_p_accelerations.append(Vector2.ZERO)
-	_p_masses.append(mass)
-	population_changed.emit(_p_positions.size())
-
-# Getters and setters #
-
-func set_gravity(strength: float) -> void:
-	config.gravity = strength
-	gravity_changed.emit(config.gravity)

@@ -17,13 +17,26 @@ var _p_positions: PackedVector2Array
 var _p_velocities: PackedVector2Array
 var _p_masses: PackedFloat32Array
 
+var _kinetic_energy: float
+var _potential_energy: float
+
 # Functionality #
+
+func step(steps: int):
+	_kinetic_energy = 0.0
+	_potential_energy = 0.0
+	
+	istep(steps)
+	
+	_update_kinetic_energy()
+	
+	energy_updated.emit(_kinetic_energy, _potential_energy, compute_total_linear_momentum(), compute_total_angular_momentum())
 
 @abstract
 func setup() 
 
 @abstract
-func step(steps: int) 
+func istep(steps: int) 
 
 @abstract
 func reset(config: SimulationConfig) 
@@ -52,6 +65,12 @@ func compute_total_angular_momentum() -> float:
 		
 		momentum += mass * (r.x * vel.y - r.y * vel.x)
 	return momentum
+
+func _update_kinetic_energy() -> void:
+	for i in range(0, get_particle_count()):
+		var m1 = _p_masses[i]
+		var vel = _p_velocities[i].length()
+		_kinetic_energy += 0.5 * m1 * (vel*vel)
 
 # Getters & Setters #
 
