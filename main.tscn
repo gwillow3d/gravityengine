@@ -326,7 +326,6 @@ metadata/_custom_type_script = "uid://bejrg0kdd3vwv"
 
 [node name="SimulationManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
-render_mode = 2
 fast_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_lswn8"), ExtResource("4_a6jrf"), ExtResource("5_xuqvo")])
 fancy_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_1u8w0"), ExtResource("4_1u8w0"), ExtResource("5_0odxb")])
 simulation = NodePath("../Simulation")
@@ -470,6 +469,7 @@ theme_override_constants/margin_bottom = 4
 [node name="SpeedWidget" type="VBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/SpeedContainer/MarginContainer" unique_id=390316876 node_paths=PackedStringArray("speed_label", "speed_slider")]
 layout_mode = 2
 size_flags_horizontal = 6
+size_flags_vertical = 0
 alignment = 1
 script = ExtResource("22_htxhm")
 speed_label = NodePath("SpeedLabel")
@@ -497,8 +497,8 @@ value = 4.0
 
 [node name="TitleContainer" type="HBoxContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer" unique_id=1759043146]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 180.0
+offset_bottom = 52.0
 theme_override_constants/separation = 8
 
 [node name="TitleContainer" type="PanelContainer" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer" unique_id=1719298483]
@@ -528,7 +528,7 @@ label_settings = ExtResource("22_jq2sk")
 
 [node name="SettingsButton" type="Button" parent="UILayer/UIRoot/UIMarginContainer/MainContainer/TitleContainer" unique_id=1221862576]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 2
 size_flags_vertical = 4
 icon = ExtResource("24_b1qrp")
 icon_alignment = 1

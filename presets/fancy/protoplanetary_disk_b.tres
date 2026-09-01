@@ -8,7 +8,7 @@ script = ExtResource("1_csdqt")
 star_mass = 10000.0
 min_orbit_distance = 250.0
 max_orbit_distance = 400.0
-population = 3000
+population = 5000
 max_initial_mass = 4.0
 metadata/_custom_type_script = "uid://bi6ljd47f24lk"
 
