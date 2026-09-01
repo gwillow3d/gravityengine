@@ -25,3 +25,29 @@ Gravity Engine currently contains 3 simulation modes, which have varying perform
 | ![Solar System](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-26T23%3A39%3A45.png) | ![Black Hole](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-27T23%3A41%3A39.png) |
 | - | - |
 | ![Protoplanetary Disk](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-26T20%3A24%3A42.png) | ![Nebula](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-27T14%3A29%3A37.png) |
+
+## Building and Exporting
+Both the web and desktop versions can be exported using `Project > Export` in Godot with Gravity Engine's export presets. You may need to install the correct export templates however.
+This will only include the CPU and GPU modes however, not fast CPU.
+
+### FastCPU
+As FastCPU is written in rust, it requires a more complicated process to install.
+
+#### Desktop
+If you have rust installed, you can simply run the following command in the /rust/ directory.
+```sh
+cargo build gravityengine
+```
+Then, if you export the Godot project for desktop, it will automatically include FastCPU.
+
+#### Web  
+The process for compiling FastCPU as wasm is much more complicated.
+
+Follow the instructions from [the godot-rust book](https://godot-rust.github.io/book/toolchain/export-web.html) to install necessary tools, and emscripten. You do not need to modify `cargo.toml` or `config.toml`, this has been done already.
+Make sure you have Godot added to your PATH, and then run the following command.
+
+```sh
+cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten
+```
+
+If everything goes well, this will produce a .wasm file which will allow Godot to include FastCPU in the web build. Make sure to select the "threaded" preset when exporting FastCPU, as this is required.
