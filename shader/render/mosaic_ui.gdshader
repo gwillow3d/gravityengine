@@ -21,6 +21,6 @@ void fragment() {
 	float brightness = (text.r + text.g + text.b) / 3.0;
 	brightness = min(brightness, 0.1);
 	
-	float boost = smoothstep(0.0, 1.0, brightness / 0.1) / 12.0;
+	float boost = smoothstep(0.0, 1.0, brightness / 0.1) / 8.0;
 	COLOR.rgb = text.rgb + vec3(boost, boost, boost);
 }

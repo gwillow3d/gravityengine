@@ -23,9 +23,11 @@ signal render_mode_changed(mode: RenderMode)
 
 func _ready() -> void:
 	if OS.get_name() == "Web":
-		render_mode = RenderMode.CPU
+		if is_fastcpu_available():
+			render_mode = RenderMode.FastCPU
+		else: render_mode = RenderMode.Legacy
 	
-	if render_mode == RenderMode.CPU:
+	if render_mode == RenderMode.Legacy:
 		simulation._simulation_instance = CPUSimulation.new()
 		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	elif render_mode == RenderMode.FastCPU:
@@ -65,15 +67,18 @@ func _broadcast_render_mode() -> void:
 func _on_simulation_reset() -> void:
 	var config: SimulationConfig
 	
-	if render_mode == RenderMode.CPU or render_mode == RenderMode.FastCPU:
+	if render_mode == RenderMode.Legacy:
 		config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
 		config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
 	
 	simulation.reset(config)
 
+func is_fastcpu_available() -> bool:
+	return ClassDB.class_exists("FastCPUSimulation")
+
 enum RenderMode {
-	CPU,
-	GPU,
+	Legacy,
 	FastCPU,
+	GPU
 }
