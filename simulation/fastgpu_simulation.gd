@@ -1,4 +1,4 @@
-class_name GPUSimulation
+class_name FastGPUSimulation
 extends Resource
 
 # Private fields #

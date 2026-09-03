@@ -3,7 +3,7 @@ extends Node
 
 signal render_mode_changed(mode: RenderMode)
 
-@export var render_mode: RenderMode = RenderMode.GPU
+@export var render_mode: RenderMode = RenderMode.FastGPU
 
 @export var fast_presets: Array[SimulationConfig]
 @export var fancy_presets: Array[SimulationConfig]
@@ -34,7 +34,7 @@ func _ready() -> void:
 		simulation._simulation_instance = FastCPUSimulation.new()
 		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
 	else:
-		simulation._simulation_instance = GPUSimulation.new()
+		simulation._simulation_instance = FastGPUSimulation.new()
 		simulation._config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
 	
 	# Wire signals #
@@ -80,5 +80,5 @@ func is_fastcpu_available() -> bool:
 enum RenderMode {
 	Legacy,
 	FastCPU,
-	GPU
+	FastGPU,
 }
