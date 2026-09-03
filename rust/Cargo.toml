@@ -1,10 +1,12 @@
 [package]
-name = "gravityengine"
+name = "fastcpu"
 version = "0.1.0"
 edition = "2024"
 
-[dependencies]
-godot = "0.5.5"
+[dependencies.godot]
+git = "https://github.com/godot-rust/gdext"
+branch = "master"
+features = ["api-custom", "experimental-wasm", "lazy-function-tables"]
 
 [lib]
 crate-type = ["cdylib"]

@@ -326,7 +326,6 @@ metadata/_custom_type_script = "uid://bejrg0kdd3vwv"
 
 [node name="SimulationManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
-render_mode = 1
 fast_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_lswn8"), ExtResource("4_a6jrf"), ExtResource("5_xuqvo")])
 fancy_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_1u8w0"), ExtResource("4_1u8w0"), ExtResource("5_0odxb")])
 simulation = NodePath("../Simulation")
