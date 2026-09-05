@@ -3,6 +3,9 @@ extends Node
 
 signal render_mode_changed(mode: RenderMode)
 
+@onready var sub_viewport: SubViewport = $"../SubViewport"
+@onready var simulation_data: TextureRect = $"../SubViewport/SimulationData"
+
 @export var render_mode: RenderMode = RenderMode.FastGPU
 
 @export var fast_presets: Array[SimulationConfig]
@@ -33,6 +36,11 @@ func _ready() -> void:
 	elif render_mode == RenderMode.FastCPU:
 		simulation._simulation_instance = FastCPUSimulation.new()
 		simulation._config = fast_presets[randi_range(0, fast_presets.size() - 1)]
+	elif render_mode == RenderMode.GPU:
+		simulation._simulation_instance = GPUSimulation.new()
+		simulation._simulation_instance.simulation_viewport = sub_viewport
+		simulation._simulation_instance.simulation_data = simulation_data
+		simulation._config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
 	else:
 		simulation._simulation_instance = FastGPUSimulation.new()
 		simulation._config = fancy_presets[randi_range(0, fancy_presets.size() - 1)]
@@ -80,5 +88,6 @@ func is_fastcpu_available() -> bool:
 enum RenderMode {
 	Legacy,
 	FastCPU,
+	GPU,
 	FastGPU,
 }

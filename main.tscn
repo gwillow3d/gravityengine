@@ -326,6 +326,7 @@ metadata/_custom_type_script = "uid://bejrg0kdd3vwv"
 
 [node name="SimulationManager" type="Node" parent="." unique_id=1607149109 node_paths=PackedStringArray("simulation", "simulation_manager", "camera_controller", "color_manager", "ui_manager", "glow_renderer", "screenshot_manager", "particle_renderer", "background_renderer", "debug_boundary_renderer")]
 script = ExtResource("2_ryguw")
+render_mode = 2
 fast_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_lswn8"), ExtResource("4_a6jrf"), ExtResource("5_xuqvo")])
 fancy_presets = Array[ExtResource("2_d13ii")]([ExtResource("3_1u8w0"), ExtResource("4_1u8w0"), ExtResource("5_0odxb")])
 simulation = NodePath("../Simulation")
@@ -839,3 +840,11 @@ controller = NodePath("../../CameraController")
 
 [node name="DebugBoundaryRenderer" type="Node2D" parent="DebugViewport" unique_id=613321849]
 script = ExtResource("21_getpj")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=768158588]
+use_hdr_2d = true
+
+[node name="SimulationData" type="TextureRect" parent="SubViewport" unique_id=2058216350]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 2
