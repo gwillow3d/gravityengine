@@ -13,7 +13,7 @@ You can read a detailed writeup on the development and optimisation of Gravity E
 
 ## Performance
 
-Every doubling of the particle count quadruples the amount of interactions. Each tier of the benchmark doubles the time budget, which should increase max particles by about 1.41x. Exact figures will deviate from this due to fixed overhead costs however.
+Every doubling of the particle count quadruples the amount of interactions. Each tier of the benchmark doubles the time budget, which should increase max particles by about 41%. Exact figures will deviate from this due to fixed overhead costs however.
 
 > **Note: 16.67ms is the frame budget for 60 FPS.**
 
@@ -22,7 +22,9 @@ Every doubling of the particle count quadruples the amount of interactions. Each
 | Mode | 1ms | 2ms | 4ms | 8ms | 16.67ms | 32ms |
 | - | - | - | - | - | - | - |
 | CPU | 25 | 35 | 60 | 110 | 170 | 270 |
+| +% | | +71% | +58% | +55% | +65% | +63% |
 | GPU (GLSL) | 125 | 500 | 1,300 | 3,500 | 11,000 | TBD<sup>1</sup>|
+| +% |  | +400% | +260% | +269% | 314% | |
 
 > <sup>1</sup> Cannot be reliably measured due to CPU interference. 
 
