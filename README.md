@@ -13,13 +13,19 @@ You can read a detailed writeup on the development and optimisation of Gravity E
 
 ## Performance
 
-> *Note: "Particle Limit" refers to the largest particle count which can consistently be run at 60FPS (within 16.67ms). This is benchmarked from a laptop with a GTX 1050 Mobile and Intel© Core™ i5-8300H on the desktop version. Actual performance depends on your hardware and the web version generally runs slower.*
+Every doubling of the particle count quadruples the amount of interactions. Each tier of the benchmark doubles the time budget, which should increase max particles by about 1.41x. Exact figures will deviate from this due to fixed overhead costs however.
 
-| Mode | Desktop? | Web? | Particle Limit | Description |
-| - | - | - | - | - |
-| CPU | ✔️ | ✔️ | ~250 | Simple but low performance `.gdscript` implementation. Maintained for compatibility but not recommended. |
-| GPU (GDShader) | 🚧 | 🚧 | TBD | Implementation of O(n^2) using `.gdshader`. Slower than using compute shaders but supports Web browsers. |
-| GPU (GLSL) | ✔️ | ✖️ | ~5,000 | Variant of the GPU method which uses `.glsl` compute shaders to attain the highest possible performance. Does not support web browsers due to Godot limitations. |
+#### Benchmark 1 
+> **CPU: i5-8300H  
+> GPU: GTX 1050 Mobile (4GB)**
+
+| Mode | 1ms | 2ms | 4ms | 8ms | 16.67ms<sup>1</sup> | 32ms |
+| - | - | - | - | - | - | - |
+| CPU | 25 | 35 | 60 | 110 | 170 | 270 |
+| GPU (GLSL) | 125 | 500 | 1,300 | 3,500 | 11,000 | TBD<sup>2</sup>|
+
+> <sup>1</sup> 16.67ms is the frame budget for 60 FPS.  
+> <sup>2</sup> Cannot be reliably measured due to CPU interference. 
 
 ## Gallery
 | ![Solar System](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-26T23%3A39%3A45.png) | ![Black Hole](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-27T23%3A41%3A39.png) |
