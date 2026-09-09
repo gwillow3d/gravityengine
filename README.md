@@ -15,17 +15,16 @@ You can read a detailed writeup on the development and optimisation of Gravity E
 
 Every doubling of the particle count quadruples the amount of interactions. Each tier of the benchmark doubles the time budget, which should increase max particles by about 1.41x. Exact figures will deviate from this due to fixed overhead costs however.
 
-#### Benchmark 1 
-> **CPU: i5-8300H  
-> GPU: GTX 1050 Mobile (4GB)**
+> **Note: 16.67ms is the frame budget for 60 FPS.**
 
-| Mode | 1ms | 2ms | 4ms | 8ms | 16.67ms<sup>1</sup> | 32ms |
+#### **Intel i5-8300H & GTX 1050 Mobile (4GB)**
+
+| Mode | 1ms | 2ms | 4ms | 8ms | 16.67ms | 32ms |
 | - | - | - | - | - | - | - |
 | CPU | 25 | 35 | 60 | 110 | 170 | 270 |
-| GPU (GLSL) | 125 | 500 | 1,300 | 3,500 | 11,000 | TBD<sup>2</sup>|
+| GPU (GLSL) | 125 | 500 | 1,300 | 3,500 | 11,000 | TBD<sup>1</sup>|
 
-> <sup>1</sup> 16.67ms is the frame budget for 60 FPS.  
-> <sup>2</sup> Cannot be reliably measured due to CPU interference. 
+> <sup>1</sup> Cannot be reliably measured due to CPU interference. 
 
 ## Gallery
 | ![Solar System](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-26T23%3A39%3A45.png) | ![Black Hole](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-27T23%3A41%3A39.png) |
