@@ -24,7 +24,7 @@ Every doubling of the particle count quadruples the amount of interactions. Each
 | CPU | 25 | 35 | 60 | 110 | 170 | 270 |
 | +% | | +71% | +58% | +55% | +65% | +63% |
 | GPU (GLSL) | 125 | 500 | 1,300 | 3,500 | 11,000 | TBD<sup>1</sup>|
-| +% |  | +400% | +260% | +269% | 314% | |
+| +% |  | +300% | +160% | +169% | 214% | |
 
 > <sup>1</sup> Cannot be reliably measured due to CPU interference. 
 
