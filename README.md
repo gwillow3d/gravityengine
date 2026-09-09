@@ -4,20 +4,22 @@
 ![Screenshot with UI](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-28T18%3A41%3A50.png)  
 
 ## How does it work?
-Gravity Engine uses the basic approach of calculating the force every particle exerts on every other particle.
-This is typically extremely computationally expensive, however these calculations are run on the GPU using a compute shader to achieve reasonable speeds.
+Gravity Engine computes the attraction between every pair of particles using the naive approach of comparing every single pair directly. This is generally inefficient because each doubling of particles quadruples the necessary work, resulting in a [time complexity of O(n²)](https://en.wikipedia.org/wiki/Big_O_notation]).  
+  
+In order to make this viable, the calculations are done on the GPU as opposed to the CPU, which allows for many concurrent calculations as opposed to many consecutive calculations. 
 
 You can read a detailed writeup on the development and optimisation of Gravity Engine [here](https://gwillow3d.itch.io/gravity-engine/devlog/1651221/making-a-gravity-engine).
+> *Note: For very large particle counts (100,000+) a faster approach known as [Barnes-Hut](https://en.wikipedia.org/wiki/Barnes%E2%80%93Hut_simulation) is often used. Gravity Engine does not use this as it is challenging to implement and would likely demand a rust implementation to effectively surpass the GPU system, which would make cross-platform support difficult.*
 
 ## Performance
 
-> "Particle limit" denotes the greatest particle count which can reasonably be processed consistently at 60FPS. This is benchmarked from a laptop with a GTX 1050 Mobile and Intel© Core™ i5-8300H on the desktop version. Actual performance depends on your hardware and the web version generally runs slower.
+> *Note: "Particle Limit" refers to the largest particle count which can consistently be run at 60FPS (within 16.67ms). This is benchmarked from a laptop with a GTX 1050 Mobile and Intel© Core™ i5-8300H on the desktop version. Actual performance depends on your hardware and the web version generally runs slower.*
 
 | Mode | Desktop? | Web? | Particle Limit | Description |
 | - | - | - | - | - |
-| CPU | ✔️ | ✔️ | ~250 | Simple but low performance GDScript implementation. Maintained for compatibility but not recommended. |
-| GPU (GDShader) | 🚧 | 🚧 | TBD | Implementation of O(n^2) using GDShaders. Slower than using compute shaders but supports Web browsers. |
-| GPU (GLSL) | ✔️ | ✖️ | ~5,000 | Variant of the GPU method which uses `.glsl` compute shaders to attain absolutely maximum performance. Does not support web browsers due to Godot limitations. |
+| CPU | ✔️ | ✔️ | ~250 | Simple but low performance `.gdscript` implementation. Maintained for compatibility but not recommended. |
+| GPU (GDShader) | 🚧 | 🚧 | TBD | Implementation of O(n^2) using `.gdshader`. Slower than using compute shaders but supports Web browsers. |
+| GPU (GLSL) | ✔️ | ✖️ | ~5,000 | Variant of the GPU method which uses `.glsl` compute shaders to attain the highest possible performance. Does not support web browsers due to Godot limitations. |
 
 ## Gallery
 | ![Solar System](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-26T23%3A39%3A45.png) | ![Black Hole](https://github.com/gwillow3d/gravityengine/blob/master/examples/2026-08-27T23%3A41%3A39.png) |
