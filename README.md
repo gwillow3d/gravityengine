@@ -1,12 +1,12 @@
 # Gravity Engine (Legacy)
----
 
-> Gravity Engine has been archived. Godot's immature support for GPU compute and lack of support for WebGPU impose significant technical limitations.  
-> GPU compute is effectively limited to 5K (GTX 1050 Mobile) particles because a truly async pipeline is not possible, when the GPU is capable of over 15,000, and a GPU simulation for the web is virtually impossible to make.  
+**Note!** This repo contains the code for legacy 10-Portsmouth versions of Gravity Engine. 20-Swindon rewrote the project completely in Rust using WebGPU, and as such is located in a [new repo](https://github.com/gwillow3d/gravity-engine).  
+This is because:  
+ 1. Godot does not support compute shaders on the web. This limits web versions to the CPU, which is not great.  
+ 2. Compute shaders have a bug that means the CPU must sync with the GPU to update data. This greatly limits performance compared to a simulation which exclusively uses the GPU, perhaps by over 80%.  
+ 3. Godot-Rust is very finicky with the web. It was designed to aid with the fact that the web cannot use GPU mode, but it effectively does not work on the web.  
 
-> Furthermore, FastCPU, my attempt at a faster n-body simulation on the CPU using rust (which I designed for the web), doesn't work properly on the web because of some backend changes in rust 2024.  
-
-> These issues may be fixable, but I have chosen to pivot toward making a rust port from scratch using wgpu, you can view it [here](https://github.com/gwillow3d/gravity-engine/).
+This repo will not be maintained but further development might continue whilst version 20 is underway.
 
 ---
 
